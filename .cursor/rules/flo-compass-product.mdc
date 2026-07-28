@@ -1,5 +1,5 @@
 ---
-description: Flo Compass product boundaries, MVP order, and Accelevents complement positioning
+description: Flo Compass product boundaries and MVP order
 alwaysApply: true
 ---
 
@@ -11,14 +11,14 @@ alwaysApply: true
 - Local "My Plan" shortlist (shared_preferences)
 - Interest-based personalization
 
-## We do NOT build (Accelevents owns)
+## We do NOT build (registration platforms own these)
 - Registration, ticketing, check-in, badge printing
 - Official agenda CRUD, attendee management, organizer admin
 
-## Flo 2026 context
-- 3-day event at Nagarro Gurgaon Office (~90 spaces across Ground + floors 6–13, North/South wings)
-- Attendees overwhelmed by ~640 parallel sessions
-- App complements Accelevents; demo must state this explicitly
+## Event context (default dataset)
+- Multi-day conference layout (mock Flo 2026 / Gurgaon campus dataset)
+- Large parallel-session catalog (~640 sessions, ~90 spaces)
+- App complements, rather than replaces, official event platforms
 
-## MVP order (do not reorder without team agreement)
+## MVP order (do not reorder without an explicit decision)
 1. Mock data loads → 2. Onboarding → 3. Discover → 4. Detail → 5. My Plan → 6. Companion

@@ -1,0 +1,24 @@
+---
+description: Flo Compass project context and shipping guardrails
+alwaysApply: true
+---
+
+# Flo Compass — project context
+
+- **Product:** Flo Compass — event companion for session discovery, My Plan, and AI Q&A (see `flo-compass-product.mdc`)
+- **Stack:** Flutter 3.44.0 web, Dart 3.10+, Material 3, Docker/nginx
+- **Local dev:** Ubuntu 24.04 WSL2 — see `wsl2-development.mdc`
+- **Production:** GitHub Actions → GHCR image → Fly.io (`fly.toml`, `.github/workflows/ci-deploy.yml`)
+
+## Shipping style
+
+- Ship the smallest working slice first; demoable beats perfect
+- No premature abstractions or unrelated refactors
+- Respect `analysis_options.yaml` (`flutter_lints`)
+- Do not create git commits unless explicitly asked
+- Do not add markdown/docs unless requested
+
+## Architecture
+
+- Prefer a thin `lib/data/` / `lib/services/` / `lib/core/` layer; never scatter HTTP calls in widgets
+- State management is Provider-based today; do not introduce a second state library without an explicit decision

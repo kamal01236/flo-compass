@@ -46,12 +46,12 @@ Fixed slot → port map. Slot 0 is reserved for the main worktree; only claim sl
 
 | Slot | Worktree | FLUTTER_PORT | DOCKER_PORT |
 |---|---|---|---|
-| 0 | `C:/Nagarro/ai-avengers` (main) | 3000 | 8080 |
-| 1 | `../ai-avengers-<slug>` | 3001 | 8081 |
-| 2 | `../ai-avengers-<slug>` | 3002 | 8082 |
-| 3 | `../ai-avengers-<slug>` | 3003 | 8083 |
-| 4 | `../ai-avengers-<slug>` | 3004 | 8084 |
-| 5 | `../ai-avengers-<slug>` | 3005 | 8085 |
+| 0 | `C:/NAGP/flo-compass` (main) | 3000 | 8080 |
+| 1 | `../flo-compass-<slug>` | 3001 | 8081 |
+| 2 | `../flo-compass-<slug>` | 3002 | 8082 |
+| 3 | `../flo-compass-<slug>` | 3003 | 8083 |
+| 4 | `../flo-compass-<slug>` | 3004 | 8084 |
+| 5 | `../flo-compass-<slug>` | 3005 | 8085 |
 
 **Cap at slot 5.** A dev box runs out of RAM before it runs out of port slots; higher counts should use `environment: "cloud"` subagents.
 
@@ -77,7 +77,7 @@ Guided automation for per-plan finish → merge → cleanup → sprint close-out
 2. **Finish** — when the per-plan agent completes: Tier 1, clean tree, forbidden-file gate, secret scan. Sets `ready: true` in `plan-session.json`.
 3. **Merge** — parent on main worktree merges the ready branch into **integration** (not `main`). Uses `flock` on `.git/integration-merge.lock`, grep guardrails, Tier 1 on integration.
 4. **Cleanup** — after merge: stop ports, `git worktree remove`, delete branch, free slot.
-5. **Sprint integrate** — after all per-plan merges: full Tier 1 + Tier 2 + coverage on integration; drafts one augmentation-log entry.
+5. **Sprint integrate** — after all per-plan merges: full Tier 1 + Tier 2 + coverage on integration.
 
 ### Lock and `--resume`
 
@@ -93,7 +93,7 @@ Merge into integration only. Open **one MR: integration → `main`** manually af
 
 - **Merge failure:** `git merge --abort` or `git reset --hard ORIG_HEAD; git reflog show <integration>`
 - **Push failure after merge:** `git reset --hard ORIG_HEAD@{1}`
-- **Cleanup mistake:** `git checkout -b <branch> <sha-from-reflog>` + `git worktree add ../ai-avengers-<slug> <branch>`
+- **Cleanup mistake:** `git checkout -b <branch> <sha-from-reflog>` + `git worktree add ../flo-compass-<slug> <branch>`
 - **Integrate Tier 2 failure:** `docker compose down; fuser -k ${DOCKER_PORT}/tcp; git status`
 
 Structured event log: `.cursor/plan-lifecycle.log.jsonl` (git-excluded; rotate manually at 10 MB or 30 days).
@@ -147,7 +147,7 @@ Follow `parallel-agents.mdc` lines 33-44 for the grep checks. Layered flow:
 After a per-plan branch merges into integration:
 
 ```bash
-git worktree remove ../ai-avengers-<slug>
+git worktree remove ../flo-compass-<slug>
 git branch -d feat/plan-<slug>
 ```
 
@@ -156,14 +156,13 @@ The port slot is now free for reuse. This also keeps `git-hygiene.mdc`'s **"neve
 ## Do not
 
 - Write auto-merge scripts — merge stays manual per `parallel-agents.mdc` and `git-hygiene.mdc`.
-- Edit forbidden shared files (`parallel-agents.mdc` lines 21-29) on a per-plan branch; queue them as serial-merge patch notes instead.
-- Append per-plan augmentation-log entries — one batched entry per plan run, written by the parent on integration (`ai-augmentation.mdc`).
-- Run Tier 2 (Docker) simultaneously in more than one worktree unless `docker-compose.yml` uses `${DOCKER_PORT:-8080}` for the host port (Phase 6 of `parallel_plans_workflow_129bb86e.plan.md` makes this change).
+- Edit forbidden shared files (`parallel-agents.mdc`) on a per-plan branch; queue them as serial-merge patch notes instead.
+- Run Tier 2 (Docker) simultaneously in more than one worktree unless `docker-compose.yml` uses `${DOCKER_PORT:-8080}` for the host port.
 - Skip `source .worktree.env` — `wsl_dev.sh` will fall back to the main worktree's ports and collide.
 
 ## Lifecycle scripts
 
-The three-layer branch model is enforced by five lifecycle scripts. Each has a matching Windows launcher (`.cmd` / `.ps1`) that mirrors [dev-local.cmd](../../dev-local.cmd) / [deploy-local.cmd](../../deploy-local.cmd) style — CRLF self-heal, `wsl -e bash -lc "cd /mnt/c/Nagarro/ai-avengers && bash scripts/<name>.sh ..."`, exit code passthrough via `if errorlevel 1 exit /b 1`.
+The three-layer branch model is enforced by five lifecycle scripts. Each has a matching Windows launcher (`.cmd` / `.ps1`) that mirrors [dev-local.cmd](../../dev-local.cmd) / [deploy-local.cmd](../../deploy-local.cmd) style — CRLF self-heal, `wsl -e bash -lc "cd /mnt/c/NAGP/flo-compass && bash scripts/<name>.sh ..."`, exit code passthrough via `if errorlevel 1 exit /b 1`.
 
 | Script | Run from | Purpose |
 |---|---|---|
@@ -171,7 +170,7 @@ The three-layer branch model is enforced by five lifecycle scripts. Each has a m
 | `wsl_plan_worktree_finish.sh` (finish) | Per-plan worktree | Tier 1 gate + dirty-tree gate + forbidden-file gate + secret scan + patch-notes parser; flips session `ready:true` on pass |
 | `wsl_plan_worktree_merge.sh` (merge) | Main worktree | Serialized `flock` merge into integration with pre-flight, reflog snapshot, grep guardrails, Tier 1 on integration, `--resume` for patch-note re-validation |
 | `wsl_plan_worktree_cleanup.sh` (cleanup) | Main worktree | Merged-gate + unpushed-commit guard; stop worktree services, `git worktree remove`, `git branch -D`, `git worktree prune`; frees the port slot |
-| `wsl_sprint_integrate.sh` (sprint-integrate) | Main worktree on integration | Full Tier 1 + Tier 2 + coverage gate on integration; drafts one augmentation-log entry with duration rollup from `.cursor/plan-lifecycle.log.jsonl` |
+| `wsl_sprint_integrate.sh` (sprint-integrate) | Main worktree on integration | Full Tier 1 + Tier 2 + coverage gate on integration |
 
 ### CLI conventions (all four new lifecycle scripts)
 
@@ -186,7 +185,7 @@ The three-layer branch model is enforced by five lifecycle scripts. Each has a m
 ### When to run each
 
 - **Per-plan (once per branch)**: start → work → finish → merge → cleanup. Each per-plan agent stops at finish; merge and cleanup run from the main worktree by the parent.
-- **Sprint-end (once per integration branch)**: after every per-plan branch is merged, run sprint-integrate. It is the only step that runs Tier 2 + coverage, and the only place the augmentation-log gets drafted.
+- **Sprint-end (once per integration branch)**: after every per-plan branch is merged, run sprint-integrate. It is the only step that runs Tier 2 + coverage.
 
 ### Merge lock and `--resume`
 
@@ -204,7 +203,7 @@ Each script's success/failure banner prints the exact rollback command relevant 
 
 - **merge failure**: `git merge --abort` or `git reset --hard ORIG_HEAD; git reflog show ${base}`
 - **push failure after merge**: `git reset --hard ORIG_HEAD@{1}` (before the merge commit)
-- **cleanup mistake**: `git checkout -b ${branch} <sha-from-reflog>` and `git worktree add ../ai-avengers-<slug> ${branch}`
+- **cleanup mistake**: `git checkout -b ${branch} <sha-from-reflog>` and `git worktree add ../flo-compass-<slug> ${branch}`
 - **sprint-integrate Tier 2 failure**: `docker compose down; fuser -k ${DOCKER_PORT}/tcp; git status`
 - **stale merge lock (manual override)**: `cat .git/integration-merge.lock` (inspect ownership), then `rm .git/integration-merge.lock` if no other merge is running
 
@@ -215,7 +214,6 @@ Every phase transition emits a JSON line to `.cursor/plan-lifecycle.log.jsonl` (
 - [.cursor/rules/parallel-agents.mdc](.cursor/rules/parallel-agents.mdc) — ownership contract, forbidden shared files, grep checks
 - [.cursor/rules/git-hygiene.mdc](.cursor/rules/git-hygiene.mdc) — branch naming, working-tree size limit, commit discipline
 - [.cursor/rules/local-wsl-auto-validation.mdc](.cursor/rules/local-wsl-auto-validation.mdc) — Tier gates per worktree
-- [.cursor/rules/ai-augmentation.mdc](.cursor/rules/ai-augmentation.mdc) — one batched log entry per plan (parent writes on integration)
 - [.cursor/rules/dev-loops.mdc](.cursor/rules/dev-loops.mdc) — Tier budgets; Tier 2 is pre-push only, single worktree at a time
 - [.cursor/rules/wsl2-development.mdc](.cursor/rules/wsl2-development.mdc) — WSL2 command execution and `0.0.0.0` binding for Windows-host reachability
 - [scripts/README.md](../../scripts/README.md) — full script argument reference, env vars, exit codes, rollback recipes, event log format

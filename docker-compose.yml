@@ -1,4 +1,4 @@
-# Local Tier 2 smoke test only — production deploy uses GitLab CI + docker/Dockerfile
+# Local Tier 2 smoke test only — production deploy uses GitHub Actions + Fly.io
 services:
   flo-compass:
     build:

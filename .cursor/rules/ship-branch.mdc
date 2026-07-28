@@ -1,11 +1,11 @@
 ---
-description: Ship-branch pipeline before MR — Tier 1 + Tier 2 smoke + push + GitLab MR
+description: Ship-branch pipeline before PR — Tier 1 + Tier 2 smoke + push + GitHub PR
 alwaysApply: false
 ---
 
 # Ship Branch
 
-Run the full pre-review pipeline before opening a merge request. **Not** on every `git commit` — Tier 2 is 5–15 minutes per [`dev-loops.mdc`](dev-loops.mdc).
+Run the full pre-review pipeline before opening a pull request. **Not** on every `git commit` — Tier 2 is 5–15 minutes per [`dev-loops.mdc`](dev-loops.mdc).
 
 ## Command
 
@@ -28,28 +28,27 @@ bash scripts/wsl_plan_worktree_finish.sh --push --ship
 3. **Tier 1** — `flutter pub get && flutter analyze && flutter test` + boot test
 4. **Tier 2 smoke** — build web + docker/nginx + deep-link smoke + coverage; **tears down** docker
 5. **Push** — `git push -u origin <branch>`
-6. **MR** — idempotent GitLab MR to target (default `main`)
+6. **PR** — open a GitHub PR to target (default `main`) via `gh pr create` when available
 
 ## When to use which script
 
-| Script | Docker after | Push | MR |
+| Script | Docker after | Push | PR |
 |--------|--------------|------|-----|
 | `dev-local.cmd` | n/a (Flutter :3000) | no | no |
 | `deploy-local.cmd` | **running** on :8080 | no | no |
 | `ship-branch.cmd` | **stopped** | yes | yes |
 
-## MR target
+## PR target
 
-- Default: `main` (`MR_TARGET=main`)
-- Parallel sprint per-plan branches: `MR_TARGET=feat/sprint-N-integration bash scripts/wsl_ship_branch.sh`
-- Assign **Ship & Story** (Kishan) for deploy validation review per [`git-hygiene.mdc`](git-hygiene.mdc)
+- Default: `main` (`MR_TARGET=main` / equivalent)
+- Parallel sprint per-plan branches: target the integration branch
 
 ## Agent rules
 
-- **Never** suggest opening an MR without Tier 1 + Tier 2 green
-- Before MR / merge: run `ship-branch.cmd` or `plan-worktree-finish --push --ship` in worktrees
+- **Never** suggest opening a PR without Tier 1 + Tier 2 green
+- Before PR / merge: run `ship-branch.cmd` or `plan-worktree-finish --push --ship` in worktrees
 - Do not run Tier 2 on every commit — use `dev-local.cmd` for inner loop
-- `glab auth login` is one-time local setup; never commit tokens
+- Never commit tokens (`gh auth login` / Fly tokens are local only)
 
 ## Flags
 
@@ -57,8 +56,6 @@ bash scripts/wsl_plan_worktree_finish.sh --push --ship
 
 ## Cross-references
 
-- [`scripts/wsl_ship_branch.sh`](../scripts/wsl_ship_branch.sh) — orchestrator
-- [`scripts/wsl_open_mr.sh`](../scripts/wsl_open_mr.sh) — glab or git push-options fallback
-- [`scripts/wsl_tier2_smoke.sh`](../scripts/wsl_tier2_smoke.sh) — shared Tier 2 verify (includes `/connect/` smoke)
-- [`local-wsl-auto-validation.mdc`](local-wsl-auto-validation.mdc) — Tier gates
-- [`parallel-plans-workflow.mdc`](parallel-plans-workflow.mdc) — worktree finish `--ship`
+- [`scripts/wsl_ship_branch.sh`](../../scripts/wsl_ship_branch.sh) — orchestrator
+- [`dev-loops.mdc`](dev-loops.mdc) — tier budgets
+- [`git-hygiene.mdc`](git-hygiene.mdc) — branch and commit discipline

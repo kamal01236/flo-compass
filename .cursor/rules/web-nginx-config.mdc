@@ -19,4 +19,4 @@ Custom nginx.conf must exist at docker/nginx/default.conf and be COPYed in Docke
 
 ## Do not remove
 - Don't remove nginx.conf or the COPY line in Dockerfile
-- Don't change target port from 80 (ARM template expects it)
+- Don't change target port from 80 (Fly.io `internal_port` and local compose map to it)

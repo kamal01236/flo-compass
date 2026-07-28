@@ -27,14 +27,14 @@ Create or update the checkpoint at the **start** of a long plan and after **ever
 | `continue_count` / `max_loops` | Cap auto-continue (default max 5) |
 | `updated_at` | ISO-8601 UTC |
 
-Optional: `plan_file`, `branch`, `agent_id` (for `Task` resume), `last_validation`, `notes`, `augmentation_logged` (boolean — set `true` after entry is appended).
+Optional: `plan_file`, `branch`, `agent_id` (for `Task` resume), `last_validation`, `notes`.
 
 ## Agent behavior
 
 ### Starting a long plan
 
 1. Copy fields from `.cursor/plan-checkpoint.example.json` if helpful.
-2. Set `auto_continue: true`, `continue_count: 0`, populate `remaining` from the plan phases. Include `augmentation-log` as the **last item** in `remaining` until the entry is written.
+2. Set `auto_continue: true`, `continue_count: 0`, populate `remaining` from the plan phases.
 3. Set `enabled: true` in `.cursor/plan-lifecycle.json` (implies auto-continue when lifecycle is on) or `auto_continue: true` alone, or `PLAN_AUTO_CONTINUE_ENABLED=1` for one session.
 4. Ensure `.cursor/hooks.json` exists (copy from `.cursor/hooks.json.template`; `new-plan-worktree.cmd` does this in plan worktrees).
 
@@ -54,11 +54,9 @@ Optional: `plan_file`, `branch`, `agent_id` (for `Task` resume), `last_validatio
 
 ### Completing
 
-1. Write **one** augmentation-log entry per completed plan run (`ai-augmentation.mdc`) — do this before clearing `remaining`.
-2. Verify the entry exists: `rg -c '^## \\[' hackathon-docs/augmentation-log.md` count increased by 1, or set checkpoint `augmentation_logged: true`.
-3. Clear `remaining` (or delete `.cursor/plan-checkpoint.json`).
-4. Set `auto_continue: false`.
-5. Run `plan-worktree-finish.cmd` in parallel plan worktrees when applicable.
+1. Clear `remaining` (or delete `.cursor/plan-checkpoint.json`).
+2. Set `auto_continue: false`.
+3. Run `plan-worktree-finish.cmd` in parallel plan worktrees when applicable.
 
 ## Hooks (opt-in)
 
@@ -90,10 +88,8 @@ Or one-shot: `PLAN_AUTO_CONTINUE_ENABLED=1`.
 - Auto-continue without `max_loops` / `continue_count` (prevents duplicate full-plan agents).
 - Commit `.cursor/plan-checkpoint.json` (may contain branch notes).
 - Rely on hooks alone for Tier 2 — use `deploy-local.cmd` / `wsl_deploy.sh`.
-- Append augmentation-log entries mid-checkpoint; log once when `remaining` is empty.
 
 ## Cross-references
 
 - `parallel-plans-workflow.mdc` — worktrees, `plan-session.json`, finish/merge scripts
-- `ai-augmentation.mdc` — single batched log on completion
 - `local-wsl-auto-validation.mdc` — Tier 1 / Tier 2 gates

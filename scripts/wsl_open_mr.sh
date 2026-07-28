@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Idempotent GitLab merge request opener for the current branch.
-# Prefers glab when authenticated; falls back to git push merge-request options.
+# Idempotent GitHub pull request opener for the current branch.
+# Prefers `gh` when authenticated; falls back to printing a create URL.
 # See scripts/README.md and .cursor/rules/ship-branch.mdc.
 
 set -euo pipefail
@@ -11,7 +11,7 @@ cd "${ROOT}"
 # shellcheck source=./wsl_common.sh
 source "${ROOT}/scripts/wsl_common.sh"
 
-SCRIPT_VERSION="1.0.0"
+SCRIPT_VERSION="2.0.0"
 MR_TARGET="${MR_TARGET:-main}"
 MR_TITLE=""
 DRAFT=0
@@ -22,12 +22,12 @@ usage() {
   cat <<'EOF'
 Usage: bash scripts/wsl_open_mr.sh [options]
 
-Open a GitLab merge request for the current branch (idempotent).
+Open a GitHub pull request for the current branch (idempotent).
 
 Options:
   --target <branch>   Target branch (default: main, or MR_TARGET env)
-  --title <text>      MR title (default: last commit subject)
-  --draft             Create as draft MR (glab only)
+  --title <text>      PR title (default: last commit subject)
+  --draft             Create as draft PR (gh only)
   --skip-push         Assume branch is already on origin (ship-branch sets this after push)
   --yes               Non-interactive
   -h, --help          Show this help
@@ -36,8 +36,8 @@ Options:
 Env:
   MR_TARGET           Default target branch (main)
 
-One-time glab setup:
-  glab auth login   # token via env; never commit credentials
+One-time gh setup:
+  gh auth login   # never commit credentials
 
 Example:
   MR_TARGET=feat/sprint-1-integration bash scripts/wsl_open_mr.sh
@@ -88,7 +88,7 @@ default_branch() {
 
 origin_default="$(default_branch)"
 if [[ "${branch}" == "main" || "${branch}" == "${origin_default}" || "${branch}" == "${MR_TARGET}" ]]; then
-  log "FAILED: refuse to open MR from default or target branch (${branch})"
+  log "FAILED: refuse to open PR from default or target branch (${branch})"
   exit 1
 fi
 
@@ -96,7 +96,7 @@ if [[ -z "${MR_TITLE}" ]]; then
   MR_TITLE="$(git log -1 --format='%s')"
 fi
 
-build_mr_description() {
+build_pr_body() {
   local plan_file=""
   if [[ -f "${ROOT}/.cursor/plan-session.json" ]]; then
     plan_file="$(grep -o '"plan_file"[[:space:]]*:[[:space:]]*"[^"]*"' "${ROOT}/.cursor/plan-session.json" \
@@ -117,52 +117,46 @@ $(git log "origin/${MR_TARGET}..HEAD" --oneline 2>/dev/null \
 
 ### Plan
 
-${plan_file:-Add plan file path in MR description if applicable.}
+${plan_file:-Add plan file path in PR description if applicable.}
 EOF
 }
 
-glab_available() {
-  command -v glab >/dev/null 2>&1 && glab auth status >/dev/null 2>&1
+gh_available() {
+  command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1
 }
 
-open_mr_with_glab() {
+open_pr_with_gh() {
   local existing
-  existing="$(glab mr list --source-branch "${branch}" --state opened -F json 2>/dev/null || echo '[]')"
-  if [[ "${existing}" != "[]" && "${existing}" != "" && "${existing}" != "null" ]]; then
-    log "Open MR already exists for ${branch}"
-    glab mr list --source-branch "${branch}" --state opened || true
-    local iid
-    iid="$(glab mr list --source-branch "${branch}" --state opened -F json 2>/dev/null \
-      | grep -o '"iid":[0-9]*' | head -1 | cut -d: -f2 || true)"
-    if [[ -n "${iid}" ]]; then
-      glab mr view "${iid}" --web 2>/dev/null || true
-    fi
+  existing="$(gh pr list --head "${branch}" --state open --json number -q '.[0].number' 2>/dev/null || true)"
+  if [[ -n "${existing}" ]]; then
+    log "Open PR already exists for ${branch}: #${existing}"
+    gh pr view "${existing}" --web 2>/dev/null || gh pr view "${existing}" || true
     return 0
   fi
 
+  local draft_args=()
   if [[ "${DRAFT}" == "1" ]]; then
-    draft_flag=(--draft)
+    draft_args=(--draft)
   fi
 
-  log "Creating MR via glab: ${branch} → ${MR_TARGET}"
-  glab mr create \
-    --target-branch "${MR_TARGET}" \
+  log "Creating PR via gh: ${branch} → ${MR_TARGET}"
+  gh pr create \
+    --base "${MR_TARGET}" \
+    --head "${branch}" \
     --title "${MR_TITLE}" \
-    --description "$(build_mr_description)" \
-    "${draft_flag[@]}"
-  glab mr view --web 2>/dev/null || true
+    --body "$(build_pr_body)" \
+    "${draft_args[@]}"
+  gh pr view --web 2>/dev/null || true
 }
 
-open_mr_with_push_options() {
-  if [[ "${SKIP_PUSH}" == "1" ]]; then
-    log "FAILED: --skip-push requires glab; install and authenticate glab or omit --skip-push"
-    exit 1
+print_manual_pr_hint() {
+  local remote_url
+  remote_url="$(git remote get-url origin 2>/dev/null || echo '')"
+  log "gh not available — push completed; open a PR manually:"
+  log "  gh auth login && gh pr create --base ${MR_TARGET} --head ${branch}"
+  if [[ "${remote_url}" == *github.com* ]]; then
+    log "  Or use the GitHub UI for ${remote_url}"
   fi
-  log "Creating MR via git push options: ${branch} → ${MR_TARGET}"
-  git push -u origin HEAD \
-    -o merge_request.create \
-    -o "merge_request.target=${MR_TARGET}" \
-    -o "merge_request.title=${MR_TITLE}"
 }
 
 ensure_remote() {
@@ -184,19 +178,18 @@ main() {
   ensure_remote
   push_branch
 
-  if glab_available; then
-    open_mr_with_glab
+  if gh_available; then
+    open_pr_with_gh
   else
     if [[ "${SKIP_PUSH}" == "1" ]]; then
-      log "WARN: glab not available; cannot create MR after push-only flow"
-      log "Install glab: https://gitlab.com/gitlab-org/cli/-/blob/main/docs/installation.md"
-      log "Then: glab auth login"
+      log "WARN: gh not available; cannot create PR after push-only flow"
+      log "Install: https://cli.github.com/ — then: gh auth login"
       exit 1
     fi
-    open_mr_with_push_options
+    print_manual_pr_hint
   fi
 
-  log "MR flow complete for ${branch} → ${MR_TARGET}"
+  log "PR flow complete for ${branch} → ${MR_TARGET}"
 }
 
 main "$@"

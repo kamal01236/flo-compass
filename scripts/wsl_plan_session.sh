@@ -28,7 +28,7 @@ PLAN_SESSION_LIB_VERSION="1.0.0"
 PLAN_SESSION_FILE_REL=".cursor/plan-session.json"
 PLAN_LIFECYCLE_LOG_REL=".cursor/plan-lifecycle.log.jsonl"
 
-# Forbidden shared files — mirrors .cursor/rules/parallel-agents.mdc lines 21-29.
+# Forbidden shared files — mirrors .cursor/rules/parallel-agents.mdc
 # Exact paths first, then path prefixes (globs collapsed to prefix match).
 PLAN_FORBIDDEN_PATHS=(
   "lib/app.dart"
@@ -36,15 +36,15 @@ PLAN_FORBIDDEN_PATHS=(
   "lib/routing/app_router.dart"
   "pubspec.yaml"
   "web/manifest.json"
-  "hackathon-docs/HACKATHON-README.md"
-  "hackathon-docs/augmentation-log.md"
-  ".gitlab-ci.yml"
+  "README.md"
+  "fly.toml"
   ".gitignore"
   ".dockerignore"
 )
 PLAN_FORBIDDEN_PREFIXES=(
   "lib/providers/"
   "docker/"
+  ".github/workflows/"
 )
 
 # ---------------------------------------------------------------------------

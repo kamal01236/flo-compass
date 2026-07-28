@@ -15,10 +15,8 @@ Pre-accept checks for any Cursor-produced code, rule, or plan edit. Cite `@ai-ve
 - Dataset field names appear in `assets/data/schema/*.json`
 - Test counts claimed match `flutter test` output
 - Suggestions touching `parallel-agents.mdc` forbidden shared surface become serial-merge patch notes, not direct edits on per-plan branches
-- New or changed `.cursor/rules/*.mdc` has matching `hackathon-docs/cursor-rules/<slug>.md` and README index entry per `cursor-rules-catalog.mdc`
-- Hallucinations found during review are logged in `augmentation-log.md` `Hallucinations` field even when `Outcome` is `accepted`
 
-## Categories to tag when logging
+## Categories to tag when a suggestion was wrong
 
 - `api-hallucination` — invented API, endpoint, or SDK method
 - `wrong-version` — package or Flutter/Dart version mismatch vs lockfile
@@ -30,7 +28,6 @@ Pre-accept checks for any Cursor-produced code, rule, or plan edit. Cite `@ai-ve
 
 ## Cross-references
 
-- `ai-augmentation.mdc` — entry template and `Hallucinations:` / `Steering:` discipline
-- `cursor-rules-catalog.mdc` — catalog parity when rules are added or changed
 - `parallel-agents.mdc` — forbidden shared files and serial-merge protocol
-- `flo-compass-data.mdc` — Gurgaon dataset topology and session-count guardrails
+- `flo-compass-data.mdc` — dataset topology and session-count guardrails
+- `deployment-cicd.mdc` — GHCR / Fly.io deploy path

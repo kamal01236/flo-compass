@@ -1,73 +1,107 @@
-**!!! ATTENTION – THIS IS IMPORTANT !!!**
+# Flo Compass
 
-Carefully read this file in its entirety! 
+Flutter web event companion: session discovery, My Plan, venue map, and AI Q&A over mock conference data.
 
-We will not accept deviations from the required deliverables or support you with project setup basics because "you missed it in the document".
+## Stack
 
-# Required Deliverables 
+- Flutter **3.44.0** / Dart **3.10+** (web only)
+- nginx SPA hosting via `docker/Dockerfile`
+- **CI/CD:** GitHub Actions → image on **GHCR** → deploy to **Fly.io**
 
-Each team must submit the following deliverables, and all deliverables (including video, augmentation log, etc.) must be uploaded to your team’s repository by the submission deadline. This repo, filled with all artifacts relevant to your solution. 
+## Local development (WSL2)
 
-
-
-Within this repo, under a folder called “hackathon-docs”, you **must** include the following items (this is **mandatory**, including using the **correct filenames**): 
-
-* **hackathon-docs/HACKATHON-README.md** (Usage & Setup Guide) - We will provide a template HACKATHON-README.md in GitHub-style markdown in the root folder of the OurCode repository we provide for you. Fill it out to include this information: 
-  * List of team name & team members 
-  * Link to your OurCode repository 
-  * A short summary describing your team’s “AI-first workflow” when tackling the hackathon’s missions 
-* **hackathon-docs/augmentation-log.md** (AI Usage Documentation) - A dedicated document that captures how Cursor was used throughout the SDLC. This log should document: 
-  * What you attempted to do using Cursor 
-  * How Cursor responded 
-  * What was accepted, modified, or rejected 
-  * Any hallucinations or incorrect suggestions identified 
-  * How participants corrected or steered the AI 
-  * NOTE: The structure of the log is intentionally left flexible. Teams are encouraged to use Cursor itself to help create and refine this document. 
-* **hackathon-docs/video.mp4** A Demo Video (2 Minutes – hard maximum!) - A short demo video, including a voice track, that: 
-  * Shows and explains the approach 
-  * Shows and explains the results 
-  * Highlights key decisions or moments where Cursor materially influenced the outcome 
-  * Briefly summarizes learnings from AI-assisted development 
-  * Hint: Make sure that the video & speech are clear and easily understandable – speeding up the video & voice might it easier to stay within 2 minutes, but it will hurt your polish score 
-
-# Starter Kit
-
-Minimal starting point for hackathon teams — a Flutter (web) hello-world app.
-
-## What's included
-
-- `lib/main.dart` — hello-world Flutter app
-- `web/` — Flutter web shell (`index.html`, `manifest.json`, icons)
-- `pubspec.yaml` — app metadata & dependencies (requires Flutter 3.44.0 / Dart 3.10+)
-- `docker/Dockerfile` — multi-stage build: compiles the Flutter web app, then serves `build/web` with nginx
-- `.gitlab-ci.yml` — CI/CD pipeline (build → push → deploy to Azure Container Apps)
-
-## Local development & testing (WSL2 only)
-
-Develop and run **local** Tier 1/Tier 2 validation inside **Ubuntu 24.04 WSL2** with Flutter, Docker, and Docker Compose installed in WSL — not Docker Desktop on Windows.
-
-**Production deployment is unchanged:** push to default branch → GitLab CI → ARM template → Azure Container Apps.
-
-Open a WSL shell in the repo, then:
-
-**Flutter dev server** (hot reload, port 3000):
+Use Ubuntu 24.04 WSL2 with Flutter and Docker installed **inside WSL** (not Docker Desktop).
 
 ```bash
 flutter pub get
-bash scripts/dev_wsl.sh
-# Open http://localhost:3000 from Windows browser
+flutter analyze && flutter test
+
+# Dev server (hot reload) — open http://localhost:3000 from Windows
+bash scripts/wsl_dev.sh
+# or: flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0
 ```
 
-**Local Docker smoke** (same `docker/Dockerfile` as CI, port 8080 — not ARM deploy):
+### Local Docker smoke (Tier 2)
 
 ```bash
 docker compose up --build
-# Open http://localhost:8080
+# http://localhost:8080/
+# http://localhost:8080/session/s-001  (deep-link refresh must not 404)
 ```
 
-## How deployment works
+## Deploy (GitHub → GHCR → Fly.io)
 
-Every push to the default branch triggers the GitLab CI pipeline which:
-1. Builds the Docker image
-2. Pushes it to the container registry
-3. Deploys to Azure Container Apps
+Push to `main` (or `master`) runs [`.github/workflows/ci-deploy.yml`](.github/workflows/ci-deploy.yml):
+
+1. Validate (analyze, tests, data/route checks)
+2. Build `docker/Dockerfile` with `CONFIG_PROFILE=prod`
+3. Push `ghcr.io/<owner>/<repo>:<sha>` and `:latest`
+4. If `FLY_API_TOKEN` is set, deploy that image to Fly.io
+
+### One-time Fly setup
+
+1. Install [flyctl](https://fly.io/docs/hands-on/install-flyctl/) and sign in: `fly auth login`
+2. Create the app (pick a free name if `flo-compass` is taken):
+
+   ```bash
+   fly apps create flo-compass
+   ```
+
+3. Edit `app = '...'` in [`fly.toml`](fly.toml) to match, **or** set GitHub repo variable `FLY_APP_NAME`
+4. In the GitHub repo: **Settings → Secrets and variables → Actions**
+   - Secret: `FLY_API_TOKEN` — from `fly tokens create deploy`
+   - Optional variable: `FLY_APP_NAME` — overrides `fly.toml` `app`
+5. Allow GHCR packages for the repo (Actions already uses `GITHUB_TOKEN`). If the package is private, either make it public under **Packages**, or configure Fly registry auth so machines can pull the image.
+6. Push to `main` — workflow summary prints `https://<app>.fly.dev`
+
+### Public URL
+
+After a successful deploy:
+
+| Check | URL |
+|-------|-----|
+| App | `https://<app>.fly.dev/` |
+| Deep link | `https://<app>.fly.dev/session/s-001` |
+| Health | `https://<app>.fly.dev/health` |
+
+Replace `<app>` with the value in `fly.toml` / `FLY_APP_NAME`.
+
+### Manual deploy (optional)
+
+```bash
+fly deploy --config fly.toml --ha=false
+# or reuse a GHCR image:
+fly deploy --app <app> --image ghcr.io/<owner>/<repo>:<sha> --remote-only --ha=false
+```
+
+## Config profiles
+
+| Profile | When | Notes |
+|---------|------|--------|
+| `dev` | Local demos | Mock admin role / demo flags — **do not** ship to production |
+| `prod` | CI + Fly | Default in GitHub Actions and `fly.toml` |
+| `default` | Fallback | See `assets/config/` |
+
+Local override:
+
+```bash
+flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0 \
+  --dart-define=CONFIG_PROFILE=dev
+```
+
+## Repository layout (high level)
+
+| Path | Purpose |
+|------|---------|
+| `lib/` | App code |
+| `assets/data/` | Mock Flo dataset |
+| `docker/` | Dockerfile + nginx |
+| `.github/workflows/` | CI + deploy |
+| `fly.toml` | Fly.io service config |
+| `hackathon-docs/` | **Legacy** archive (not used by CI) |
+
+`docker/arm-template.json` is a leftover Azure template and is **not** used by the GitHub → Fly path.
+
+## License / product
+
+Flo Compass complements official event platforms (registration/ticketing stay elsewhere). See `.cursor/rules/flo-compass-product.mdc`.

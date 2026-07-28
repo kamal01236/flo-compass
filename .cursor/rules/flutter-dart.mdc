@@ -1,5 +1,5 @@
 ---
-description: Flutter web conventions for ai-avengers hackathon app
+description: Flutter web conventions for Flo Compass
 globs: lib/**/*.dart,test/**/*.dart
 alwaysApply: false
 ---

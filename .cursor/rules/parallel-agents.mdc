@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Parallel Agents
 
-When a plan dispatches subagents in parallel (typical for v6 story slices), an explicit **file-level ownership contract** must exist in the plan file before dispatch. Never launch parallel workers without it.
+When a plan dispatches subagents in parallel, an explicit **file-level ownership contract** must exist in the plan file before dispatch. Never launch parallel workers without it.
 
 ## Ownership contract (required in the plan)
 
@@ -24,11 +24,10 @@ Missing contract → run the slices serially instead.
 - `lib/providers/**` (esp. `app_settings_provider.dart`, `event_provider.dart`, `plan_provider.dart`, `engagement_provider.dart`)
 - `pubspec.yaml`
 - `web/manifest.json`
-- `hackathon-docs/HACKATHON-README.md`
-- `hackathon-docs/augmentation-log.md`
-- `.gitlab-ci.yml`, `docker/**`, `.gitignore`, `.dockerignore`
+- `README.md`
+- `.github/workflows/**`, `fly.toml`, `docker/**`, `.gitignore`, `.dockerignore`
 
-Changes to these files must land in a **serial merge step** owned by the parent agent (or Lead Developer) after the parallel run completes.
+Changes to these files must land in a **serial merge step** owned by the parent agent after the parallel run completes.
 
 ## Mandatory serial merge step
 
@@ -39,12 +38,10 @@ After all parallel agents finish, the parent must:
    - `rg "GoRoute\(path:" lib/routing/app_router.dart` — no duplicate paths
    - `rg "ChangeNotifierProvider(?:\\.value)?\\(" lib/app.dart` — one entry per provider
    - `rg "\"url\":" web/manifest.json` (or `"shortcuts"`) — no duplicate manifest entries
-   - `rg "story-\\d+-\\d+" hackathon-docs/augmentation-log.md` — no duplicate log entries per plan
 3. Resolve conflicts explicitly (do not just accept the last write).
 4. Only then run WSL Tier 1/2 validation per `local-wsl-auto-validation.mdc`.
 
 ## Do not
 
 - Ship parallel work without the ownership contract in the plan file
-- Let parallel agents each append to `hackathon-docs/augmentation-log.md` — one batched entry only (`ai-augmentation.mdc`)
 - Assume the second-to-last writer's edits survived; grep-verify shared files instead

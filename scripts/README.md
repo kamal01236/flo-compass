@@ -132,22 +132,22 @@ Delegated by [`wsl_deploy.sh`](wsl_deploy.sh) (`TEARDOWN=0`) and [`wsl_ship_bran
 |---|---|
 | Run from | Feature branch worktree (not `main`) |
 | Launcher | [`ship-branch.cmd`](../ship-branch.cmd) / [`ship-branch.ps1`](../ship-branch.ps1) |
-| Purpose | Pre-review pipeline: Tier 1 → Tier 2 smoke (teardown) → push → idempotent GitLab MR |
+| Purpose | Pre-review pipeline: Tier 1 → Tier 2 smoke (teardown) → push → idempotent GitHub PR |
 | Args | `[--dry-run] [--no-tier2] [--no-mr] [--allow-dirty] [--yes] [-h\|--help] [--version]` |
 | Env vars | `MR_TARGET` (default `main`), `DOCKER_PORT` / `FLUTTER_PORT` from `.worktree.env` when present |
-| Exit codes | `0` shipped · `1` branch guard, dirty tree, Tier 1/2, push, or MR fail |
+| Exit codes | `0` shipped · `1` branch guard, dirty tree, Tier 1/2, push, or PR fail |
 
-### `wsl_open_mr.sh` (GitLab MR)
+### `wsl_open_mr.sh` (GitHub PR)
 
 | Field | Value |
 |---|---|
 | Run from | Feature branch (after push, or standalone with push) |
-| Purpose | Idempotent MR to GitLab: `glab` when authenticated, else `git push` merge-request options |
+| Purpose | Idempotent PR on GitHub: `gh` when authenticated, else print manual create hints |
 | Args | `[--target <branch>] [--title <text>] [--draft] [--skip-push] [--yes] [-h\|--help] [--version]` |
 | Env vars | `MR_TARGET` (default `main`) |
-| Exit codes | `0` MR exists or created · `1` on default branch, no remote, or MR create fail |
+| Exit codes | `0` PR exists or created · `1` on default branch, no remote, or PR create fail |
 
-**glab setup (one-time, local):** `glab auth login` — token via env; never commit credentials.
+**gh setup (one-time, local):** `gh auth login` — never commit credentials.
 
 ### When to use dev-local vs deploy-local vs ship-branch
 

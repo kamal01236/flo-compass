@@ -1,6 +1,6 @@
 ---
-description: Docker and GitLab CI deploy pipeline guardrails
-globs: docker/**,.gitlab-ci.yml,.dockerignore,pubspec.yaml
+description: Docker and GitHub Actions → GHCR → Fly.io deploy guardrails
+globs: docker/**,.github/workflows/**,fly.toml,.dockerignore,pubspec.yaml
 alwaysApply: false
 ---
 
@@ -8,27 +8,28 @@ alwaysApply: false
 
 ## Production build path
 
-1. `flutter build web --release` (in Docker build stage)
+1. `flutter build web --release` (in `docker/Dockerfile` build stage)
 2. nginx serves `build/web` from `/usr/share/nginx/html`
+3. GitHub Actions pushes the image to GHCR, then `flyctl deploy --image` to Fly.io
 
 ## Do not break
 
 - Base image: `ghcr.io/cirruslabs/flutter:3.44.0` in `docker/Dockerfile`
-- CI variable names in `.gitlab-ci.yml`: `DOCKER_REGISTRY`, Azure SP vars, `FOLDER_TO_ZIP: hackathon-docs`
-- Default-branch push triggers: Docker build → Azure Container Apps deploy → `hackathon-docs` blob upload
+- nginx SPA `try_files` fallback (`docker/nginx/default.conf`) — deep-link refresh must not 404
+- Production `CONFIG_PROFILE=prod` (set in workflow + `fly.toml` build args)
+- Container listens on port **80** (`fly.toml` `internal_port`)
 
 ## Config & secrets
 
 - Use `--dart-define` or runtime config JSON for env-specific values
-- Never hardcode secrets in Dart, Dockerfile, or CI files
+- Never hardcode secrets in Dart, Dockerfile, or workflow files
+- Reference GitHub Actions secrets by **name** only (`FLY_API_TOKEN`, etc.)
 
 ## Validate before pushing (local Tier 2 in WSL2)
-
-Pre-push smoke test only — production deploy still goes through GitLab CI + ARM template:
 
 ```bash
 docker compose up --build
 # http://localhost:8080 — deep-link refresh: /session/s-001
 ```
 
-Do not alter `docker/arm-template.json` or `.gitlab-ci.yml` for local WSL testing.
+Local compose is smoke-only; production is GitHub Actions + Fly.io.

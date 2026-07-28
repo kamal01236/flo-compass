@@ -1,13 +1,11 @@
 ---
-description: WSL2 local dev and local deploy testing — does not change ARM/CI production path
+description: WSL2 local dev and local Docker smoke — production is GitHub Actions + Fly.io
 alwaysApply: true
 ---
 
 # WSL2 Local Development (mandatory for dev)
 
-WSL2 is for **local development and local deployment testing only** (Tier 1 & Tier 2). It does **not** replace or alter production deployment.
-
-**Production (unchanged):** push to default branch → GitLab CI → `docker/Dockerfile` build → `docker/arm-template.json` → Azure Container Apps. Do not modify ARM template, `.gitlab-ci.yml`, or production ingress for WSL convenience.
+WSL2 is for **local development and local deployment testing only** (Tier 1 & Tier 2). Production deploy is GitHub Actions → GHCR → Fly.io.
 
 ## Environment (local only)
 
@@ -20,7 +18,7 @@ WSL2 is for **local development and local deployment testing only** (Tier 1 & Ti
 
 - Run local build, test, analyze, Flutter, and Tier 2 Docker commands inside WSL
 - When the Cursor host is Windows, prefix with: `wsl -e bash -lc 'cd <repo-path> && <command>'`
-- Prefer the WSL path to the repo (e.g. `/mnt/c/Nagarro/ai-avengers` or `~/projects/ai-avengers`)
+- Prefer the WSL path to the repo (e.g. `/mnt/c/NAGP/flo-compass`)
 - Never require or document Windows-installed Docker or Docker Desktop
 
 ## Local dev ports
@@ -37,15 +35,14 @@ WSL2 is for **local development and local deployment testing only** (Tier 1 & Ti
 flutter pub get && flutter analyze && flutter test
 flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0
 
-# Tier 2 — local container smoke (same Dockerfile as CI; not ARM deploy)
+# Tier 2 — local container smoke (same Dockerfile family as CI)
 docker compose up --build
 # Verify http://localhost:8080/ AND http://localhost:8080/session/s-001
 ```
 
 ## Do not
 
-- Change `docker/arm-template.json`, `.gitlab-ci.yml`, or ARM parameters for WSL
-- Treat `docker-compose.yml` as the production deploy path — CI + ARM template remain authoritative
+- Treat `docker-compose.yml` as the production deploy path — GitHub Actions + Fly.io remain authoritative
 - Run `flutter`, `dart`, or `docker` from PowerShell/CMD as the primary workflow
 - Document or rely on Docker Desktop for Windows
 - Use host-only bindings that block WSL2 → Windows localhost forwarding
