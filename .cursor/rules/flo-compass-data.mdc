@@ -1,0 +1,38 @@
+---
+description: Flo 2026 mock data standards, scale, integrity rules, and no-PII policy
+globs: assets/data/**,tools/**,lib/data/**
+alwaysApply: false
+---
+
+# Flo 2026 Mock Data Standards
+
+## Scale (realistic, not theoretical)
+- Venue: Nagarro Gurgaon Office (~90 spaces, Ground + 6th-13th floors)
+- 3 days (Day 1–3), 09:00–17:00
+- Slots: 09, 10, 11, 12, 13, 14, 15, 16 (12:00 cafeteria lightning talks only)
+- ~650 sessions total (not every room active every slot)
+- ~80 speakers: curated C-suite roster + generated ICs
+- 10 tracks, 10 formats
+
+## Speaker title tiers (software services)
+- Tier 1: Chairman, CEO, CTO, COO, CFO, CPO
+- Tier 2: Chief Delivery Officer, Global Practice Heads, Chief Architect, VPs
+- Tier 3: Unit Heads, Practice Heads, Distinguished Engineer, Principal Architect
+- Tier 4: Senior Director, Engineering Manager, Lead Consultant, Solution Architect
+
+## Session fields (required)
+id, title, abstract, day, startTime, endTime, venueId, trackId,
+speakerIds[], tags[], format, level, featured (bool), capacity,
+building (always "Nagarro Gurgaon Office")
+
+## Integrity rules (generator MUST enforce)
+- Every speakerId, venueId, trackId resolves to a record
+- No speaker appears in 2 rooms at the same startTime
+- Session capacity <= venue capacity
+- 12:00 slot is cafeteria-only lightning talks (`ven-C601`)
+- Every venue includes `wing` (`N`, `S`, `central`) and wing matches venue id convention
+- featured=true only on curated demo list (see plan)
+
+## No PII
+- Speakers are fictional; no real Nagarro employees
+- No real attendee data anywhere

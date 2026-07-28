@@ -1,0 +1,20 @@
+---
+description: WCAG AA baseline checks for Flo Compass web UX
+globs: lib/**,web/**
+alwaysApply: false
+---
+
+# Accessibility Baseline
+
+## Required checks
+- Maintain WCAG AA contrast (4.5:1 for body text and controls) on dark and light themes
+- Ensure keyboard-only navigation works for major actions
+- Add semantic labels/tooltips for icon-only controls and navigation actions
+- Keep focus visible with 2px accent ring
+- Provide route announcements and live regions for transient updates
+- Respect reduced motion and text scaling; avoid mandatory animation
+
+## UX safeguards
+- Include skip-to-content on `web/index.html` shell
+- Avoid color-only status indicators (combine icon + text)
+- Keep empty/error states actionable

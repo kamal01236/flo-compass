@@ -1,0 +1,26 @@
+{
+  "version": "1",
+  "plan": "enterprise-foundation-sprint",
+  "plan_file": ".cursor/plans/enterprise_foundation_sprint_4999e779.plan.md",
+  "branch": "feat/enterprise-foundation",
+  "agent_id": "",
+  "phase": "validation",
+  "done": ["consent", "auth", "l10n", "remote-repository"],
+  "remaining": [
+    "fix test/integration/full_flow_test.dart",
+    "run WSL Tier 1",
+    "run Tier 2 deploy-local smoke",
+    "write augmentation-log entry"
+  ],
+  "auto_continue": true,
+  "continue_count": 0,
+  "max_loops": 5,
+  "last_validation": {
+    "tier1": "fail",
+    "tier2": "unknown",
+    "tests_passed": 176,
+    "tests_total": 177
+  },
+  "notes": "Finish-only pass — do not re-implement phases already in lib/.",
+  "updated_at": "2026-07-11T11:00:00Z"
+}

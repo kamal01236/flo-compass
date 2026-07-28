@@ -1,0 +1,11 @@
+{
+  "name": "Fixture manifest",
+  "short_name": "Fixture",
+  "start_url": ".",
+  "display": "standalone",
+  "shortcuts": [
+    { "name": "Discover", "url": "/discover" },
+    { "name": "My Plan",  "url": "/my-plan" },
+    { "name": "Discover", "url": "/discover" }
+  ]
+}

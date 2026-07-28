@@ -1,0 +1,36 @@
+---
+description: Pre-accept checks for any Cursor-produced code, rule, or plan edit
+alwaysApply: false
+---
+
+# AI Verification
+
+Pre-accept checks for any Cursor-produced code, rule, or plan edit. Cite `@ai-verification.mdc` in prompts when reviewing diffs before merge.
+
+## Facts to verify
+
+- Every cited file path exists (`Read`/`Grep`) before applying a diff
+- Package/SDK versions cited match `pubspec.lock`
+- Referenced route paths appear in `lib/routing/app_router.dart`
+- Dataset field names appear in `assets/data/schema/*.json`
+- Test counts claimed match `flutter test` output
+- Suggestions touching `parallel-agents.mdc` forbidden shared surface become serial-merge patch notes, not direct edits on per-plan branches
+- New or changed `.cursor/rules/*.mdc` has matching `hackathon-docs/cursor-rules/<slug>.md` and README index entry per `cursor-rules-catalog.mdc`
+- Hallucinations found during review are logged in `augmentation-log.md` `Hallucinations` field even when `Outcome` is `accepted`
+
+## Categories to tag when logging
+
+- `api-hallucination` — invented API, endpoint, or SDK method
+- `wrong-version` — package or Flutter/Dart version mismatch vs lockfile
+- `wrong-path` — file, route, or import path that does not exist
+- `stale-docs` — README, rule, or comment contradicts landed code
+- `scope-drift` — suggestion outside plan or product boundaries
+- `dataset-drift` — model or UI assumes fields/types the dataset does not have
+- `security-miss` — nginx, CSP, secrets, or deploy guardrail overlooked
+
+## Cross-references
+
+- `ai-augmentation.mdc` — entry template and `Hallucinations:` / `Steering:` discipline
+- `cursor-rules-catalog.mdc` — catalog parity when rules are added or changed
+- `parallel-agents.mdc` — forbidden shared files and serial-merge protocol
+- `flo-compass-data.mdc` — Gurgaon dataset topology and session-count guardrails

@@ -1,0 +1,222 @@
+---
+description: Local worktree + branch layering pattern for running multiple plans in parallel on one machine
+alwaysApply: true
+---
+
+# Parallel Plans Workflow
+
+Codifies how to spin up N isolated worktrees, one per plan, so several Cursor agents can work in parallel on the same machine without file, port, or `.dart_tool/` collisions, then merge cleanly per `parallel-agents.mdc`.
+
+## When to use worktrees vs alternatives
+
+Pick the smallest tool that fits the task. Do not spin up worktrees for a single one-shot slice.
+
+| Situation | Use |
+|---|---|
+| Two or more plans need long, interactive Cursor iteration on the same machine (typical case) | **Git worktrees + local Cursor windows** (this rule) — one worktree per plan, one Cursor window per worktree, ports allocated by slot |
+| Fire-and-forget slice; no live iteration needed and results can be reviewed after the fact | **`Task` subagent with `environment: "cloud"`** — runs on its own VM, own branch, own worktree; parent merges via MR afterwards |
+| Multiple attempts at the **same** problem (best-of-N experiments, spike variants) | **Built-in `best-of-n-runner` subagent** — each attempt gets its own isolated git worktree and branch automatically |
+
+Rule of thumb: worktrees for humans-in-the-loop, cloud subagents for autonomous slices, `best-of-n-runner` for parallel attempts at one problem.
+
+## Three-layer branch model
+
+Per-plan branches never target `main` directly. They stack under a parent-owned integration branch.
+
+```mermaid
+flowchart LR
+  Main[main]
+  Integration["feat/sprint-N-integration"]
+  PlanA["feat/plan-a"]
+  PlanB["feat/plan-b"]
+  PlanC["feat/plan-c"]
+  Integration -->|MR after Tier 1 + Tier 2| Main
+  PlanA -->|MR after Tier 1| Integration
+  PlanB -->|MR after Tier 1| Integration
+  PlanC -->|MR after Tier 1| Integration
+```
+
+- **`main`** — protected; only integration MRs land here.
+- **`feat/sprint-N-integration`** — parent-owned; all shared-file patches applied here (never on per-plan branches).
+- **Per-plan branches** — base on **integration**, not `main`. Naming per `git-hygiene.mdc` (`<type>/<plan-slug>`).
+
+## Port allocation table
+
+Fixed slot → port map. Slot 0 is reserved for the main worktree; only claim slots 1..5 from the helper script.
+
+| Slot | Worktree | FLUTTER_PORT | DOCKER_PORT |
+|---|---|---|---|
+| 0 | `C:/Nagarro/ai-avengers` (main) | 3000 | 8080 |
+| 1 | `../ai-avengers-<slug>` | 3001 | 8081 |
+| 2 | `../ai-avengers-<slug>` | 3002 | 8082 |
+| 3 | `../ai-avengers-<slug>` | 3003 | 8083 |
+| 4 | `../ai-avengers-<slug>` | 3004 | 8084 |
+| 5 | `../ai-avengers-<slug>` | 3005 | 8085 |
+
+**Cap at slot 5.** A dev box runs out of RAM before it runs out of port slots; higher counts should use `environment: "cloud"` subagents.
+
+Each worktree gets a `.worktree.env` (git-excluded, never committed) that the helper script writes. `source .worktree.env` before `bash scripts/wsl_dev.sh` or `docker compose up` so ports resolve to the slot's assignment.
+
+Sanity check before any dev tier: `echo $FLUTTER_PORT $DOCKER_PORT` — if empty, you forgot to source and will collide with the main worktree.
+
+## Lifecycle scripts
+
+Guided automation for per-plan finish → merge → cleanup → sprint close-out. Implementation in `scripts/wsl_plan_*.sh` with Windows launchers. Full reference: [scripts/README.md](../../scripts/README.md).
+
+| Stage | Script (WSL) | Launcher (Windows) | Run from |
+|---|---|---|---|
+| **Start** | `wsl_new_plan_worktree.sh` | `new-plan-worktree.cmd` | Main worktree |
+| **Finish** | `wsl_plan_worktree_finish.sh` | `plan-worktree-finish.cmd` | Per-plan worktree |
+| **Merge** | `wsl_plan_worktree_merge.sh` | `plan-worktree-merge.cmd` | Main worktree |
+| **Cleanup** | `wsl_plan_worktree_cleanup.sh` | `plan-worktree-cleanup.cmd` | Main worktree |
+| **Sprint integrate** | `wsl_sprint_integrate.sh` | `sprint-integrate.cmd` | Main worktree (integration branch) |
+
+### When to run each
+
+1. **Start** — before dispatching a parallel plan agent (`new-plan-worktree.cmd feat/plan-x 1 --base feat/sprint-N-integration`). Writes `.cursor/plan-session.json` + `.worktree.env`.
+2. **Finish** — when the per-plan agent completes: Tier 1, clean tree, forbidden-file gate, secret scan. Sets `ready: true` in `plan-session.json`.
+3. **Merge** — parent on main worktree merges the ready branch into **integration** (not `main`). Uses `flock` on `.git/integration-merge.lock`, grep guardrails, Tier 1 on integration.
+4. **Cleanup** — after merge: stop ports, `git worktree remove`, delete branch, free slot.
+5. **Sprint integrate** — after all per-plan merges: full Tier 1 + Tier 2 + coverage on integration; drafts one augmentation-log entry.
+
+### Lock and `--resume`
+
+- Only one integration merge at a time (`flock` + stale-lock auto-clear after 6 h or dead PID).
+- If the plan queued **serial-merge patch notes**, merge pauses after Tier 1; parent applies patches on integration, commits, then re-runs `plan-worktree-merge.cmd <branch> --resume --yes`.
+- `--dry-run` on merge/cleanup/integrate prints planned actions with no side effects.
+
+### MR to main
+
+Merge into integration only. Open **one MR: integration → `main`** manually after `sprint-integrate.cmd` passes Tier 1 + Tier 2.
+
+### Rollback recipes
+
+- **Merge failure:** `git merge --abort` or `git reset --hard ORIG_HEAD; git reflog show <integration>`
+- **Push failure after merge:** `git reset --hard ORIG_HEAD@{1}`
+- **Cleanup mistake:** `git checkout -b <branch> <sha-from-reflog>` + `git worktree add ../ai-avengers-<slug> <branch>`
+- **Integrate Tier 2 failure:** `docker compose down; fuser -k ${DOCKER_PORT}/tcp; git status`
+
+Structured event log: `.cursor/plan-lifecycle.log.jsonl` (git-excluded; rotate manually at 10 MB or 30 days).
+
+### Cursor hook reminders (opt-in)
+
+`.cursor/hooks/plan-lifecycle-reminder.sh` nudges worktree start/finish. Two-layer control:
+
+1. **Registration** — `.cursor/hooks.json` presence controls whether Cursor registers the hook. The file is git-ignored (per-worktree); the tracked source is `.cursor/hooks.json.template`. The main worktree has no `hooks.json` → no hook fires → no popup. `new-plan-worktree.cmd` copies the template into each new plan worktree automatically.
+2. **Content** — `.cursor/plan-lifecycle.json` `enabled` controls whether the hook emits reminder text (secondary switch).
+
+| Config | Purpose |
+|---|---|
+| `.cursor/hooks.json.template` | Tracked source of truth for hook registration |
+| `.cursor/hooks.json` | Per-worktree registration (git-excluded; copied by `new-plan-worktree.cmd`) |
+| `.cursor/plan-lifecycle.json` | Committed default (`"enabled": false`) |
+| `.cursor/plan-lifecycle.local.json` | Per-developer override (git-excluded) |
+| `PLAN_LIFECYCLE_ENABLED=1` | Env override for a single Cursor session |
+
+**Enable reminders in a plan worktree:** run `new-plan-worktree.cmd` (copies `hooks.json.template` and writes `enabled: true` in `plan-lifecycle.json`).
+
+**Pre-existing plan worktrees** (created before this change): run once inside that worktree:
+
+```bash
+cp .cursor/hooks.json.template .cursor/hooks.json
+```
+
+## Ownership contract mandate
+
+Every plan intended for parallel dispatch **must** start from [.cursor/plans/_TEMPLATE_parallel_plan.md](.cursor/plans/_TEMPLATE_parallel_plan.md) and include:
+
+- **Ownership contract header** — agent id, branch, worktree path, slot, `FLUTTER_PORT`, `DOCKER_PORT`
+- **Files this agent MAY write** — exact paths or narrow globs
+- **Files this agent MUST NOT touch** — pre-filled from `parallel-agents.mdc` forbidden list
+- **Serial-merge patch notes** — subsection listing every change the parent must apply to a forbidden shared file on the integration branch; the per-plan agent describes the patch but never applies it
+
+Missing contract → run the slices serially instead (`parallel-agents.mdc`).
+
+## Serial-merge protocol
+
+Follow `parallel-agents.mdc` lines 33-44 for the grep checks. Layered flow:
+
+1. Each per-plan agent completes on its own branch, passes Tier 1 in-worktree, opens MR against `feat/sprint-N-integration`.
+2. Parent reviews per-plan MR: confirms none of the forbidden shared files were touched on the per-plan branch; reads every serial-merge patch note the plan queued.
+3. Parent merges per-plan branches into integration one at a time; after each merge runs the `parallel-agents.mdc` grep checks (routes, providers, manifest, log).
+4. Parent applies all queued shared-file patches on the integration branch — never on per-plan branches, never as a background subagent.
+5. Parent runs full WSL Tier 1 + Tier 2 on integration per `local-wsl-auto-validation.mdc`, then opens one MR: integration → `main`.
+
+## Cleanup
+
+After a per-plan branch merges into integration:
+
+```bash
+git worktree remove ../ai-avengers-<slug>
+git branch -d feat/plan-<slug>
+```
+
+The port slot is now free for reuse. This also keeps `git-hygiene.mdc`'s **"never end a session with more than 20 untracked files"** rule honest — the removed worktree cleans its own `build/` and `.dart_tool/`, and there is no orphaned `.worktree.env` to leak into the next slot.
+
+## Do not
+
+- Write auto-merge scripts — merge stays manual per `parallel-agents.mdc` and `git-hygiene.mdc`.
+- Edit forbidden shared files (`parallel-agents.mdc` lines 21-29) on a per-plan branch; queue them as serial-merge patch notes instead.
+- Append per-plan augmentation-log entries — one batched entry per plan run, written by the parent on integration (`ai-augmentation.mdc`).
+- Run Tier 2 (Docker) simultaneously in more than one worktree unless `docker-compose.yml` uses `${DOCKER_PORT:-8080}` for the host port (Phase 6 of `parallel_plans_workflow_129bb86e.plan.md` makes this change).
+- Skip `source .worktree.env` — `wsl_dev.sh` will fall back to the main worktree's ports and collide.
+
+## Lifecycle scripts
+
+The three-layer branch model is enforced by five lifecycle scripts. Each has a matching Windows launcher (`.cmd` / `.ps1`) that mirrors [dev-local.cmd](../../dev-local.cmd) / [deploy-local.cmd](../../deploy-local.cmd) style — CRLF self-heal, `wsl -e bash -lc "cd /mnt/c/Nagarro/ai-avengers && bash scripts/<name>.sh ..."`, exit code passthrough via `if errorlevel 1 exit /b 1`.
+
+| Script | Run from | Purpose |
+|---|---|---|
+| `wsl_new_plan_worktree.sh` (start) | Main worktree | Allocate slot, create worktree + branch off integration, write `.worktree.env` + `.cursor/plan-session.json`, seed plan file from template |
+| `wsl_plan_worktree_finish.sh` (finish) | Per-plan worktree | Tier 1 gate + dirty-tree gate + forbidden-file gate + secret scan + patch-notes parser; flips session `ready:true` on pass |
+| `wsl_plan_worktree_merge.sh` (merge) | Main worktree | Serialized `flock` merge into integration with pre-flight, reflog snapshot, grep guardrails, Tier 1 on integration, `--resume` for patch-note re-validation |
+| `wsl_plan_worktree_cleanup.sh` (cleanup) | Main worktree | Merged-gate + unpushed-commit guard; stop worktree services, `git worktree remove`, `git branch -D`, `git worktree prune`; frees the port slot |
+| `wsl_sprint_integrate.sh` (sprint-integrate) | Main worktree on integration | Full Tier 1 + Tier 2 + coverage gate on integration; drafts one augmentation-log entry with duration rollup from `.cursor/plan-lifecycle.log.jsonl` |
+
+### CLI conventions (all four new lifecycle scripts)
+
+- `-h` / `--help` — usage banner
+- `--version` — script version + `git log -1 --format=%h scripts/`
+- `--dry-run` (merge / cleanup / sprint-integrate only) — prints planned actions with `[dry-run]` prefix; no filesystem, git, or docker side effects
+- `--yes` — non-interactive confirmation
+- Script-specific: `<branch>` for merge and cleanup, `--base <integration>`, `--resume` (merge), `--force` (cleanup — allows discarding unpushed commits), `--force-behind` (merge — allows merging when integration is behind remote)
+
+`sprint-integrate.cmd` additionally fires a `msg %USERNAME% /TIME:10 "..." 2>NUL` completion toast on Windows; suppress via `PLAN_LIFECYCLE_QUIET=1`. `2>NUL` also silences the toast on managed devices where `msg` is disabled.
+
+### When to run each
+
+- **Per-plan (once per branch)**: start → work → finish → merge → cleanup. Each per-plan agent stops at finish; merge and cleanup run from the main worktree by the parent.
+- **Sprint-end (once per integration branch)**: after every per-plan branch is merged, run sprint-integrate. It is the only step that runs Tier 2 + coverage, and the only place the augmentation-log gets drafted.
+
+### Merge lock and `--resume`
+
+`wsl_plan_worktree_merge.sh` acquires `.git/integration-merge.lock` via `flock -w 30` (fallback: atomic `mkdir .git/integration-merge.lockdir`) so two operators cannot merge into integration simultaneously. The lockfile embeds `PID`, `HOST`, `STARTED_AT`, and `COMMAND`; if `HOST` matches and either the PID is dead or `STARTED_AT` age > 6 h, the merge script auto-clears the lock and retries once. A `trap 'lifecycle_cleanup' INT TERM EXIT` releases the lock on Ctrl+C and records an `interrupted` event in the log.
+
+When a plan has serial-merge patch notes (see `parallel-agents.mdc` "Mandatory serial merge step"), merge halts after the guardrails pass and prompts the operator to apply the patches on integration. Rerun with `--resume` after committing them; `--resume` skips the merge step (already merged) and only re-runs the guardrails and Tier 1.
+
+### Merge into integration, not `main`
+
+Every lifecycle script targets `feat/sprint-N-integration`, never `main`. The MR from integration to `main` is **manual** and is opened only after `sprint-integrate` reports Tier 1 + Tier 2 + coverage green. There is no auto-MR and no auto-merge to `main`.
+
+### Rollback recipes
+
+Each script's success/failure banner prints the exact rollback command relevant to its stage. Summary (full details in [scripts/README.md](../../scripts/README.md)):
+
+- **merge failure**: `git merge --abort` or `git reset --hard ORIG_HEAD; git reflog show ${base}`
+- **push failure after merge**: `git reset --hard ORIG_HEAD@{1}` (before the merge commit)
+- **cleanup mistake**: `git checkout -b ${branch} <sha-from-reflog>` and `git worktree add ../ai-avengers-<slug> ${branch}`
+- **sprint-integrate Tier 2 failure**: `docker compose down; fuser -k ${DOCKER_PORT}/tcp; git status`
+- **stale merge lock (manual override)**: `cat .git/integration-merge.lock` (inspect ownership), then `rm .git/integration-merge.lock` if no other merge is running
+
+Every phase transition emits a JSON line to `.cursor/plan-lifecycle.log.jsonl` (git-excluded, append-only, manual rotation at 10 MB or 30 days) so a bad merge can be reconstructed. See [scripts/README.md](../../scripts/README.md) for the full field reference.
+
+## Cross-references
+
+- [.cursor/rules/parallel-agents.mdc](.cursor/rules/parallel-agents.mdc) — ownership contract, forbidden shared files, grep checks
+- [.cursor/rules/git-hygiene.mdc](.cursor/rules/git-hygiene.mdc) — branch naming, working-tree size limit, commit discipline
+- [.cursor/rules/local-wsl-auto-validation.mdc](.cursor/rules/local-wsl-auto-validation.mdc) — Tier gates per worktree
+- [.cursor/rules/ai-augmentation.mdc](.cursor/rules/ai-augmentation.mdc) — one batched log entry per plan (parent writes on integration)
+- [.cursor/rules/dev-loops.mdc](.cursor/rules/dev-loops.mdc) — Tier budgets; Tier 2 is pre-push only, single worktree at a time
+- [.cursor/rules/wsl2-development.mdc](.cursor/rules/wsl2-development.mdc) — WSL2 command execution and `0.0.0.0` binding for Windows-host reachability
+- [scripts/README.md](../../scripts/README.md) — full script argument reference, env vars, exit codes, rollback recipes, event log format
+- [scripts/parallel-plans-lifecycle-test-matrix.md](../../scripts/parallel-plans-lifecycle-test-matrix.md) — manual PR-review checklist for the lifecycle scripts

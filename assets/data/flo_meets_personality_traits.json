@@ -1,0 +1,22 @@
+[
+  {"id": "curious", "label": "Curious"},
+  {"id": "analytical", "label": "Analytical"},
+  {"id": "creative", "label": "Creative"},
+  {"id": "empathetic", "label": "Empathetic"},
+  {"id": "direct", "label": "Direct"},
+  {"id": "collaborative", "label": "Collaborative"},
+  {"id": "introverted", "label": "Introverted"},
+  {"id": "extroverted", "label": "Extroverted"},
+  {"id": "optimistic", "label": "Optimistic"},
+  {"id": "pragmatic", "label": "Pragmatic"},
+  {"id": "adventurous", "label": "Adventurous"},
+  {"id": "organized", "label": "Organized"},
+  {"id": "spontaneous", "label": "Spontaneous"},
+  {"id": "patient", "label": "Patient"},
+  {"id": "energetic", "label": "Energetic"},
+  {"id": "thoughtful", "label": "Thoughtful"},
+  {"id": "humorous", "label": "Humorous"},
+  {"id": "ambitious", "label": "Ambitious"},
+  {"id": "calm", "label": "Calm under pressure"},
+  {"id": "listener", "label": "Good listener"}
+]

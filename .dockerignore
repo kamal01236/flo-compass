@@ -1,0 +1,13 @@
+.git
+.gitignore
+.dockerignore
+**/node_modules
+.DS_Store
+*.md
+hackathon-docs/
+.dart_tool/
+build/*
+!build/web/
+!build/web/**
+.flutter-plugins
+.flutter-plugins-dependencies

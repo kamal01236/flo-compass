@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-avengers.local/schema/_audit_actor.schema.json",
+  "title": "Flo Compass audit actor fragments",
+  "$defs": {
+    "AuditActor": {
+      "type": "object",
+      "required": ["actorId", "displayName", "role"],
+      "additionalProperties": false,
+      "properties": {
+        "actorId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "enum": ["attendee", "organizer", "admin"]
+        }
+      }
+    },
+    "AuditTimestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "$ref": "#/$defs/AuditActor"
+        },
+        "updatedBy": {
+          "$ref": "#/$defs/AuditActor"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+---
+description: WSL2 local dev and local deploy testing — does not change ARM/CI production path
+alwaysApply: true
+---
+
+# WSL2 Local Development (mandatory for dev)
+
+WSL2 is for **local development and local deployment testing only** (Tier 1 & Tier 2). It does **not** replace or alter production deployment.
+
+**Production (unchanged):** push to default branch → GitLab CI → `docker/Dockerfile` build → `docker/arm-template.json` → Azure Container Apps. Do not modify ARM template, `.gitlab-ci.yml`, or production ingress for WSL convenience.
+
+## Environment (local only)
+
+- **OS:** Ubuntu 24.04 on WSL2
+- **Flutter:** latest stable (run only inside WSL for local dev)
+- **Docker / Docker Compose:** inside WSL (not Docker Desktop on Windows) — for **local** Tier 2 smoke tests
+- **Git:** inside WSL
+
+## Command execution (local dev & pre-push validation)
+
+- Run local build, test, analyze, Flutter, and Tier 2 Docker commands inside WSL
+- When the Cursor host is Windows, prefix with: `wsl -e bash -lc 'cd <repo-path> && <command>'`
+- Prefer the WSL path to the repo (e.g. `/mnt/c/Nagarro/ai-avengers` or `~/projects/ai-avengers`)
+- Never require or document Windows-installed Docker or Docker Desktop
+
+## Local dev ports
+
+- **Flutter dev:** `web-server` on port **3000** (or `8080` if 3000 is taken)
+- **Docker/nginx (local Tier 2):** port **8080** → container port 80 (`docker-compose.yml` is local-only convenience)
+- Bind `0.0.0.0` for Flutter web-server so WSL2 forwards to Windows
+- App must be reachable from Windows at `http://localhost:<port>`
+
+## Quick commands (run inside WSL — local testing)
+
+```bash
+# Tier 1 — Flutter dev
+flutter pub get && flutter analyze && flutter test
+flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0
+
+# Tier 2 — local container smoke (same Dockerfile as CI; not ARM deploy)
+docker compose up --build
+# Verify http://localhost:8080/ AND http://localhost:8080/session/s-001
+```
+
+## Do not
+
+- Change `docker/arm-template.json`, `.gitlab-ci.yml`, or ARM parameters for WSL
+- Treat `docker-compose.yml` as the production deploy path — CI + ARM template remain authoritative
+- Run `flutter`, `dart`, or `docker` from PowerShell/CMD as the primary workflow
+- Document or rely on Docker Desktop for Windows
+- Use host-only bindings that block WSL2 → Windows localhost forwarding

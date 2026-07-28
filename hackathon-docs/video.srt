@@ -1,0 +1,76 @@
+1
+00:00:00,000 --> 00:00:05,927
+Welcome to Flow Compass, the AI companion for Flow 2026, 650 sessions run in parallel
+
+2
+00:00:05,927 --> 00:00:10,436
+across 90 spaces in the GaroGurma office. Flow Compass helps every attendee cut through
+
+3
+00:00:10,436 --> 00:00:16,473
+the noise. A live banner displays, organizes updates right at the top, below flow picks
+
+4
+00:00:16,473 --> 00:00:21,564
+and learning paths through later sessions. Happening now and starting soon keeps you
+
+5
+00:00:21,564 --> 00:00:28,218
+anchored in real time. Open session for abstract speaker and venue landmark there. Every recommendation
+
+6
+00:00:28,218 --> 00:00:32,327
+explain why it was picked for you, no black box and linking. Queue tab help you to post
+
+7
+00:00:32,327 --> 00:00:36,836
+questions before talks begin, speakers see them queued. You can get to the questions
+
+8
+00:00:36,836 --> 00:00:40,982
+that matters most. Logistics brings you walk time, direction and app when you map to the
+
+9
+00:00:40,982 --> 00:00:47,291
+calendar one place. Mapping is being aware. It highlights room across the ground floor
+
+10
+00:00:47,327 --> 00:00:55,291
+and six through the sixth floor. It also show the nearest amenities. The flow answer campus
+
+11
+00:00:55,291 --> 00:01:01,327
+question in natural language. Ask what is happening now. It is done slide session card
+
+12
+00:01:01,327 --> 00:01:09,109
+with the citation of the event data. You can ask plan my day one. It will create a personalized
+
+13
+00:01:09,109 --> 00:01:15,327
+conflict free schedule. Add to my plan to save session instantly. My plans keep all
+
+14
+00:01:15,327 --> 00:01:21,200
+the bookmarked session in one place. It highlights the conflict. It store your private notes
+
+15
+00:01:21,200 --> 00:01:29,218
+across day one, day two, day three in your device. You type shows your interest, role
+
+16
+00:01:29,218 --> 00:01:35,400
+and networking QR card. Progress keep track of XP and prospect as you attend the session.
+
+17
+00:01:35,473 --> 00:01:44,745
+Include appearance, accessibilities, event day and notification related thing. No login is required
+
+18
+00:01:44,745 --> 00:01:53,618
+for now. Flow compass is explainable discovery, a powered question and answer campus navigation
+
+19
+00:01:53,618 --> 00:01:59,619
+built with a cursor by team ai-avengers. See you at Flow 2026.
+

@@ -1,0 +1,22 @@
+---
+description: nginx config guardrails for Flutter web SPA — try_files fallback, cache headers, CSP
+globs: docker/**
+alwaysApply: false
+---
+
+# Web Nginx Config (Flutter SPA + Static)
+
+## Why
+go_router uses browser history mode. Default nginx serves 404 on refresh at /session/:id.
+Custom nginx.conf must exist at docker/nginx/default.conf and be COPYed in Dockerfile.
+
+## Required behavior
+- try_files fallback to /index.html for any unknown path
+- Cache-Control: immutable, max-age=31536000 for /main.dart.js, /flutter.js, /canvaskit/*, /assets/*
+- Cache-Control: no-cache for /index.html
+- Content-Security-Policy header (see plan for policy)
+- gzip on for js/json/css/svg
+
+## Do not remove
+- Don't remove nginx.conf or the COPY line in Dockerfile
+- Don't change target port from 80 (ARM template expects it)

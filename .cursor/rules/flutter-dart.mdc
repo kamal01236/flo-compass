@@ -1,0 +1,31 @@
+---
+description: Flutter web conventions for ai-avengers hackathon app
+globs: lib/**/*.dart,test/**/*.dart
+alwaysApply: false
+---
+
+# Flutter / Dart
+
+- **Versions:** Flutter 3.44.0, Dart 3.10+; run `flutter pub get` after dependency changes
+- **Style:** `const` constructors, `StatelessWidget` by default, Material 3
+- **Theme:** Preserve starter palette — scaffold `0xFF0C0D12`, emerald accent gradient (`0xFF10B981` → `0xFF059669`), muted text `0xFFA1A1AA`
+- **State management:** Provider (chosen; do not introduce Riverpod or Bloc)
+
+## Suggested folder growth (flexible, not day-1 mandatory)
+
+```text
+lib/
+  main.dart
+  app.dart              # MaterialApp / theme (when main grows)
+  features/<name>/      # screens + widgets per feature
+  shared/               # reusable widgets, theme extensions
+  data/                 # repositories, API clients (only when backend exists)
+```
+
+## Web-first (WSL2)
+
+- Avoid mobile-only plugins unless they support web
+- Run Flutter only inside WSL2; dev server: `flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0` (reachable at `http://localhost:3000` from Windows)
+- Use `flutter run -d chrome` only when Chrome is available inside WSL
+- Run `flutter analyze` before large UI rewrites
+- Widget tests only when they cover real behavior; skip trivial assertions

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": ".cursor/hooks/plan-auto-continue.sh",
+        "matcher": "UserPromptSubmit"
+      },
+      {
+        "command": ".cursor/hooks/plan-lifecycle-reminder.sh",
+        "matcher": "UserPromptSubmit"
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/plan-auto-continue.sh",
+        "loop_limit": 5
+      },
+      {
+        "command": ".cursor/hooks/plan-lifecycle-reminder.sh"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": ".cursor/hooks/plan-auto-continue.sh",
+        "loop_limit": 3
+      }
+    ]
+  }
+}

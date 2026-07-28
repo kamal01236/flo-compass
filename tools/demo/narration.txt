@@ -1,0 +1,29 @@
+[SCENE 1]
+Welcome to Flo Compass, we'll show how it helps you discover, plan, and navigate over six hundred parallel sessions. A live banner surfaces organizer updates right at the top. Below Flo Picks, Learning Paths group related sessions, and live strips call out what's happening now and starting soon.
+
+[SCENE 2]
+Open any session for the abstract, speakers, and venue landmarks. Overview shows the pitch, tags, and your saved notes travel with the session.
+
+[SCENE 3]
+The Q and A tab lets attendees post questions ahead of time. Speakers see them queued, and you can react to what matters most.
+
+[SCENE 4]
+Logistics groups the walk time, directions, an in-app venue map, and add to calendar in one place. The venue map highlights your room across the ground floor and towers, with amenities close by.
+
+[SCENE 5]
+Ask Flo answers campus questions. What's happening now returns live cards with citations pulled from event data.
+
+[SCENE 6]
+Ask plan my Day one and Flo drafts a personalized track. Tap add to my plan to send any session straight to your saved list.
+
+[SCENE 7]
+My Plan holds your bookmarks, surfaces scheduling conflicts, and keeps your private notes in one offline view across Day one, two, and three.
+
+[SCENE 8]
+The You tab shows your interests and role, plus your networking QR card for instant business card exchange at Flo.
+
+[SCENE 9]
+Progress tracks XP, streaks, and track passports as you attend sessions. Settings adjust appearance, accessibility, event day mode, and notifications, all on device.
+
+[SCENE 10]
+Flo Compass, built with Cursor by team ai-avengers. See you at Flo twenty twenty-six.

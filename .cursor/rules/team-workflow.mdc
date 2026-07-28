@@ -1,0 +1,37 @@
+---
+description: ai-avengers team of 3 workflow — solo-driver + squad, branching, augmentation log
+alwaysApply: true
+---
+
+# Team Workflow (ai-avengers, 3 members)
+
+## Default model: solo-driver + squad
+- Lead Developer: primary Cursor driver
+- Data & Content QA: dataset, speakers, venues, a11y review
+- Ship & Story: deploy, README, augmentation log, video, demo backup
+
+## Branching
+- Short-lived branches; Ship owner merges to default after Tier 2 pass
+- One logical slice per commit message
+- Tag `demo-submission` on final submission commit
+
+## Augmentation log (one entry per completed run)
+Log **once** when a full plan execution finishes, all agents are idle, and WSL validation is done — not per phase or per turn. See `ai-augmentation.mdc`. A plan run is **not complete** until the entry exists.
+
+## Entry owner
+Lead Developer (or whoever ran the Cursor prompt) owns the entry; Ship & Story reviews completeness before MR. **MR / ship-branch gate:** do not open an MR for a plan branch until the augmentation-log entry exists.
+
+## Prompt hygiene
+- Reference relevant .mdc rules in every build prompt
+- Include "do not break docker/CI" when touching pubspec or docker files
+- Include "web-only" when adding packages
+
+## Review hygiene
+- Verify every cited file path exists (`Read`/`Grep`) before applying a diff
+- Verify package/SDK versions cited match `pubspec.lock`
+- Verify referenced route paths appear in `lib/routing/app_router.dart`
+- Verify dataset field names appear in `assets/data/schema/*.json`
+- Verify test counts claimed match `flutter test` output
+- If a suggestion touches a file listed in `parallel-agents.mdc` forbidden shared surface, treat as a serial-merge patch note
+- When `.cursor/rules/*.mdc` files are touched, verify catalog parity per `cursor-rules-catalog.mdc` (mdc count = slug.md count) before MR
+- Log every hallucination found during review in `augmentation-log.md` `Hallucinations` field, even when the overall `Outcome` is `accepted`

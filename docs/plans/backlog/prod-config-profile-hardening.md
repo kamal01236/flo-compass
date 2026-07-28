@@ -1,0 +1,15 @@
+# Production config profile hardening
+
+- **Status:** shortlisted
+- **Sprint 2 priority:** yes (child of [production-pipeline-bundle.md](production-pipeline-bundle.md))
+- **Implemented so far:** Approach step 2 is done — `_resolvePlatformRoleOverride` in [lib/core/config/runtime_config.dart](../../../lib/core/config/runtime_config.dart) now returns `null` outside the `dev` profile, so a stray `mockRole` cannot elevate a prod build.
+- **Remaining:** Flip `CONFIG_PROFILE` off `"dev"` in [.gitlab-ci.yml](../../../.gitlab-ci.yml) (Approach step 1), add the prod-config CI guard against populated `mockRole`/`platformRoleOverride`/allowlist fields (step 3), and remove the `platformRoleOverride` fallback entirely once real auth lands (step 4).
+- **Problem:** [`.gitlab-ci.yml`](../../../.gitlab-ci.yml) line 16 pins `CONFIG_PROFILE: "dev"`, which makes every default-branch build load [`assets/config/config.dev.json`](../../../assets/config/config.dev.json). That profile sets `platformRoles.mockRole: "admin"` and `featureFlags.companionLlm: true`, so any visitor to the deployed URL is elevated to `PlatformRole.admin` (via `RuntimeConfig.platformRoleOverride`) and unfinished companion-LLM surfaces render as if shipped. Auth is also disabled in every config today, so `mockRole` is the effective role gate. Shipping to prod without flipping this variable would expose organizer / admin moderation tools and Q&A curation to unauthenticated attendees.
+- **Approach:**
+  1. Flip the default CI `CONFIG_PROFILE` to `prod` and gate `dev` behind an opt-in demo pipeline variable so day-to-day production builds cannot silently pick up the demo profile.
+  2. Make `mockRole` a `dev`-only feature: in [`lib/core/config/runtime_config.dart`](../../../lib/core/config/runtime_config.dart) `_resolvePlatformRoleOverride`, hard-fail (assert / throw in debug, log-and-null in release) when `AppConfig.configProfile == 'prod'` and the profile still declares a `mockRole`.
+  3. Add a CI guardrail in `stage: validate` that fails the build when `assets/config/config.prod.json` contains any `mockRole`, `platformRoleOverride`, or `organizerAllowlist`/`adminAllowlist` entry populated with real identifiers — the prod profile must stay data-free until real auth is turned on.
+  4. Once real Azure AD login is configured (`AuthConfig.enabled = true` + tenantId/clientId/redirectUri set), remove the `platformRoleOverride` fallback entirely so role resolution flows only through claims + allowlists.
+- **Depends on:** Phase 1 auth refresh landed (this branch: real access + refresh tokens persisted via `LocalUserStore`, `AuthService.restoreSession` / `ensureFreshAccessToken` / one-shot 401 retry in `ApiClient`) so a real role source exists to replace `mockRole` once turned on.
+- **Promotion criteria:** Post-hackathon production cutover decision — product owner approves flipping default CI to `prod`; tenant + client IDs available; encrypted-storage backlog item (`encrypted-web-storage.md`) triaged; CI guardrail script written and reviewed.
+- **Future plan slug:** `prod-config-profile-hardening`

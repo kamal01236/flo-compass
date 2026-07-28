@@ -1,0 +1,116 @@
+[
+  {
+    "id": "trk-01",
+    "name": "AI & GenAI",
+    "description": "Agents, copilots, and enterprise AI operating models.",
+    "tags": [
+      "genai",
+      "llm_agents",
+      "responsible_ai",
+      "innovation"
+    ],
+    "color": "#10B981"
+  },
+  {
+    "id": "trk-02",
+    "name": "ML & Data",
+    "description": "MLOps, data contracts, and analytics modernization.",
+    "tags": [
+      "mlops",
+      "data_mesh",
+      "analytics",
+      "responsible_ai"
+    ],
+    "color": "#06B6D4"
+  },
+  {
+    "id": "trk-03",
+    "name": "Cloud & Platform",
+    "description": "Platform engineering, Kubernetes, and reliability.",
+    "tags": [
+      "cloud",
+      "kubernetes",
+      "platform_engineering",
+      "architecture"
+    ],
+    "color": "#6366F1"
+  },
+  {
+    "id": "trk-04",
+    "name": "Innovation & R&D",
+    "description": "Labs, prototypes, and emerging technologies in delivery.",
+    "tags": [
+      "innovation",
+      "emerging_tech",
+      "hackathon"
+    ],
+    "color": "#F59E0B"
+  },
+  {
+    "id": "trk-05",
+    "name": "Leadership & Culture",
+    "description": "Leading high-impact teams in modern enterprises.",
+    "tags": [
+      "leadership",
+      "culture",
+      "strategy"
+    ],
+    "color": "#EC4899"
+  },
+  {
+    "id": "trk-06",
+    "name": "CEO Vision & Strategy",
+    "description": "Board-level strategy and long-term value creation.",
+    "tags": [
+      "ceo_vision",
+      "strategy",
+      "leadership"
+    ],
+    "color": "#22C55E"
+  },
+  {
+    "id": "trk-07",
+    "name": "Client Delivery",
+    "description": "Consulting execution excellence across industries.",
+    "tags": [
+      "client_delivery",
+      "strategy",
+      "transformation"
+    ],
+    "color": "#EF4444"
+  },
+  {
+    "id": "trk-08",
+    "name": "Developer Experience",
+    "description": "Cursor workflows, APIs, and engineering productivity.",
+    "tags": [
+      "devex",
+      "cursor",
+      "apis",
+      "platform_engineering"
+    ],
+    "color": "#14B8A6"
+  },
+  {
+    "id": "trk-09",
+    "name": "Cybersecurity & Trust",
+    "description": "Secure AI and practical threat modeling for teams.",
+    "tags": [
+      "cybersecurity",
+      "responsible_ai",
+      "compliance"
+    ],
+    "color": "#8B5CF6"
+  },
+  {
+    "id": "trk-10",
+    "name": "Sustainability & ESG",
+    "description": "Green engineering and sustainability playbooks.",
+    "tags": [
+      "sustainability",
+      "innovation",
+      "leadership"
+    ],
+    "color": "#84CC16"
+  }
+]

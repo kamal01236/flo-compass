@@ -1,0 +1,10 @@
+{
+  "enabled": false,
+  "remind_on_prompt": true,
+  "remind_on_stop": true,
+  "auto_continue": false,
+  "auto_continue_max_loops": 5,
+  "auto_continue_on_stop": true,
+  "auto_continue_on_subagent_stop": true,
+  "auto_continue_context_on_prompt": true
+}

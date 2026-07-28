@@ -1,0 +1,23 @@
+{
+  "name": "flo-compass-demo-video",
+  "version": "3.1.2",
+  "private": true,
+  "description": "Automated 10-scene Playwright walkthrough of Flo Compass on local Tier 2 Docker (localhost:8080). v3.1: companion tour (cursor-only, real clicks, 2s pre-click hold), paint-gated narration, ffmpeg mux to hackathon-docs/video.mp4, 115-125s target.",
+  "type": "module",
+  "scripts": {
+    "check-server": "node scripts/check-server.mjs",
+    "tts": "node scripts/run-tts.mjs",
+    "calibrate": "node scripts/calibrate-clicks.mjs",
+    "record": "node walkthrough.mjs",
+    "build": "bash build_video.sh",
+    "all": "npm run check-server && npm run tts && npm run record && npm run build",
+    "print-ffmpeg": "node -e \"console.log(require('ffmpeg-static'))\"",
+    "print-ffprobe": "node -e \"console.log(require('ffprobe-static').path)\""
+  },
+  "devDependencies": {
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0",
+    "node-edge-tts": "^1.2.10",
+    "playwright": "^1.47.2"
+  }
+}

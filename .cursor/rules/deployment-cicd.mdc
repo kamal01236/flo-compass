@@ -1,0 +1,34 @@
+---
+description: Docker and GitLab CI deploy pipeline guardrails
+globs: docker/**,.gitlab-ci.yml,.dockerignore,pubspec.yaml
+alwaysApply: false
+---
+
+# Deployment & CI/CD
+
+## Production build path
+
+1. `flutter build web --release` (in Docker build stage)
+2. nginx serves `build/web` from `/usr/share/nginx/html`
+
+## Do not break
+
+- Base image: `ghcr.io/cirruslabs/flutter:3.44.0` in `docker/Dockerfile`
+- CI variable names in `.gitlab-ci.yml`: `DOCKER_REGISTRY`, Azure SP vars, `FOLDER_TO_ZIP: hackathon-docs`
+- Default-branch push triggers: Docker build → Azure Container Apps deploy → `hackathon-docs` blob upload
+
+## Config & secrets
+
+- Use `--dart-define` or runtime config JSON for env-specific values
+- Never hardcode secrets in Dart, Dockerfile, or CI files
+
+## Validate before pushing (local Tier 2 in WSL2)
+
+Pre-push smoke test only — production deploy still goes through GitLab CI + ARM template:
+
+```bash
+docker compose up --build
+# http://localhost:8080 — deep-link refresh: /session/s-001
+```
+
+Do not alter `docker/arm-template.json` or `.gitlab-ci.yml` for local WSL testing.

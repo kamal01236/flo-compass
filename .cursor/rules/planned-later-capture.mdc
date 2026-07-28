@@ -1,0 +1,25 @@
+---
+description: Capture deferred work in docs/plans/backlog instead of implementing on the active branch
+globs:
+alwaysApply: false
+---
+
+# Planned-Later Capture
+
+## Triggers
+
+When the user or plan says: "plan later", "backlog", "implement later", "not for now", "defer", or "out of scope for this sprint".
+
+## Action
+
+1. Create or append `docs/plans/backlog/<slug>.md` using the template in `docs/plans/backlog/README.md`
+2. Update `docs/plans/README.md` backlog index if new
+3. **Do not** implement the deferred scope on the current branch
+
+## Slug naming
+
+Use kebab-case matching the feature (e.g. `observability-sentry-logging.md`).
+
+## Promotion
+
+When work is ready, promote per `docs/plans/backlog/README.md` — create a `.cursor/plans/` child plan before coding.

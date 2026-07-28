@@ -1,0 +1,313 @@
+{
+  "viewport": {"width": 1920, "height": 1080},
+  "paintSettleMs": 300,
+  "cursorAnimMs": 350,
+  "clickRippleMs": 200,
+  "postClickMs": 60,
+  "holdBeforeSceneTransitionMs": 1500,
+  "internalActionSettleMs": 250,
+  "tabSettleMs": 450,
+  "extraHighlightMs": 0,
+  "companionResponseWaitMs": 500,
+  "bootUrl": "/discover?day=Day%201&sort=soonest",
+  "coords": {
+    "sessionTabBarY": 88,
+    "sessionOverviewX": 320,
+    "sessionLogisticsX": 960,
+    "sessionQaX": 1580,
+    "profileTabBarY": 128,
+    "profileYouX": 120,
+    "profileProgressX": 260,
+    "profileSettingsX": 410,
+    "mapButtonX": 820,
+    "mapButtonY": 820,
+    "shellAskFloX": 720,
+    "shellMyPlanX": 1200,
+    "shellProfileX": 1680,
+    "shellTabY": 1040,
+    "addToPlanX": 480,
+    "addToPlanY": 780
+  },
+  "scenes": [
+    {
+      "n": 1,
+      "url": "/discover?day=Day%201&sort=soonest",
+      "stages": [
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": {"x": 960, "y": 140, "label": "Live announcement banner"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.5,
+            "dy": 850,
+            "cy": 620,
+            "steps": 6,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {"kind": "none"}
+        },
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": {"x": 960, "y": 460, "label": "Learning Paths & Happening Now"},
+          "afterAction": {
+            "kind": "sceneTransition",
+            "x": 960,
+            "y": 580,
+            "label": "Open session card",
+            "real": true,
+            "holdMs": 1500,
+            "navigateAfter": "/session/s-001"
+          }
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "url": "/session/s-001",
+      "mergeDwellScenes": [2, 3, 4],
+      "stageNarrationWeights": [2, 1, 2, 1, 2, 2],
+      "stageDwellScene": [0, 0, 1, 1, 2, 2],
+      "stages": [
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": {"x": 960, "y": 420, "label": "Overview: abstract, tags, notes"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.45,
+            "dy": 500,
+            "cy": 620,
+            "steps": 5,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {"kind": "none"}
+        },
+        {
+          "beforeAction": {
+            "kind": "selectTabUrl",
+            "url": "/session/s-001?focus=qa",
+            "coord": "sessionQa",
+            "label": "Q&A tab"
+          },
+          "hoverAt": {"x": 960, "y": 420, "label": "Q&A prompts and questions"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.55,
+            "dy": 600,
+            "cy": 620,
+            "steps": 5,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {"kind": "none"}
+        },
+        {
+          "beforeAction": {
+            "kind": "selectTabUrl",
+            "url": "/session/s-001?focus=logistics",
+            "coord": "sessionLogistics",
+            "label": "Logistics tab"
+          },
+          "hoverAt": {"x": 960, "y": 460, "label": "Directions, Map, Add to calendar"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.45,
+            "dy": 550,
+            "cy": 620,
+            "steps": 5,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {
+            "kind": "clickAt",
+            "coord": "mapButton",
+            "label": "Map button",
+            "real": true,
+            "holdMs": 400,
+            "navigateAfter": "/map?room=ven-G01"
+          }
+        },
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": {"x": 960, "y": 460, "label": "Highlighted room ven-G01"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.5,
+            "dy": 500,
+            "cy": 620,
+            "steps": 5,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {
+            "kind": "sceneTransition",
+            "coord": "shellAskFlo",
+            "label": "Ask Flo tab",
+            "real": true,
+            "holdMs": 1500,
+            "navigateAfter": "/companion?q=What%27s%20happening%20now%3F"
+          }
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "url": "/session/s-001",
+      "stages": [{"beforeAction": {"kind": "none"}, "afterAction": {"kind": "none"}}]
+    },
+    {
+      "n": 4,
+      "url": "/session/s-001",
+      "stages": [{"beforeAction": {"kind": "none"}, "afterAction": {"kind": "none"}}]
+    },
+    {
+      "n": 5,
+      "url": "/companion?q=What%27s%20happening%20now%3F",
+      "specialWait": "companion-response",
+      "stages": [
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": {"x": 960, "y": 420, "label": "Live session cards with citations"},
+          "afterAction": {
+            "kind": "sceneTransition",
+            "x": 960,
+            "y": 900,
+            "label": "Next Ask Flo query",
+            "real": false,
+            "holdMs": 1500,
+            "navigateAfter": "/companion?q=Plan%20my%20Day%201",
+            "forceReload": true
+          }
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "url": "/companion?q=Plan%20my%20Day%201",
+      "specialWait": "companion-response",
+      "stages": [
+        {
+          "beforeAction": {
+            "kind": "navigate",
+            "url": "/companion?q=Plan%20my%20Day%201",
+            "forceReload": true
+          },
+          "hoverAt": {"x": 960, "y": 480, "label": "Day 1 plan draft"},
+          "afterAction": {
+            "kind": "clickAt",
+            "coord": "addToPlan",
+            "label": "Add to My Plan",
+            "real": true,
+            "holdMs": 500,
+            "navigateAfter": "/my-plan"
+          }
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "url": "/my-plan",
+      "stages": [
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": {"x": 960, "y": 460, "label": "Bookmarks, conflicts, notes, Day 1-3"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.55,
+            "dy": 600,
+            "cy": 620,
+            "steps": 5,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {
+            "kind": "sceneTransition",
+            "coord": "shellProfile",
+            "label": "Profile tab",
+            "real": true,
+            "holdMs": 1500,
+            "navigateAfter": "/profile"
+          }
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "url": "/profile",
+      "mergeDwellScenes": [8, 9],
+      "stageNarrationWeights": [2, 1, 2, 1, 2],
+      "stageDwellScene": [0, 0, 1, 1, 1],
+      "stages": [
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": {"x": 960, "y": 520, "label": "Interests, role, networking QR"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.45,
+            "dy": 400,
+            "cy": 620,
+            "steps": 4,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {"kind": "none"}
+        },
+        {
+          "beforeAction": {
+            "kind": "selectTabUrl",
+            "url": "/profile?tab=progress",
+            "coord": "profileProgress",
+            "label": "Progress tab"
+          },
+          "hoverAt": {"x": 960, "y": 460, "label": "XP, streaks, track passports"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.5,
+            "dy": 550,
+            "cy": 620,
+            "steps": 5,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {"kind": "none"}
+        },
+        {
+          "beforeAction": {
+            "kind": "selectTabUrl",
+            "url": "/profile?tab=settings",
+            "coord": "profileSettings",
+            "label": "Settings tab"
+          },
+          "hoverAt": {"x": 960, "y": 480, "label": "Appearance, accessibility, notifications"},
+          "midNarration": {
+            "kind": "scroll",
+            "atRatio": 0.55,
+            "dy": 500,
+            "cy": 620,
+            "steps": 5,
+            "settleMs": 250,
+            "pageDownFallback": true
+          },
+          "afterAction": {"kind": "none"}
+        }
+      ]
+    },
+    {
+      "n": 9,
+      "url": "/profile",
+      "stages": [{"beforeAction": {"kind": "none"}, "afterAction": {"kind": "none"}}]
+    },
+    {
+      "n": 10,
+      "url": "file:outro",
+      "stages": [
+        {
+          "beforeAction": {"kind": "none"},
+          "hoverAt": null,
+          "afterAction": {"kind": "none"}
+        }
+      ]
+    }
+  ]
+}

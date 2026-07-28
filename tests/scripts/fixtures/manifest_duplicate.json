@@ -1,0 +1,14 @@
+{
+  "name": "Flo Compass",
+  "short_name": "Flo",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Fixture with duplicate url entries",
+  "icons": [],
+  "shortcuts": [
+    { "name": "Home", "url": "/", "icons": [] },
+    { "name": "Home dup", "url": "/", "icons": [] }
+  ]
+}

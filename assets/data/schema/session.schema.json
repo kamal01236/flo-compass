@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-avengers.local/schema/session.schema.json",
+  "title": "Flo 2026 Session",
+  "description": "A single session in the Flo 2026 dataset at Nagarro Gurgaon Office.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "abstract",
+    "day",
+    "startTime",
+    "endTime",
+    "venueId",
+    "trackId",
+    "speakerIds",
+    "tags",
+    "format",
+    "level",
+    "featured",
+    "capacity",
+    "building"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^s-[0-9]{3,4}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "abstract": {
+      "type": "string",
+      "minLength": 250
+    },
+    "day": {
+      "type": "string",
+      "enum": ["Day 1", "Day 2", "Day 3"]
+    },
+    "startTime": {
+      "type": "string",
+      "pattern": "^(09|10|11|12|13|14|15|16):00$",
+      "description": "HH:mm — 12:00 is reserved for cafeteria lightning talks."
+    },
+    "endTime": {
+      "type": "string",
+      "pattern": "^(10|11|12|13|14|15|16|17):00$"
+    },
+    "venueId": {
+      "type": "string",
+      "pattern": "^ven-"
+    },
+    "trackId": {
+      "type": "string",
+      "pattern": "^trk-[0-9]{2}$"
+    },
+    "speakerIds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "string",
+        "pattern": "^spk-[0-9]{3}$"
+      },
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 2 },
+      "uniqueItems": true
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "Keynote",
+        "Panel",
+        "Fireside Chat",
+        "Workshop",
+        "Live Lab",
+        "Deep Dive",
+        "Masterclass",
+        "Playbook",
+        "Hands-on",
+        "AMA",
+        "Ignite",
+        "Showcase",
+        "Lightning Talk",
+        "Case Study",
+        "Roundtable",
+        "Demo",
+        "Executive Briefing"
+      ]
+    },
+    "level": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"]
+    },
+    "featured": { "type": "boolean" },
+    "capacity": { "type": "integer", "minimum": 5, "maximum": 1000 },
+    "attendeeInterestCount": { "type": "integer", "minimum": 0 },
+    "occupancyPercent": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "building": {
+      "type": "string",
+      "const": "Nagarro Gurgaon Office"
+    }
+  }
+}

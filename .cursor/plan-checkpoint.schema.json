@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flo-compass.local/.cursor/plan-checkpoint.schema.json",
+  "title": "Plan checkpoint",
+  "description": "Durable handoff state for long-running Cursor plan runs. Runtime file: .cursor/plan-checkpoint.json (git-excluded). Tracked example: .cursor/plan-checkpoint.example.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "plan",
+    "phase",
+    "done",
+    "remaining",
+    "auto_continue",
+    "continue_count",
+    "max_loops",
+    "updated_at"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1",
+      "description": "Schema version; bump when breaking fields change."
+    },
+    "plan": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short plan slug (e.g. enterprise-foundation-sprint)."
+    },
+    "plan_file": {
+      "type": "string",
+      "description": "Optional path to the active .plan.md file."
+    },
+    "branch": {
+      "type": "string",
+      "description": "Git branch executing the plan."
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Optional Cursor subagent id to resume via Task resume=."
+    },
+    "phase": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Current phase id (e.g. validation, phase-2b-config)."
+    },
+    "done": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Completed slice labels — do not redo."
+    },
+    "remaining": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Finish-only work left; empty means complete."
+    },
+    "auto_continue": {
+      "type": "boolean",
+      "description": "When true, stop/subagentStop hooks may emit followup_message."
+    },
+    "continue_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Auto-continue loops consumed this run."
+    },
+    "max_loops": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Cap auto-continue follow-ups (hook loop_limit should match)."
+    },
+    "last_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tier1": {
+          "type": "string",
+          "enum": ["pass", "fail", "unknown", "skip"]
+        },
+        "tier2": {
+          "type": "string",
+          "enum": ["pass", "fail", "unknown", "skip"]
+        },
+        "tests_passed": { "type": "integer", "minimum": 0 },
+        "tests_total": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Freeform context for the next agent turn."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp of last checkpoint write."
+    }
+  }
+}

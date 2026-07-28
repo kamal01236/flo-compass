@@ -1,0 +1,320 @@
+{
+  "@@locale": "en",
+  "tabDiscover": "Discover",
+  "tabCompanion": "Ask Flo",
+  "tabMeets": "Meets",
+  "tabMyPlan": "My Plan",
+  "tabProfile": "Profile",
+  "loading": "Loading…",
+  "retry": "Retry",
+  "emptyTitle": "Nothing here yet",
+  "consentTitle": "Privacy & data use",
+  "consentBody": "Flo Compass stores your plan, interests, and settings locally in your browser. We use this data to personalize session recommendations. Accelevents handles official registration — this app does not replace it.",
+  "consentAccept": "Accept and continue",
+  "consentDecline": "Decline",
+  "consentReadPolicy": "Read full privacy policy",
+  "consentRequiredTitle": "Consent required",
+  "consentRequiredBody": "You must accept the privacy policy to use Flo Compass. No personal data leaves your device without your consent.",
+  "consentOk": "OK",
+  "profileLogin": "Sign in",
+  "profileLogout": "Sign out",
+  "profileSignedInAs": "Signed in as {name}",
+  "@profileSignedInAs": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "profileScreenTitle": "Profile",
+  "profileTabYou": "You",
+  "profileTabProgress": "Progress",
+  "profileTabSettings": "Settings",
+  "profileTabOrganizer": "Organizer",
+  "profileTabAdmin": "Admin",
+  "profileMoreOptions": "More options",
+  "profileInstallApp": "Install app",
+  "profileInstallFallback": "Use your browser menu to install this app",
+  "localeLabel": "Language",
+  "localeEn": "English",
+  "localeDe": "Deutsch",
+  "localeEs": "Español",
+  "sendFeedback": "Send feedback",
+  "reportIssue": "Report issue",
+  "commonDismiss": "Dismiss",
+  "aboutVersion": "Version {version} ({build})",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {"type": "String"},
+      "build": {"type": "String"}
+    }
+  },
+  "accessibilityStatement": "Accessibility statement",
+  "offlineBanner": "You're offline — showing saved Flo 2026 data.",
+  "notificationsTitle": "Notifications",
+  "notificationsEmpty": "No upcoming alerts",
+  "notificationsEmptySubtitle": "Your saved sessions will appear here.",
+  "notificationsTooltip": "Notifications",
+  "notificationsBellLabelWithCount": "{count, plural, =0{No notifications} =1{Notifications, 1 alert} other{Notifications, {count} alerts}}",
+  "@notificationsBellLabelWithCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "notificationsRefreshAgenda": "Refresh agenda",
+  "notificationsDismiss": "Dismiss",
+  "authCompletingSignIn": "Completing sign-in…",
+  "authSignInFailed": "Sign-in could not be completed.",
+  "tourNowNextTitle": "See what's live",
+  "tourNowNextBody": "Your event clock — what's live and what's up next.",
+  "tourDiscoverTitle": "Search sessions",
+  "tourDiscoverBody": "Find talks by title, speaker, or topic. Filters and recommendations update as you type.",
+  "tourRecoReasonTitle": "Why we picked it",
+  "tourRecoReasonBody": "Every recommendation shows its reasoning — no black box.",
+  "tourSessionTitle": "Save to My Plan",
+  "tourSessionBody": "Bookmark sessions you want to attend. Your shortlist stays on this device — separate from Accelevents registration.",
+  "tourLogisticsTitle": "Open Logistics",
+  "tourLogisticsBody": "Venue details, walk times, and campus actions live here.",
+  "tourVenueMapTitle": "See it on the map",
+  "tourVenueMapBody": "Tap Map to view this room on the campus.",
+  "tourCompanionTitle": "Ask Flo",
+  "tourCompanionBody": "Sessions, restrooms, parking, clashes — try 'Where can I park my car?'",
+  "tourMyPlanTitle": "Your shortlist",
+  "tourMyPlanBody": "Review saved sessions, export your plan, and spot schedule conflicts before you head to a room.",
+  "tourNext": "Next",
+  "tourBack": "Back",
+  "tourSkip": "Skip tour",
+  "tourDone": "Done",
+  "replayTour": "Replay tour",
+  "tourStepOf": "Step {current} of {total}",
+  "@tourStepOf": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "onboardingWelcomeTitle": "Welcome to Flo Compass",
+  "onboardingEditTitle": "Update your interests",
+  "onboardingWelcomeBody": "Flo 2026 at Nagarro Gurgaon Office — ~640 sessions across 90 spaces (Ground + floors 6–13). We complement Accelevents by helping you choose what matters.",
+  "onboardingEditBody": "Adjust your role and interests — Discover rankings will update when you save.",
+  "onboardingRoleTitle": "Your role",
+  "onboardingAttendanceTitle": "How are you attending?",
+  "onboardingAttendanceHint": "Flo complements Accelevents. Remote mode hides walk directions on session detail and highlights stream-friendly sessions.",
+  "onboardingOnSite": "On-site at Gurgaon",
+  "onboardingRemote": "Remote / hub",
+  "onboardingInterestsTitle": "Pick 3–7 interests",
+  "onboardingInterestGroupAiData": "AI & Data",
+  "onboardingInterestGroupEngineering": "Engineering",
+  "onboardingInterestGroupStrategy": "Strategy",
+  "onboardingInterestGroupDomain": "Domain",
+  "onboardingInterestGroupCrossCutting": "Cross-cutting",
+  "onboardingSelectMin": "Select at least 3 interests",
+  "onboardingContinue": "Continue ({count}/7)",
+  "@onboardingContinue": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "onboardingSave": "Save changes ({count}/7)",
+  "@onboardingSave": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "onboardingRoleSemantic": "Role {label}",
+  "@onboardingRoleSemantic": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "onboardingInterestSemantic": "Interest {label}",
+  "@onboardingInterestSemantic": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "onboardingAttendanceSemantic": "Attendance mode",
+  "profileAppearanceSection": "Appearance and language",
+  "profileTheme": "Theme",
+  "profileThemeSubtitle": "Follow system, or override.",
+  "profileThemeSystem": "System",
+  "profileThemeLight": "Light",
+  "profileThemeDark": "Dark",
+  "profileThemeHighContrast": "High contrast",
+  "profileDyslexiaFont": "Dyslexia-friendly font",
+  "profileDyslexiaFontSubtitle": "OpenDyslexic (OFL) · adds ~120KB to download",
+  "profilePlainEnglish": "Plain English summaries",
+  "profilePlainEnglishSubtitle": "Short rule-based session summaries on Discover cards",
+  "profileEventExperienceSection": "Event experience",
+  "profileAttendanceMode": "Attendance mode",
+  "profileAttendanceModeSubtitle": "On-site or remote viewing.",
+  "profileAttendanceOnSite": "On-site",
+  "profileAttendanceRemote": "Remote",
+  "profileEventDayMode": "Event day mode",
+  "profileEventDayModeSubtitle": "Auto, on, or off for the Now/Next bar.",
+  "profileEventDayAuto": "Auto",
+  "profileEventDayOn": "On",
+  "profileEventDayOff": "Off",
+  "profileLowBandwidth": "Low bandwidth mode",
+  "profileLowBandwidthSubtitle": "Smaller images, no typing animation, list-only Discover.",
+  "profileNotificationsSection": "Notifications",
+  "profileAgendaChangeAlerts": "Agenda change alerts",
+  "profileAgendaChangeAlertsSubtitle": "In-app alerts for sessions in My Plan or from speakers you follow.",
+  "profileAgendaChangeAlertsDisabledSnack": "In-app agenda change alerts are off. Re-enable here when you want room, time, or cancellation updates.",
+  "profileAgendaChangePush": "Agenda change push",
+  "profileAgendaChangePushSubtitle": "Coming soon — browser push for agenda updates.",
+  "profileLeaveNowReminders": "Leave-now reminders",
+  "profileLeaveNowReminderUnsupported": "Not supported in this browser (e.g. iPhone Safari). In-app reminders still work.",
+  "profileLeaveNowReminderDenied": "Enable in browser settings to receive walk-time alerts with a 5 min buffer.",
+  "profileLeaveNowReminderEnabled": "Walk time plus 5 min buffer before planned sessions.",
+  "profileNotificationPermissionDeniedSnack": "Notification permission was not granted.",
+  "profileEnableBusinessCard": "Enable business card",
+  "profileDemoAccessTitle": "Demo access",
+  "profileDemoAccessBody": "Pick a mock user to preview organizer or admin tools.",
+  "profileDemoPlatformAccess": "Platform access: {label}{organizationLabel}",
+  "@profileDemoPlatformAccess": {
+    "placeholders": {
+      "label": {"type": "String"},
+      "organizationLabel": {"type": "String"}
+    }
+  },
+  "profileOpenOrganizerTab": "Open Organizer tab",
+  "profileOpenAdminTab": "Open Admin tab",
+  "profileSwitchUser": "Switch user",
+  "sessionLeaveNow": "Leave now",
+  "sessionAddToMyPlan": "Add to My Plan",
+  "sessionAddToPlan": "Add to plan",
+  "sessionJoinStream": "Join stream",
+  "sessionMarkAsAttended": "Mark as attended",
+  "sessionMarkAttended": "Mark attended",
+  "sessionInPlan": "In plan",
+  "sessionAdded": "Added",
+  "sessionAddToCalendar": "Add to calendar",
+  "sessionAddToCalendarTooltip": "Add to calendar",
+  "myPlanEmptyTitle": "Your shortlist is empty",
+  "myPlanEmptyMessage": "Bookmark sessions from Discover. This is a local plan — not the official Accelevents agenda.",
+  "myPlanBrowseSessions": "Browse sessions",
+  "myPlanAskFloDay1": "Ask Flo to build my Day 1",
+  "discoverEmptyFiltered": "No sessions match your filters",
+  "discoverEmptyFilteredHint": "Try clearing filters or broadening interests.",
+  "discoverHappeningNow": "Happening now",
+  "discoverStartingSoon": "Starting soon",
+  "floMeetsTitle": "Flo Meets",
+  "floMeetsDetailTitle": "Your Flo Meet",
+  "floMeetsEmptyTitle": "No matches yet",
+  "floMeetsEmptyBody": "When you're matched for a slot you selected, your meet will appear here.",
+  "floMeetsNotOptedInTitle": "Set up Flo Meets",
+  "floMeetsNotOptedInBody": "Add your matching preferences to join rooms and Connect with peers.",
+  "floMeetsEditPreferences": "Preferences",
+  "floMeetsSavePreferences": "Save",
+  "floMeetsSavingPreferences": "Saving…",
+  "floMeetsSetupTitle": "Set up Flo Meets",
+  "floMeetsSetupBody": "Pick when you're free and how you'd like to meet. You can change this anytime.",
+  "floMeetsSetupCta": "Set up preferences",
+  "floMeetsSignInTitle": "Sign in to use Flo Meets",
+  "floMeetsSignInBody": "Flo Meets matching is available to signed-in attendees. Set your preferences here after you sign in.",
+  "floMeetsSignInUnavailable": "Sign-in is not configured for this build.",
+  "floMeetsContinueWith": "Continue with Flo Meets",
+  "floMeetsSkipOptIn": "Skip Flo Meets for now",
+  "floMeetsViewMeets": "View meets",
+  "floMeetsNotFound": "Meet not found",
+  "floMeetsBackToList": "Back to meets",
+  "floMeetsPartnerNickname": "Nickname",
+  "floMeetsMeetLocation": "Where to meet",
+  "floMeetsContactField": "Contact",
+  "floMeetsMeetNote": "Note",
+  "floMeetsContactLine": "Contact: {value}",
+  "@floMeetsContactLine": {
+    "placeholders": {
+      "value": {"type": "String"}
+    }
+  },
+  "floMeetsOnboardingTitle": "Flo Meets",
+  "floMeetsOnboardingBody": "Meet people at Flo based on shared interests. Pick when you're free and where you'd like to meet.",
+  "floMeetsOptInLabel": "Join Flo Meets",
+  "floMeetsOptInHint": "Opt in to get matched with other authenticated attendees.",
+  "floMeetsOnboardingFooter": "You can update these anytime from Profile or Meets → Preferences.",
+  "meetNicknameLabel": "Meet nickname",
+  "meetNicknameHint": "3–20 characters",
+  "meetNicknameSuggest": "Suggest nickname",
+  "floMeetsIdentityTitle": "I identify as",
+  "floMeetsOpenToTitle": "Open to meet",
+  "floMeetsExperienceTitle": "Years of experience",
+  "floMeetsExperienceRequired": "Required for matching (±3 year band).",
+  "floMeetsExperienceYears": "years",
+  "floMeetsPurposeTitle": "Connection purpose",
+  "floMeetsPersonalInterestsTitle": "Personal interests",
+  "floMeetsPersonalityTitle": "Personality",
+  "floMeetsSlotsTitle": "Availability (pick at least one)",
+  "floMeetsSlotsHint": "Only the time slots you select here will be used for your Flo Meets.",
+  "floMeetsAmenityTitle": "Where to meet",
+  "floMeetsAmenityHint": "Pick a campus amenity",
+  "floMeetsContactMediumTitle": "Share contact (optional)",
+  "floMeetsContactNone": "None",
+  "floMeetsContactEmail": "Email from Networking Card",
+  "floMeetsContactPhone": "Phone from Networking Card",
+  "floMeetsContactLinkedin": "LinkedIn from Networking Card",
+  "floMeetsContactEmptyWarning": "Add this field in your Networking Card or clear your selection.",
+  "floMeetsMeetNoteTitle": "Meet note (optional)",
+  "floMeetsMeetNoteHint": "e.g. I'll be near registration in a blue jacket",
+  "floMeetsProfileOptedIn": "{count} slots selected",
+  "@floMeetsProfileOptedIn": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "floMeetsProfileSlotsReady": "{count} slots selected",
+  "@floMeetsProfileSlotsReady": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "floMeetsProfileOptedOut": "Preferences not set yet",
+  "floMeetsProfileSetupNeeded": "Set up preferences to join match rooms and Connect.",
+  "floMeetsProfileDescription": "Join match rooms, see match %, and Connect when both sides are ready.",
+  "floMeetsOpenOnCampusMap": "Open on campus map",
+  "floMeetsPreviewDemoMatch": "Preview demo match",
+  "floMeetsDiscoverChip": "Flo Meet at {time}",
+  "@floMeetsDiscoverChip": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "floMeetsHubRooms": "Rooms",
+  "floMeetsHubWaiting": "Waiting",
+  "floMeetsHubMatches": "Matches",
+  "floMeetsRoomsEmpty": "No published match rooms yet. Check back soon.",
+  "floMeetsWaitingEmpty": "No waiting connections. Connect with someone in a room to see them here.",
+  "floMeetsMatchesEmpty": "No matches yet. Connect in a room — a match appears when both sides Connect.",
+  "floMeetsJoinedBadge": "Joined",
+  "floMeetsOccupancy": "{current} / {capacity} people",
+  "@floMeetsOccupancy": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "capacity": {"type": "int"}
+    }
+  },
+  "floMeetsJoinRoom": "Join room",
+  "floMeetsLeaveRoom": "Leave room",
+  "floMeetsRoomFull": "This room is full",
+  "floMeetsRoomNotFound": "Room not found",
+  "floMeetsBackToHub": "Back to Meets",
+  "floMeetsBackToRoom": "Back to room",
+  "floMeetsPeopleInRoom": "People in this room",
+  "floMeetsNoPeopleInRoom": "No one else in this room yet.",
+  "floMeetsMatchPercent": "{percent}% match",
+  "@floMeetsMatchPercent": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "floMeetsMatchWindowTitle": "Match window",
+  "floMeetsPartnerNotFound": "Partner not found in this room",
+  "floMeetsOverlapTitle": "Shared interests",
+  "floMeetsConnectCta": "Connect",
+  "floMeetsConnecting": "Connecting…",
+  "floMeetsWaitingForThem": "Waiting for them…",
+  "floMeetsMatchedLabel": "Matched",
+  "floMeetsMatchedContinue": "View meet details",
+  "floMeetsOpenConnectShare": "Open Connect share",
+  "consentFloMeetsBody": "Flo Meets stores your meet nickname, chosen amenity meet point, slot preferences, and an optional single contact field from your Networking Card locally for peer matching. You can update preferences anytime from Profile or Meets.",
+  "consentFloMeetsBullet": "Flo Meets uses nickname-only reveal — not your legal name or session interests."
+}

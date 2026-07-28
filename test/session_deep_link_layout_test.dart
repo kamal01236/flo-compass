@@ -1,0 +1,296 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flo_compass/data/models/models.dart';
+import 'package:flo_compass/data/models/user_profile.dart';
+import 'package:flo_compass/data/services/event_clock_service.dart';
+import 'package:flo_compass/features/session_detail/session_detail_screen.dart';
+import 'package:flo_compass/providers/app_settings_provider.dart';
+import 'package:flo_compass/providers/engagement_provider.dart';
+import 'package:flo_compass/providers/event_provider.dart';
+import 'package:flo_compass/providers/plan_provider.dart';
+import 'package:flo_compass/providers/profile_provider.dart';
+import 'package:flo_compass/providers/consent_provider.dart';
+import 'package:flo_compass/routing/app_router.dart';
+import 'package:flo_compass/shared/a11y/keyboard_shortcuts.dart';
+import 'package:flo_compass/shared/a11y/route_announcer.dart';
+import 'package:flo_compass/shared/widgets/pwa_install_coordinator.dart';
+import 'support/consent_test_helpers.dart';
+import 'support/test_agenda_alerts_provider.dart';
+import 'support/test_localizations.dart';
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  late ProfileState profile;
+  late EventState event;
+  late PlanState plan;
+  late AppSettingsState appSettings;
+  late EngagementState engagement;
+  late ConsentState consent;
+
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+
+    consent = await acceptedConsentState();
+
+    profile = ProfileState(prefs: prefs);
+    profile.profile = const UserProfile(
+      role: AttendeeRole.engineer,
+      interests: ['genai'],
+      onboardingComplete: true,
+    );
+
+    event = EventState(
+      eventClockService: EventClockService(
+        clock: () => DateTime(2026, 11, 4, 10, 30),
+      ),
+    );
+    event.loading = false;
+    event.sessions = [
+      const Session(
+        id: 's-001',
+        title: 'CEO Keynote',
+        abstract: 'a',
+        day: 'Day 1',
+        startTime: '10:00',
+        endTime: '11:00',
+        venueId: 'ven-7N1',
+        trackId: 'trk-01',
+        speakerIds: ['spk-001'],
+        tags: ['genai'],
+        format: 'Keynote',
+        level: 'beginner',
+        featured: true,
+        capacity: 100,
+        building: 'Nagarro Gurgaon Office',
+        occupancyPercent: 85,
+      ),
+    ];
+    event.venues = [
+      const Venue(
+        id: 'ven-7N1',
+        name: 'Floor 7 North Pod 1',
+        floor: '7',
+        zone: 'Sitting Area',
+        wing: 'N',
+        capacity: 25,
+        building: 'Nagarro Gurgaon Office',
+      ),
+    ];
+    event.tracks = [
+      const Track(
+        id: 'trk-01',
+        name: 'GenAI',
+        tags: ['genai'],
+        color: '#10B981',
+      ),
+    ];
+    event.speakers = [
+      const Speaker(
+        id: 'spk-001',
+        name: 'Alex Chen',
+        title: 'CTO',
+        bio: 'Bio',
+        photoAsset: 'assets/images/speakers/spk-001.png',
+        tier: 1,
+      ),
+    ];
+
+    plan = PlanState(prefs: prefs);
+    await plan.init();
+    appSettings = AppSettingsState(prefs: prefs);
+    await appSettings.init();
+    engagement = EngagementState(prefs: prefs);
+    await engagement.init();
+  });
+
+  tearDown(() {
+    event.dispose();
+  });
+
+  Widget pumpShellApp(GoRouter router) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: profile),
+        ChangeNotifierProvider.value(value: event),
+        ChangeNotifierProvider.value(value: plan),
+        ChangeNotifierProvider.value(value: appSettings),
+        testAgendaAlertsProvider(),
+        ChangeNotifierProvider.value(value: engagement),
+        ChangeNotifierProvider.value(value: consent),
+      ],
+      child: MaterialApp.router(
+        routerConfig: router,
+        localizationsDelegates: testLocalizationDelegates,
+        supportedLocales: testSupportedLocales,
+        builder: (context, child) {
+          return PwaInstallCoordinator(
+            router: router,
+            child: KeyboardShortcuts(
+              child: RouteAnnouncer(
+                router: router,
+                child: child ?? const SizedBox.shrink(),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  testWidgets('/session/s-001 layout at desktop width with app shell', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(1400, 900));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    final router = createAppRouter(profile, consentState: consent);
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(pumpShellApp(router));
+    router.go('/session/s-001');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(SessionDetailScreen), findsOneWidget);
+    expect(find.text('CEO Keynote'), findsWidgets);
+    expect(find.byType(NavigationBar), findsOneWidget);
+    expect(find.text('Overview'), findsOneWidget);
+    expect(find.text('Logistics'), findsOneWidget);
+    expect(find.text('Q&A'), findsOneWidget);
+  });
+
+  testWidgets('session detail shows capacity label and tabs on narrow', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(400, 800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    final router = createAppRouter(profile, consentState: consent);
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(pumpShellApp(router));
+    router.go('/session/s-001');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(tester.takeException(), isNull);
+    expect(find.text('Add to My Plan'), findsOneWidget);
+    expect(find.text('Overview'), findsOneWidget);
+    expect(find.text('Filling fast'), findsWidgets);
+  });
+
+  testWidgets('plan conflict banner when overlapping session planned', (
+    tester,
+  ) async {
+    event.sessions.add(
+      const Session(
+        id: 's-overlap',
+        title: 'Overlap Session',
+        abstract: 'b',
+        day: 'Day 1',
+        startTime: '10:30',
+        endTime: '11:30',
+        venueId: 'ven-7N1',
+        trackId: 'trk-01',
+        speakerIds: [],
+        tags: ['genai'],
+        format: 'Panel',
+        level: 'beginner',
+        featured: false,
+        capacity: 50,
+        building: 'Nagarro Gurgaon Office',
+        occupancyPercent: 60,
+      ),
+    );
+    await plan.toggle('s-overlap');
+
+    await tester.binding.setSurfaceSize(const Size(1400, 900));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    final router = createAppRouter(profile, consentState: consent);
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(pumpShellApp(router));
+    router.go('/session/s-001');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    await tester.tap(find.text('Logistics'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.textContaining('Overlaps with'), findsOneWidget);
+  });
+
+  testWidgets('/discover reload layout at desktop width has no exception', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(1400, 900));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    final router = createAppRouter(profile, consentState: consent);
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(pumpShellApp(router));
+    router.go('/discover');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(NavigationBar), findsOneWidget);
+  });
+
+  testWidgets('remote profile hides directions and shows stream card', (
+    tester,
+  ) async {
+    profile.profile = const UserProfile(
+      role: AttendeeRole.engineer,
+      interests: ['genai'],
+      onboardingComplete: true,
+      attendanceMode: AttendanceMode.remote,
+    );
+    await plan.toggle('s-001');
+
+    await tester.binding.setSurfaceSize(const Size(1400, 900));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    final router = createAppRouter(profile, consentState: consent);
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(pumpShellApp(router));
+    router.go('/session/s-001');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    await tester.tap(find.text('Logistics'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.text('Directions'), findsNothing);
+    expect(find.text('Map'), findsNothing);
+    expect(find.text('Join demo stream'), findsWidgets);
+  });
+
+  testWidgets('session detail shows LIVE badge when session is live', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(400, 800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    final router = createAppRouter(profile, consentState: consent);
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(pumpShellApp(router));
+    router.go('/session/s-001');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+
+    expect(find.text('LIVE'), findsWidgets);
+  });
+}

@@ -1,0 +1,9 @@
+# Local Tier 2 only — serve WSL-built artifacts (see scripts/wsl_deploy.sh).
+# Production CI uses docker/Dockerfile (full Flutter build inside the image).
+FROM nginx:alpine
+
+COPY build/web /usr/share/nginx/html
+COPY docker/nginx/snippets/ /etc/nginx/snippets/
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80

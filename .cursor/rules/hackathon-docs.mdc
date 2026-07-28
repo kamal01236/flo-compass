@@ -1,0 +1,41 @@
+---
+description: Mandatory hackathon deliverable documentation standards
+globs: hackathon-docs/**
+alwaysApply: false
+---
+
+# Hackathon Deliverables
+
+Folder name is **`hackathon-docs`** per hackathon spec. A legacy folder-name typo (missing the second **a**) is deprecated — do not use misspelled paths in CI or docs.
+
+## Required files (exact names)
+
+| File | Purpose |
+|------|---------|
+| `HACKATHON-README.md` | Usage, setup, architecture, Cursor usage (judging) |
+| `augmentation-log.md` | **Mandatory** AI usage log on every completed plan run (not optional prose) |
+| `video.mp4` | Demo video (2 minutes max, with voice track) |
+
+## HACKATHON-README
+
+- Fill from `HACKATHON-README-template.md`
+- **Section 5** must list every `.cursor/rules/*.mdc` file and its purpose (compact table + link)
+- **Canonical catalog:** `hackathon-docs/cursor-rules/README.md` — per-rule summaries; maintain via `cursor-rules-catalog.mdc`
+- Document demo steps, architecture, and Cursor corrections (hallucinations / rejected suggestions)
+
+## augmentation-log.md
+
+**Mandatory on plan completion** — every implementing or plan-only run must append exactly one entry before the run is reported done (`ai-augmentation.mdc`). One entry per completed plan run covering the five judging dimensions:
+
+1. **Attempted** - what participants tried to do with Cursor
+2. **Cursor did** - how Cursor responded (first-pass + iterations)
+3. **Accepted / Modified / Rejected** - what was kept, tweaked, or discarded
+4. **Hallucinations** - incorrect suggestions identified (category-tagged; default `none`)
+5. **Steering / Correction** - how the team guided or fixed the AI
+
+See `ai-augmentation.mdc` for the full template. Do not log per phase.
+
+## Safety
+
+- No real secrets, tokens, or personal attendee data in docs
+- Demo credentials: fake/sample data only

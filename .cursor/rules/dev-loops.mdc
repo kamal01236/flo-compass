@@ -1,0 +1,43 @@
+---
+description: Four-tier dev loop time budgets and script matrix; keep Docker out of the inner loop
+alwaysApply: true
+---
+
+# Dev Loops
+
+Keep the inner loop fast so agents iterate on real behavior instead of waiting on Docker or full builds. Each tier has an explicit time budget and script.
+
+| Tier | Budget | Purpose | WSL script | Windows launcher |
+|------|--------|---------|------------|------------------|
+| **Fast** | **< 15s** | Unit + shared widget sanity while editing | `flutter test test/data test/shared` | (run from WSL) |
+| **Feature** | **< 90s** cold, **< 15s** warm | Full analyze + test + dev server on :3000 | `bash scripts/wsl_dev.sh` | `dev-local.cmd` / `dev-local.ps1` |
+| **Pre-push** | **< 15m** | Tier 1 + `flutter build web` + docker/nginx :8080 + deep-link smoke + coverage gate | `bash scripts/wsl_deploy.sh` | `deploy-local.cmd` / `deploy-local.ps1` |
+| **Ship** | **< 15m** | Tier 1 + Tier 2 smoke (teardown) + push + GitLab MR to `main` | `bash scripts/wsl_ship_branch.sh` | `ship-branch.cmd` / `ship-branch.ps1` |
+| **CI** | ≤ pipeline SLA | GitLab CI Docker build + Azure ARM deploy | (not local) | (default-branch push) |
+
+## Rules
+
+- **Docker is forbidden in the Fast and Feature tiers.** Use the Flutter dev server on :3000 for UI iteration.
+- **Coverage gate lives in the Pre-push tier** — `scripts/wsl_coverage.sh` runs `flutter test --coverage` and enforces (calibrated to 2026-07-10 baseline, aspirational targets in parens):
+  - `lib/data/services/**` line coverage `>= 60%` (aspirational 70%)
+  - `lib/shared/utils/**`  line coverage `>= 60%` (already at ~74%)
+  - `lib/**` (overall)     line coverage `>= 45%` (aspirational 50%)
+  - Override via env vars (`SERVICES_THRESHOLD=70 ...`) or edit the script when tests catch up.
+  - CI runs the same script under stage `coverage` (`allow_failure: true` until baseline reaches the aspirational numbers).
+- Prefer `dev-local.cmd` when only iterating; run `deploy-local.cmd` only before commit / push or after routing/deploy changes.
+- Run `ship-branch.cmd` when commits are ready for review (Tier 1 + Tier 2 + push + MR); it tears down Docker unlike `deploy-local`.
+- If the Fast tier exceeds 15s, narrow the test scope; do not silently move to the Feature tier.
+- If the Pre-push tier exceeds 15m, split the change or defer non-essential work to the next branch.
+
+## Time budgets are a signal
+
+- **Fast tier > 15s** → excessive service-test setup or async wait; extract test doubles.
+- **Feature tier > 90s cold** → oversized `flutter pub get` or asset regen; check for stale caches or wide `pub upgrade`.
+- **Pre-push tier > 15m** → Docker cache miss or missing `docker pull` warmup; check `scripts/wsl_deploy.sh` prewarm.
+
+## Cross-reference
+
+- `dev-local.cmd` → `scripts/wsl_dev.sh` (Tier 1 + Flutter dev server)
+- `deploy-local.cmd` → `scripts/wsl_deploy.sh` (Tier 2 + coverage gate; leaves Docker running)
+- `ship-branch.cmd` → `scripts/wsl_ship_branch.sh` (Tier 1 + Tier 2 smoke + push + MR; tears down Docker)
+- Shared helpers live in `scripts/wsl_common.sh`

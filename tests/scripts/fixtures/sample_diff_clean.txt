@@ -1,0 +1,8 @@
+diff --git a/lib/pages/hello.dart b/lib/pages/hello.dart
+index 0000000..1111111 100644
+--- a/lib/pages/hello.dart
++++ b/lib/pages/hello.dart
+@@ -1,3 +1,4 @@
+ class Hello {
++  static const greeting = "hi";
+ }

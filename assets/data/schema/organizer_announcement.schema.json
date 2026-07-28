@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-avengers.local/schema/organizer_announcement.schema.json",
+  "title": "Flo Compass organizer announcement overlay",
+  "type": "object",
+  "required": ["id", "title", "body", "status", "createdAt"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "body": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "published", "archived"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "createdBy": {
+      "$ref": "_audit_actor.schema.json#/$defs/AuditActor"
+    },
+    "updatedBy": {
+      "$ref": "_audit_actor.schema.json#/$defs/AuditActor"
+    },
+    "publishedBy": {
+      "$ref": "_audit_actor.schema.json#/$defs/AuditActor"
+    }
+  }
+}

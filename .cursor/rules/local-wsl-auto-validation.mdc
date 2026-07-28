@@ -1,0 +1,84 @@
+---
+description: After code changes, auto-run WSL Tier 1/2 validation; defer augmentation log until plan completes
+alwaysApply: true
+---
+
+# Local WSL Auto-Validation
+
+After every turn that edits `lib/**`, `test/**`, `web/**`, `docker/**`, `pubspec.yaml`, or `assets/data/**`, **run validation in WSL** before marking work complete. **Do not** write augmentation-log entries until the full plan run finishes (`ai-augmentation.mdc`).
+
+## Command matrix
+
+| Trigger | WSL commands |
+|---------|----------------|
+| Any code/data change | `flutter pub get && flutter analyze && flutter test` |
+| UI, routing, or feature slice | + `bash scripts/wsl_dev.sh` (background); smoke `http://localhost:3000/` |
+| docker/nginx/pubspec/deploy | Tier 2: `bash scripts/wsl_deploy.sh`; verify `/` and `/session/s-001` refresh |
+| End of plan run / before push | Tier 1 green **and** Tier 2 green **and** coverage gate green |
+
+Windows host prefix: `wsl -e bash -lc 'cd /mnt/c/Nagarro/ai-avengers && <cmd>'`
+
+## Plan compliance (accumulate, log once at end)
+
+Compare completed scope against the active plan in `.cursor/plans/*.plan.md` (prefer v5 uplift or current v6 slice). Track (do not log yet):
+- Plan todos still pending after the run
+- Violations of `flo-compass-product.mdc`, web-only, mock-first, or deep-link guardrails
+- Missing tests, a11y, or docs the plan requires
+
+## On pass or fail
+
+1. **Fix blockers** in the same turn when feasible (analyze errors, failing tests, 404 deep links).
+2. **Hold results** for the single batched augmentation entry: Tier 1/2 status, smoke notes, plan gaps, corrections.
+3. **Do not report plan/run as complete** to the user until the augmentation-log entry is written (implementation) or drafted (plan-only). Write the entry only after all agents stop and the requested plan scope is complete (`ai-augmentation.mdc`).
+
+## Skip validation only when
+
+- Read-only Q&A with zero file edits
+- Pure `hackathon-docs/` prose with no code/data impact
+
+## Do not
+
+- Claim a plan run is done without final Tier 1 at minimum
+- Claim a plan run is done without an augmentation-log entry (`ai-augmentation.mdc`)
+- Skip Tier 2 after docker/nginx/routing changes or before push
+- Log augmentation entries per phase or per validation step
+- Run `flutter`/`docker` from PowerShell as the primary workflow
+- Change ARM/CI for local convenience (`wsl2-development.mdc`)
+
+---
+
+## Tier reference (manual and CI deploy checks)
+
+**Tier 1 & Tier 2** run inside WSL2 for local testing. Open URLs from the Windows browser at `http://localhost:<port>`.
+
+**Tier 3 (production)** is unchanged: GitLab CI builds the Docker image and deploys via `docker/arm-template.json` to Azure Container Apps. WSL is not part of the production deploy path.
+
+### Tier 1 — Flutter dev (every UI change, WSL)
+
+```bash
+flutter pub get && flutter analyze && flutter test && dart format --set-exit-if-changed .
+flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0
+# Or: bash scripts/wsl_dev.sh
+# Verify http://localhost:3000/
+```
+
+### Tier 2 — Docker local smoke (before every push to default, WSL)
+
+```bash
+docker compose up --build
+# Or: bash scripts/wsl_deploy.sh
+# Verify http://localhost:8080/ AND http://localhost:8080/session/s-001 (deep link refresh)
+```
+
+### Tier 3 — Azure ARM (production — after push to default branch)
+
+- **Not WSL** — triggered by GitLab CI on default-branch push
+- `build_and_deploy` uses `docker/arm-template.json` (do not change for WSL)
+- Container App: external HTTPS ingress, `targetPort` 80, startup probe `GET /`
+- Confirm pipeline prints: `Deployed to https://{fqdn}`
+- Deep-link test: hit `https://{fqdn}/session/s-001` directly (browser refresh) — must NOT 404
+- Stage 2 uploads `hackathon-docs/` to blob storage
+
+### Parity rule
+
+What works in Tier 1 must work in Tier 2. Tier 3 uses the **same `docker/Dockerfile` image** built by CI — WSL Tier 2 only validates that image locally before push.

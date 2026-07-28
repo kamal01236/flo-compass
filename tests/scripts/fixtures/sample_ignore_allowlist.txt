@@ -1,0 +1,6 @@
+# Sample allowlist for scan_secrets — one regex per line.
+# Blank lines and `#` comments are ignored.
+
+# Allowlist the exact fake key used in sample_diff_with_secret.txt so we can
+# verify the allowlist path independently of the regex path.
+AKIA0123456789ABCDEF

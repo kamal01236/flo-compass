@@ -1,0 +1,8 @@
+// Fixture — duplicate GoRoute paths for grep_guardrails test (not valid standalone Dart)
+import 'package:go_router/go_router.dart';
+import 'package:flutter/widgets.dart';
+
+final routes = [
+  GoRoute(path: '/home', builder: (c, s) => const SizedBox()),
+  GoRoute(path: '/home', builder: (c, s) => const SizedBox()),
+];
