@@ -30,4 +30,4 @@ Pre-accept checks for any Cursor-produced code, rule, or plan edit. Cite `@ai-ve
 
 - `parallel-agents.mdc` — forbidden shared files and serial-merge protocol
 - `flo-compass-data.mdc` — dataset topology and session-count guardrails
-- `deployment-cicd.mdc` — GHCR / Fly.io deploy path
+- `deployment-cicd.mdc` — GitHub Pages static deploy path (Asset OS pattern)

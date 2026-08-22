@@ -8,7 +8,7 @@ alwaysApply: true
 - **Product:** Flo Compass — event companion for session discovery, My Plan, and AI Q&A (see `flo-compass-product.mdc`)
 - **Stack:** Flutter 3.44.0 web, Dart 3.10+, Material 3, Docker/nginx
 - **Local dev:** Ubuntu 24.04 WSL2 — see `wsl2-development.mdc`
-- **Production:** GitHub Actions → GHCR image → Fly.io (`fly.toml`, `.github/workflows/ci-deploy.yml`)
+- **Production:** GitHub Actions → static GitHub Pages (`https://kamal01236.github.io/flo-compass/`, Asset OS pattern)
 
 ## Shipping style
 

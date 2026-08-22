@@ -13,7 +13,7 @@ Keep the inner loop fast so agents iterate on real behavior instead of waiting o
 | **Feature** | **< 90s** cold, **< 15s** warm | Full analyze + test + dev server on :3000 | `bash scripts/wsl_dev.sh` | `dev-local.cmd` / `dev-local.ps1` |
 | **Pre-push** | **< 15m** | Tier 1 + `flutter build web` + docker/nginx :8080 + deep-link smoke + coverage gate | `bash scripts/wsl_deploy.sh` | `deploy-local.cmd` / `deploy-local.ps1` |
 | **Ship** | **< 15m** | Tier 1 + Tier 2 smoke (teardown) + push + GitHub PR to `main` | `bash scripts/wsl_ship_branch.sh` | `ship-branch.cmd` / `ship-branch.ps1` |
-| **CI** | ≤ pipeline SLA | GitHub Actions → GHCR → Fly.io | (not local) | (default-branch push) |
+| **CI** | ≤ pipeline SLA | GitHub Actions → GitHub Pages (static) | (not local) | (default-branch push) |
 
 ## Rules
 

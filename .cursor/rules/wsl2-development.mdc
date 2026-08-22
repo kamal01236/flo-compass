@@ -1,11 +1,11 @@
 ---
-description: WSL2 local dev and local Docker smoke — production is GitHub Actions + Fly.io
+description: WSL2 local dev and local Docker smoke — production is GitHub Actions → GitHub Pages
 alwaysApply: true
 ---
 
 # WSL2 Local Development (mandatory for dev)
 
-WSL2 is for **local development and local deployment testing only** (Tier 1 & Tier 2). Production deploy is GitHub Actions → GHCR → Fly.io.
+WSL2 is for **local development and local deployment testing only** (Tier 1 & Tier 2). Production deploy is GitHub Actions → static GitHub Pages (Asset OS pattern).
 
 ## Environment (local only)
 
@@ -35,14 +35,14 @@ WSL2 is for **local development and local deployment testing only** (Tier 1 & Ti
 flutter pub get && flutter analyze && flutter test
 flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0
 
-# Tier 2 — local container smoke (same Dockerfile family as CI)
+# Tier 2 — local container smoke (Docker is not production hosting)
 docker compose up --build
 # Verify http://localhost:8080/ AND http://localhost:8080/session/s-001
 ```
 
 ## Do not
 
-- Treat `docker-compose.yml` as the production deploy path — GitHub Actions + Fly.io remain authoritative
+- Treat `docker-compose.yml` as the production deploy path — GitHub Actions → GitHub Pages remain authoritative
 - Run `flutter`, `dart`, or `docker` from PowerShell/CMD as the primary workflow
 - Document or rely on Docker Desktop for Windows
 - Use host-only bindings that block WSL2 → Windows localhost forwarding

@@ -1,35 +1,43 @@
 ---
-description: Docker and GitHub Actions → GHCR → Fly.io deploy guardrails
-globs: docker/**,.github/workflows/**,fly.toml,.dockerignore,pubspec.yaml
+description: GitHub Actions → static GitHub Pages deploy (Asset OS pattern); Docker for local Tier 2
+globs: docker/**,.github/workflows/**,fly.toml,.dockerignore,pubspec.yaml,web/index.html
 alwaysApply: false
 ---
 
 # Deployment & CI/CD
 
-## Production build path
+## Production build path (GitHub Pages)
 
-1. `flutter build web --release` (in `docker/Dockerfile` build stage)
-2. nginx serves `build/web` from `/usr/share/nginx/html`
-3. GitHub Actions pushes the image to GHCR, then `flyctl deploy --image` to Fly.io
+Same pattern as `kamal01236/asset-os`:
+
+1. `flutter build web --release --base-href /flo-compass/ --pwa-strategy=none --no-web-resources-cdn`
+2. `CONFIG_PROFILE=prod` and `BUILD_SHA` via `--dart-define`
+3. `cp build/web/index.html build/web/404.html` (Pages has no nginx `try_files`)
+4. `actions/upload-pages-artifact` + `actions/deploy-pages`
+5. Public URL: `https://kamal01236.github.io/flo-compass/`
 
 ## Do not break
 
+- `web/index.html` must keep `<base href="$FLUTTER_BASE_HREF">` (not a hardcoded `/`)
+- Flutter pin **3.44.0** in the workflow (and in `docker/Dockerfile` for local Tier 2)
+- Production `CONFIG_PROFILE=prod` in CI
+- Pages source must stay **GitHub Actions** (Settings → Pages)
+
+## Local Tier 2 (Docker / nginx)
+
 - Base image: `ghcr.io/cirruslabs/flutter:3.44.0` in `docker/Dockerfile`
 - nginx SPA `try_files` fallback (`docker/nginx/default.conf`) — deep-link refresh must not 404
-- Production `CONFIG_PROFILE=prod` (set in workflow + `fly.toml` build args)
-- Container listens on port **80** (`fly.toml` `internal_port`)
-
-## Config & secrets
-
-- Use `--dart-define` or runtime config JSON for env-specific values
-- Never hardcode secrets in Dart, Dockerfile, or workflow files
-- Reference GitHub Actions secrets by **name** only (`FLY_API_TOKEN`, etc.)
-
-## Validate before pushing (local Tier 2 in WSL2)
+- Container listens on port **80** (local compose / optional Fly)
 
 ```bash
 docker compose up --build
 # http://localhost:8080 — deep-link refresh: /session/s-001
 ```
 
-Local compose is smoke-only; production is GitHub Actions + Fly.io.
+Local compose is smoke-only; **production is GitHub Actions → GitHub Pages**.
+
+## Config & secrets
+
+- Use `--dart-define` or runtime config JSON for env-specific values
+- Never hardcode secrets in Dart, Dockerfile, or workflow files
+- Pages deploy needs no Fly/registry secrets; do not reintroduce token-gated deploys as the only path
