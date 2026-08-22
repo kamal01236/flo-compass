@@ -1,13 +1,11 @@
 # Deploy Flo Compass Flutter web as static GitHub Pages (Asset OS pattern).
 # Site: https://kamal01236.github.io/flo-compass/
 #
-# Prerequisites (both required or deploy-pages returns 404):
-# 1. Repo is public (Free) or private with GitHub Pro/Team/Enterprise
-# 2. Settings → Pages → Build and deployment → Source = GitHub Actions
-#    https://github.com/kamal01236/flo-compass/settings/pages
+# First-time setup (one of):
+#   A) Settings → Pages → Source = GitHub Actions  (preferred)
+#   B) Settings → Pages → Deploy from branch gh-pages / (root)  (fallback)
 #
-# Local Docker/nginx (Tier 2) remains for smoke tests; Fly.io is optional and
-# no longer part of the default production path.
+# Local Docker/nginx (Tier 2) remains for smoke tests only.
 name: CI and Deploy
 
 on:
@@ -21,19 +19,16 @@ env:
   CONFIG_PROFILE: prod
   PAGES_BASE_HREF: /flo-compass/
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
-  group: pages-${{ github.ref }}
+  group: pages
   cancel-in-progress: true
 
 jobs:
   validate:
     name: Validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -63,16 +58,25 @@ jobs:
       - name: Route constants
         run: bash scripts/check_route_constants.sh
 
-  build-pages:
+  build:
     name: Build static web
     needs: validate
     if: >
       github.event_name != 'pull_request' &&
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -85,41 +89,96 @@ jobs:
         run: |
           set -euo pipefail
           flutter pub get
-          # Disable deprecated Flutter SW stub; bundle CanvasKit locally for CSP.
-          # --base-href matches project Pages URL under username.github.io/<repo>/
           flutter build web --release \
             --pwa-strategy=none \
             --no-web-resources-cdn \
             --base-href "${PAGES_BASE_HREF}" \
             --dart-define=CONFIG_PROFILE=${CONFIG_PROFILE} \
             --dart-define=BUILD_SHA=${{ github.sha }}
-          # GitHub Pages has no SPA try_files; serve index for unknown paths.
           cp build/web/index.html build/web/404.html
+          touch build/web/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
           path: build/web
 
+      - name: Upload build artifact (gh-pages fallback)
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: build/web
+          retention-days: 1
+
   deploy-pages:
     name: Deploy to GitHub Pages
-    needs: build-pages
-    if: >
-      github.event_name != 'pull_request' &&
-      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      deployed: ${{ steps.deployment.outcome == 'success' }}
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5
 
-      - name: Summary
+  publish-gh-pages-branch:
+    name: Publish gh-pages branch
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: site
+
+      - name: Push static site to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: "deploy: static Flo Compass web (${{ github.sha }})"
+
+  deploy-report:
+    name: Deploy report
+    needs: [deploy-pages, publish-gh-pages-branch]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize
+        env:
+          ACTIONS_DEPLOY: ${{ needs.deploy-pages.outputs.deployed }}
+          PAGE_URL: ${{ needs.deploy-pages.outputs.page_url }}
+          GH_PAGES_OK: ${{ needs.publish-gh-pages-branch.result }}
         run: |
-          url="${{ steps.deployment.outputs.page_url }}"
-          echo "### Deployed (GitHub Pages)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- App: ${url}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Deep link: ${url}session/s-001" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Pattern: same as asset-os (static flutter web via Actions)" >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+          echo "### Deploy report" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${ACTIONS_DEPLOY}" = "true" ]; then
+            echo "- GitHub Actions Pages: **live** at ${PAGE_URL}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- GitHub Actions Pages: **skipped or failed** (enable Pages → Source = GitHub Actions)" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "${GH_PAGES_OK}" = "success" ]; then
+            echo "- \`gh-pages\` branch: **updated** (fallback: Pages → branch \`gh-pages\` / root)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- \`gh-pages\` branch: **failed**" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Preview URL after one-time Pages setup: https://kamal01236.github.io/flo-compass/" >> "$GITHUB_STEP_SUMMARY"
+          echo "Settings: https://github.com/${{ github.repository }}/settings/pages" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${ACTIONS_DEPLOY}" != "true" ] && [ "${GH_PAGES_OK}" = "success" ]; then
+            echo "::warning::Pages Actions deploy did not run. Enable GitHub Pages (Actions or gh-pages branch) at settings/pages — static files are on gh-pages branch."
+          fi
