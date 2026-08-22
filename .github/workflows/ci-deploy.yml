@@ -1,17 +1,9 @@
 # Deploy Flo Compass Flutter web as static GitHub Pages (Asset OS pattern).
 # Site: https://kamal01236.github.io/flo-compass/
 #
-<<<<<<< Updated upstream
-# First-time setup (one of):
-#   A) Settings → Pages → Source = GitHub Actions  (preferred)
-#   B) Settings → Pages → Deploy from branch gh-pages / (root)  (fallback)
-#
-# Local Docker/nginx (Tier 2) remains for smoke tests only.
-=======
 # First-time setup (browser — GITHUB_TOKEN cannot create the Pages site):
 #   Settings → Pages → Source = GitHub Actions  OR  branch gh-pages / (root)
 #   https://github.com/kamal01236/flo-compass/settings/pages
->>>>>>> Stashed changes
 name: CI and Deploy
 
 on:
@@ -79,11 +71,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -116,8 +103,6 @@ jobs:
           path: build/web
           retention-days: 1
 
-<<<<<<< Updated upstream
-=======
   publish-gh-pages-branch:
     name: Publish gh-pages branch
     needs: build
@@ -140,7 +125,6 @@ jobs:
           force_orphan: true
           commit_message: "deploy: static Flo Compass web (${{ github.sha }})"
 
->>>>>>> Stashed changes
   deploy-pages:
     name: Deploy to GitHub Pages
     needs: build
@@ -160,31 +144,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
-<<<<<<< Updated upstream
-  publish-gh-pages-branch:
-    name: Publish gh-pages branch
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: web-dist
-          path: site
-
-      - name: Push static site to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-          publish_branch: gh-pages
-          force_orphan: true
-          commit_message: "deploy: static Flo Compass web (${{ github.sha }})"
-
-=======
->>>>>>> Stashed changes
   deploy-report:
     name: Deploy report
     needs: [deploy-pages, publish-gh-pages-branch]
@@ -197,39 +156,21 @@ jobs:
           PAGE_URL: ${{ needs.deploy-pages.outputs.page_url }}
           GH_PAGES_OK: ${{ needs.publish-gh-pages-branch.result }}
         run: |
-<<<<<<< Updated upstream
-          set -euo pipefail
-=======
->>>>>>> Stashed changes
           echo "### Deploy report" >> "$GITHUB_STEP_SUMMARY"
           if [ "${ACTIONS_DEPLOY}" = "true" ]; then
             echo "- GitHub Actions Pages: **live** at ${PAGE_URL}" >> "$GITHUB_STEP_SUMMARY"
           else
-<<<<<<< Updated upstream
-            echo "- GitHub Actions Pages: **skipped or failed** (enable Pages → Source = GitHub Actions)" >> "$GITHUB_STEP_SUMMARY"
-          fi
-          if [ "${GH_PAGES_OK}" = "success" ]; then
-            echo "- \`gh-pages\` branch: **updated** (fallback: Pages → branch \`gh-pages\` / root)" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "- \`gh-pages\` branch: **failed**" >> "$GITHUB_STEP_SUMMARY"
-=======
             echo "- GitHub Actions Pages: **not live yet** — enable Source = GitHub Actions in repo Settings → Pages" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "${GH_PAGES_OK}" = "success" ]; then
             echo "- \`gh-pages\` branch: **updated** (enable Pages → branch \`gh-pages\` / root if Actions path is blocked)" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "- \`gh-pages\` branch: **failed** (${GH_PAGES_OK})" >> "$GITHUB_STEP_SUMMARY"
->>>>>>> Stashed changes
             exit 1
           fi
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Preview URL after one-time Pages setup: https://kamal01236.github.io/flo-compass/" >> "$GITHUB_STEP_SUMMARY"
           echo "Settings: https://github.com/${{ github.repository }}/settings/pages" >> "$GITHUB_STEP_SUMMARY"
-<<<<<<< Updated upstream
-          if [ "${ACTIONS_DEPLOY}" != "true" ] && [ "${GH_PAGES_OK}" = "success" ]; then
-            echo "::warning::Pages Actions deploy did not run. Enable GitHub Pages (Actions or gh-pages branch) at settings/pages — static files are on gh-pages branch."
-=======
           if [ "${ACTIONS_DEPLOY}" != "true" ]; then
             echo "::warning::Enable GitHub Pages once at settings/pages (Actions or gh-pages branch). Static build is on gh-pages branch."
->>>>>>> Stashed changes
           fi
