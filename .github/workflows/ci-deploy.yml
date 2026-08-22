@@ -56,9 +56,42 @@ jobs:
       - name: Route constants
         run: bash scripts/check_route_constants.sh
 
+  pages-config:
+    name: Detect Pages Actions source
+    if: >
+      github.event_name != 'pull_request' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    outputs:
+      actions_deploy: ${{ steps.detect.outputs.actions_deploy }}
+    steps:
+      - name: Detect whether Actions-based Pages is enabled
+        id: detect
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          body="$(gh api "repos/${GITHUB_REPOSITORY}/pages" 2>/dev/null || true)"
+          if [ -z "${body}" ]; then
+            echo "actions_deploy=false" >> "$GITHUB_OUTPUT"
+            echo "Pages site not created yet — skipping Actions deploy (enable in Settings → Pages)."
+            exit 0
+          fi
+          build_type="$(printf '%s' "${body}" | jq -r '.build_type // empty')"
+          if [ "${build_type}" = "workflow" ]; then
+            echo "actions_deploy=true" >> "$GITHUB_OUTPUT"
+            echo "Pages Actions source detected."
+          else
+            echo "actions_deploy=false" >> "$GITHUB_OUTPUT"
+            echo "Pages source is not GitHub Actions (build_type=${build_type:-unknown}) — using gh-pages branch publish."
+          fi
+
   build:
     name: Build static web
-    needs: validate
+    needs: [validate, pages-config]
     if: >
       github.event_name != 'pull_request' &&
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
@@ -92,11 +125,12 @@ jobs:
           touch build/web/.nojekyll
 
       - name: Upload Pages artifact
+        if: needs.pages-config.outputs.actions_deploy == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
           path: build/web
 
-      - name: Upload build artifact (gh-pages fallback)
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-dist
@@ -127,9 +161,9 @@ jobs:
 
   deploy-pages:
     name: Deploy to GitHub Pages
-    needs: build
+    needs: [build, pages-config]
+    if: needs.pages-config.outputs.actions_deploy == 'true'
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       pages: write
       id-token: write
@@ -146,24 +180,29 @@ jobs:
 
   deploy-report:
     name: Deploy report
-    needs: [deploy-pages, publish-gh-pages-branch]
+    needs: [pages-config, deploy-pages, publish-gh-pages-branch]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Summarize
         env:
+          ACTIONS_ENABLED: ${{ needs.pages-config.outputs.actions_deploy }}
           ACTIONS_DEPLOY: ${{ needs.deploy-pages.outputs.deployed }}
           PAGE_URL: ${{ needs.deploy-pages.outputs.page_url }}
           GH_PAGES_OK: ${{ needs.publish-gh-pages-branch.result }}
         run: |
           echo "### Deploy report" >> "$GITHUB_STEP_SUMMARY"
-          if [ "${ACTIONS_DEPLOY}" = "true" ]; then
-            echo "- GitHub Actions Pages: **live** at ${PAGE_URL}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${ACTIONS_ENABLED}" = "true" ]; then
+            if [ "${ACTIONS_DEPLOY}" = "true" ]; then
+              echo "- GitHub Actions Pages: **live** at ${PAGE_URL}" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "- GitHub Actions Pages: **failed** — see Deploy job logs" >> "$GITHUB_STEP_SUMMARY"
+            fi
           else
-            echo "- GitHub Actions Pages: **not live yet** — enable Source = GitHub Actions in repo Settings → Pages" >> "$GITHUB_STEP_SUMMARY"
+            echo "- GitHub Actions Pages: **skipped** (enable Settings → Pages → Source = GitHub Actions for OIDC deploy)" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "${GH_PAGES_OK}" = "success" ]; then
-            echo "- \`gh-pages\` branch: **updated** (enable Pages → branch \`gh-pages\` / root if Actions path is blocked)" >> "$GITHUB_STEP_SUMMARY"
+            echo "- \`gh-pages\` branch: **updated** — enable Pages → branch \`gh-pages\` / root to go live" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "- \`gh-pages\` branch: **failed** (${GH_PAGES_OK})" >> "$GITHUB_STEP_SUMMARY"
             exit 1
@@ -171,6 +210,6 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Preview URL after one-time Pages setup: https://kamal01236.github.io/flo-compass/" >> "$GITHUB_STEP_SUMMARY"
           echo "Settings: https://github.com/${{ github.repository }}/settings/pages" >> "$GITHUB_STEP_SUMMARY"
-          if [ "${ACTIONS_DEPLOY}" != "true" ]; then
-            echo "::warning::Enable GitHub Pages once at settings/pages (Actions or gh-pages branch). Static build is on gh-pages branch."
+          if [ "${ACTIONS_ENABLED}" != "true" ]; then
+            echo "::notice::Static build published to gh-pages branch. Enable GitHub Pages once in repo settings to serve https://kamal01236.github.io/flo-compass/"
           fi
