@@ -1,5 +1,6 @@
-# Flo Compass — Fly.io (Option B: Docker image from GHCR)
-# One-time setup: see README "Deploy to Fly.io"
+# Flo Compass — optional Fly.io (NOT the default production path)
+# Default hosting is GitHub Pages via .github/workflows/ci-deploy.yml
+# (Asset OS pattern). Keep this file only if you intentionally re-enable Fly.
 #
 # After `fly apps create <name>`, set app below (or repo variable FLY_APP_NAME).
 

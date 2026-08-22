@@ -5,8 +5,8 @@ Flutter web event companion: session discovery, My Plan, venue map, and AI Q&A o
 ## Stack
 
 - Flutter **3.44.0** / Dart **3.10+** (web only)
-- nginx SPA hosting via `docker/Dockerfile`
-- **CI/CD:** GitHub Actions → image on **GHCR** → deploy to **Fly.io**
+- **Production:** GitHub Actions → static **GitHub Pages** (same pattern as [asset-os](https://github.com/kamal01236/asset-os))
+- nginx SPA via `docker/Dockerfile` for **local** Tier 2 smoke only
 
 ## Local development (WSL2)
 
@@ -29,57 +29,37 @@ docker compose up --build
 # http://localhost:8080/session/s-001  (deep-link refresh must not 404)
 ```
 
-## Deploy (GitHub → GHCR → Fly.io)
+## Deploy (GitHub Actions → GitHub Pages)
 
 Push to `main` (or `master`) runs [`.github/workflows/ci-deploy.yml`](.github/workflows/ci-deploy.yml):
 
 1. Validate (analyze, tests, data/route checks)
-2. Build `docker/Dockerfile` with `CONFIG_PROFILE=prod`
-3. Push `ghcr.io/<owner>/<repo>:<sha>` and `:latest`
-4. If `FLY_API_TOKEN` is set, deploy that image to Fly.io
+2. `flutter build web --release` with `--base-href /flo-compass/` and `CONFIG_PROFILE=prod`
+3. Copy `404.html` from `index.html` (SPA deep-link fallback on Pages)
+4. Publish via `actions/deploy-pages`
 
-### One-time Fly setup
+**Public preview URL:** [https://kamal01236.github.io/flo-compass/](https://kamal01236.github.io/flo-compass/)
 
-1. Install [flyctl](https://fly.io/docs/hands-on/install-flyctl/) and sign in: `fly auth login`
-2. Create the app (pick a free name if `flo-compass` is taken):
+### One-time GitHub Pages setup
 
-   ```bash
-   fly apps create flo-compass
-   ```
+1. Repo must be **public** (Free plan) or have GitHub Pro/Team for private Pages.
+2. **Settings → Pages → Build and deployment → Source** = **GitHub Actions**.
+3. Push to `main` (or **Actions → CI and Deploy → Run workflow**).
+4. After a green **Deploy to GitHub Pages** job, open the URL above.
+5. Deep-link check: open `/flo-compass/session/s-001` and refresh — must load the app (not a hard 404).
 
-3. Edit `app = '...'` in [`fly.toml`](fly.toml) to match, **or** set GitHub repo variable `FLY_APP_NAME`
-4. In the GitHub repo: **Settings → Secrets and variables → Actions**
-   - Secret: `FLY_API_TOKEN` — from `fly tokens create deploy`
-   - Optional variable: `FLY_APP_NAME` — overrides `fly.toml` `app`
-5. Allow GHCR packages for the repo (Actions already uses `GITHUB_TOKEN`). If the package is private, either make it public under **Packages**, or configure Fly registry auth so machines can pull the image.
-6. Push to `main` — workflow summary prints `https://<app>.fly.dev`
+No deploy tokens are required for Pages (uses `GITHUB_TOKEN` + OIDC).
 
-### Public URL
+### Optional: Fly.io / GHCR
 
-After a successful deploy:
-
-| Check | URL |
-|-------|-----|
-| App | `https://<app>.fly.dev/` |
-| Deep link | `https://<app>.fly.dev/session/s-001` |
-| Health | `https://<app>.fly.dev/health` |
-
-Replace `<app>` with the value in `fly.toml` / `FLY_APP_NAME`.
-
-### Manual deploy (optional)
-
-```bash
-fly deploy --config fly.toml --ha=false
-# or reuse a GHCR image:
-fly deploy --app <app> --image ghcr.io/<owner>/<repo>:<sha> --remote-only --ha=false
-```
+`docker/Dockerfile`, `fly.toml`, and local `docker compose` remain for container smoke tests. Fly is **not** on the default CI path (same decision as asset-os after empty `FLY_API_TOKEN` deploys). Re-add a Fly job only if you intentionally host there.
 
 ## Config profiles
 
 | Profile | When | Notes |
 |---------|------|--------|
 | `dev` | Local demos | Mock admin role / demo flags — **do not** ship to production |
-| `prod` | CI + Fly | Default in GitHub Actions and `fly.toml` |
+| `prod` | CI + Pages | Default in GitHub Actions |
 | `default` | Fallback | See `assets/config/` |
 
 Local override:
@@ -95,12 +75,10 @@ flutter run -d web-server --web-port=3000 --web-hostname=0.0.0.0 \
 |------|---------|
 | `lib/` | App code |
 | `assets/data/` | Mock Flo dataset |
-| `docker/` | Dockerfile + nginx |
-| `.github/workflows/` | CI + deploy |
-| `fly.toml` | Fly.io service config |
+| `web/` | Flutter web shell (`$FLUTTER_BASE_HREF` for Pages) |
+| `docker/` | Local Tier 2 Dockerfile + nginx |
+| `.github/workflows/` | CI + Pages deploy |
 | `hackathon-docs/` | **Legacy** archive (not used by CI) |
-
-`docker/arm-template.json` is a leftover Azure template and is **not** used by the GitHub → Fly path.
 
 ## License / product
 

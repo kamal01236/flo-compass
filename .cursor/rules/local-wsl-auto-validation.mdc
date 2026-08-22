@@ -40,7 +40,7 @@ Windows host prefix: `wsl -e bash -lc 'cd /mnt/c/NAGP/flo-compass && <cmd>'`
 
 **Tier 1 & Tier 2** run inside WSL2 for local testing. Open URLs from the Windows browser at `http://localhost:<port>`.
 
-**Tier 3 (production):** GitHub Actions builds the Docker image, pushes to GHCR, and deploys to Fly.io. WSL is not part of the production deploy path.
+**Tier 3 (production):** GitHub Actions builds static Flutter web and deploys to GitHub Pages. WSL is not part of the production deploy path.
 
 ### Tier 1 — Flutter dev (every UI change, WSL)
 
@@ -59,13 +59,13 @@ docker compose up --build
 # Verify http://localhost:8080/ AND http://localhost:8080/session/s-001 (deep link refresh)
 ```
 
-### Tier 3 — Fly.io (production — after push to default branch)
+### Tier 3 — GitHub Pages (production — after push to default branch)
 
 - Triggered by `.github/workflows/ci-deploy.yml` on default-branch push
-- Image: `ghcr.io/<owner>/<repo>:<sha>` with `CONFIG_PROFILE=prod`
-- Confirm workflow summary: `Deployed to https://{app}.fly.dev`
-- Deep-link test: hit `https://{app}.fly.dev/session/s-001` directly (browser refresh) — must NOT 404
+- Static `build/web` with `--base-href /flo-compass/` and `CONFIG_PROFILE=prod`
+- Confirm workflow summary / site: `https://kamal01236.github.io/flo-compass/`
+- Deep-link test: hit `https://kamal01236.github.io/flo-compass/session/s-001` (browser refresh) — must NOT hard-404
 
 ### Parity rule
 
-What works in Tier 1 must work in Tier 2. Tier 3 uses the **same `docker/Dockerfile` image** — WSL Tier 2 validates that image locally before push.
+What works in Tier 1 must work in Tier 2 for local Docker smoke. Tier 3 is **static Pages** (not the Docker image); keep nginx SPA behavior equivalent via `404.html` on Pages.
