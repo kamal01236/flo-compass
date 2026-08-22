@@ -42,13 +42,16 @@ Push to `main` (or `master`) runs [`.github/workflows/ci-deploy.yml`](.github/wo
 
 ### One-time GitHub Pages setup
 
-1. Repo must be **public** (Free plan) or have GitHub Pro/Team for private Pages.
-2. **Settings → Pages → Build and deployment → Source** = **GitHub Actions**.
-3. Push to `main` (or **Actions → CI and Deploy → Run workflow**).
-4. After a green **Deploy to GitHub Pages** job, open the URL above.
-5. Deep-link check: open `/flo-compass/session/s-001` and refresh — must load the app (not a hard 404).
+GitHub requires a **one-time** enable in the browser (the Actions token cannot create the Pages site on first run):
 
-No deploy tokens are required for Pages (uses `GITHUB_TOKEN` + OIDC).
+1. Open **Settings → Pages → Build and deployment**
+2. Choose **either**:
+   - **GitHub Actions** (preferred — uses `deploy-pages` in CI), **or**
+   - **Deploy from a branch** → branch `gh-pages` → folder `/ (root)` (fallback — CI always updates this branch)
+3. Push to `main` or re-run **CI and Deploy**
+4. Open https://kamal01236.github.io/flo-compass/ and refresh `/flo-compass/session/s-001`
+
+No Fly/registry secrets are required for Pages.
 
 ### Optional: Fly.io / GHCR
 
