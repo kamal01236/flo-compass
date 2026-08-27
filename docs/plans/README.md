@@ -28,6 +28,7 @@ Deferred work lives in [backlog/](backlog/). See [backlog/README.md](backlog/REA
 |------|-----|
 | design-tokens-storybook | [backlog/design-tokens-storybook.md](backlog/design-tokens-storybook.md) |
 | production-pipeline-bundle | [backlog/production-pipeline-bundle.md](backlog/production-pipeline-bundle.md) |
+| security-remediation-bundle | [backlog/security-remediation-bundle.md](backlog/security-remediation-bundle.md) |
 | flo-moments-ugc-gallery | [backlog/flo-moments-ugc-gallery.md](backlog/flo-moments-ugc-gallery.md) (paired with IDEA-EN-007) |
 
 - [platform-roles-rbac.md](backlog/platform-roles-rbac.md) - organizer/admin overlay roadmap beyond Phase A.

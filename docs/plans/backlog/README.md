@@ -30,6 +30,7 @@ Copy `_TEMPLATE.md` or use this structure:
 |------|----------------|
 | [design-tokens-storybook.md](design-tokens-storybook.md) | Widgetbook/Storybook catalog for `AppColors`, `SessionCard`, `FloPicksHero`, track chips |
 | [production-pipeline-bundle.md](production-pipeline-bundle.md) | Rollup: Sentry + post-deploy smoke + prod config hardening |
+| [security-remediation-bundle.md](security-remediation-bundle.md) | Rollup: prod mockUsers lockout + session trust + Pages headers + Dependabot |
 
 Child items under the pipeline bundle: [observability-sentry-logging.md](observability-sentry-logging.md), [post-deploy-smoke-ci.md](post-deploy-smoke-ci.md), [prod-config-profile-hardening.md](prod-config-profile-hardening.md).
 
