@@ -1,0 +1,14 @@
+[
+  {"id": "photography", "label": "Photography"},
+  {"id": "running", "label": "Running"},
+  {"id": "cooking", "label": "Cooking"},
+  {"id": "music", "label": "Music"},
+  {"id": "reading", "label": "Reading"},
+  {"id": "travel", "label": "Travel"},
+  {"id": "gaming", "label": "Gaming"},
+  {"id": "art", "label": "Art & design"},
+  {"id": "startups", "label": "Startups"},
+  {"id": "mentoring", "label": "Mentoring"},
+  {"id": "wellness", "label": "Wellness"},
+  {"id": "foodie", "label": "Food & coffee"}
+]

@@ -1,0 +1,61 @@
+{
+  "sessions": [
+    {
+      "sessionId": "s-001",
+      "captions": true,
+      "hearingLoop": true,
+      "notes": "Main auditorium — live captions on demo stream."
+    },
+    {
+      "sessionId": "s-002",
+      "captions": true,
+      "hearingLoop": false,
+      "notes": "Large keynote space; step-free from North elevators."
+    },
+    {
+      "sessionId": "s-003",
+      "captions": true,
+      "hearingLoop": true,
+      "notes": "Panel room with assistive listening (demo)."
+    },
+    {
+      "sessionId": "s-004",
+      "captions": false,
+      "hearingLoop": false,
+      "notes": "Workshop pod — request portable loop at info desk (demo)."
+    },
+    {
+      "sessionId": "s-005",
+      "captions": true,
+      "hearingLoop": false
+    },
+    {
+      "sessionId": "s-010",
+      "captions": true,
+      "hearingLoop": true,
+      "notes": "CEO vision keynote — priority seating near captions screen."
+    },
+    {
+      "sessionId": "s-015",
+      "captions": true,
+      "hearingLoop": false
+    },
+    {
+      "sessionId": "s-020",
+      "captions": false,
+      "hearingLoop": true
+    },
+    {
+      "sessionId": "s-025",
+      "captions": true,
+      "hearingLoop": true,
+      "notes": "Fireside chat — relaxed seating, captions on side display."
+    },
+    {
+      "sessionId": "s-030",
+      "captions": true,
+      "hearingLoop": false,
+      "notes": "AMA format — questions shown on screen with captions."
+    }
+  ]
+}

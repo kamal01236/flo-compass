@@ -1,0 +1,48 @@
+{
+  "dataSource": "mock",
+  "apiBaseUrl": "",
+  "featureFlags": {
+    "leaderboard": true,
+    "bingo": true,
+    "recap": true,
+    "companionLlm": true,
+    "lowBandwidthDefault": false,
+    "analytics": true,
+    "analyticsRemote": false
+  },
+  "auth": {
+    "enabled": false,
+    "tenantId": "",
+    "clientId": "",
+    "redirectUri": "",
+    "scopes": ["openid", "profile", "email", "offline_access"]
+  },
+  "platformRoles": {
+    "mockRole": "",
+    "organizerAllowlist": [],
+    "adminAllowlist": [],
+    "mockUsers": [
+      {
+        "id": "kamlesh",
+        "name": "Kamlesh Kumar",
+        "email": "kamlesh.kumar@demo.flo-compass.example",
+        "organization": "ai-avengers",
+        "role": "admin"
+      },
+      {
+        "id": "kishan",
+        "name": "Kishan",
+        "email": "kishan@demo.flo-compass.example",
+        "organization": "ai-avengers",
+        "role": "organizer"
+      },
+      {
+        "id": "ashish",
+        "name": "Ashish",
+        "email": "ashish@demo.flo-compass.example",
+        "organization": "ai-avengers",
+        "role": "attendee"
+      }
+    ]
+  }
+}

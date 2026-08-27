@@ -1,0 +1,22 @@
+{
+  "identities": [
+    {"id": "engineer", "label": "Engineer"},
+    {"id": "product", "label": "Product"},
+    {"id": "design", "label": "Design"},
+    {"id": "data", "label": "Data"},
+    {"id": "strategy", "label": "Strategy"}
+  ],
+  "topics": [
+    {"id": "genai", "label": "GenAI"},
+    {"id": "platform", "label": "Platform Engineering"},
+    {"id": "delivery", "label": "Client Delivery"},
+    {"id": "culture", "label": "Culture"},
+    {"id": "innovation", "label": "Innovation"}
+  ],
+  "intents": [
+    {"id": "mentorship", "label": "Mentorship"},
+    {"id": "cofounder", "label": "Co-founder chat"},
+    {"id": "learning", "label": "Learning buddy"},
+    {"id": "collaboration", "label": "Project collaboration"}
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Flo 2026 Amenity",
+  "type": "object",
+  "required": ["id", "type", "floor", "wing", "label"],
+  "properties": {
+    "id": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "restroom",
+        "elevator",
+        "help_desk",
+        "first_aid",
+        "coffee",
+        "quiet_zone",
+        "prayer_room",
+        "mothers_room",
+        "parking_car",
+        "parking_bike",
+        "garden",
+        "gym",
+        "library",
+        "stairs",
+        "training_room"
+      ]
+    },
+    "floor": { "type": "string" },
+    "wing": { "type": "string", "enum": ["N", "S", "central"] },
+    "label": { "type": "string" },
+    "venueId": { "type": "string" },
+    "capacityTotal": { "type": "integer", "minimum": 0 },
+    "capacityAvailable": { "type": "integer", "minimum": 0 },
+    "vehicleType": { "type": "string", "enum": ["car", "bike"] }
+  },
+  "additionalProperties": false
+}

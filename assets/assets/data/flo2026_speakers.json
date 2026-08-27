@@ -1,0 +1,932 @@
+[
+  {
+    "id": "spk-001",
+    "name": "Vikram Ashar",
+    "title": "Chairman",
+    "bio": "Vikram Ashar helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "ceo_vision",
+      "strategy",
+      "leadership"
+    ],
+    "photoAsset": "assets/images/speakers/spk-001.png"
+  },
+  {
+    "id": "spk-002",
+    "name": "Elena Novak",
+    "title": "Chief Executive Officer (CEO)",
+    "bio": "Elena Novak helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "ceo_vision",
+      "strategy",
+      "genai"
+    ],
+    "photoAsset": "assets/images/speakers/spk-002.png"
+  },
+  {
+    "id": "spk-003",
+    "name": "Dr. Arjun Mehta",
+    "title": "Chief Technology Officer (CTO)",
+    "bio": "Dr. Arjun Mehta helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "architecture",
+      "genai",
+      "emerging_tech"
+    ],
+    "photoAsset": "assets/images/speakers/spk-003.png"
+  },
+  {
+    "id": "spk-004",
+    "name": "Sarah Lindstrom",
+    "title": "Chief Operating Officer (COO)",
+    "bio": "Sarah Lindstrom helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "strategy",
+      "client_delivery"
+    ],
+    "photoAsset": "assets/images/speakers/spk-004.png"
+  },
+  {
+    "id": "spk-005",
+    "name": "Anil Kapoor",
+    "title": "Chief Financial Officer (CFO)",
+    "bio": "Anil Kapoor helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "strategy",
+      "financial_services"
+    ],
+    "photoAsset": "assets/images/speakers/spk-005.png"
+  },
+  {
+    "id": "spk-006",
+    "name": "Priya Sharma",
+    "title": "Chief People Officer (CPO)",
+    "bio": "Priya Sharma helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "culture",
+      "leadership"
+    ],
+    "photoAsset": "assets/images/speakers/spk-006.png"
+  },
+  {
+    "id": "spk-007",
+    "name": "Marcus Chen",
+    "title": "Chief Delivery Officer (CDO)",
+    "bio": "Marcus Chen helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "client_delivery",
+      "strategy"
+    ],
+    "photoAsset": "assets/images/speakers/spk-007.png"
+  },
+  {
+    "id": "spk-008",
+    "name": "Dr. Fiona Okafor",
+    "title": "Global Head of AI Practice",
+    "bio": "Dr. Fiona Okafor helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "genai",
+      "responsible_ai",
+      "llm_agents"
+    ],
+    "photoAsset": "assets/images/speakers/spk-008.png"
+  },
+  {
+    "id": "spk-009",
+    "name": "Rajesh Iyer",
+    "title": "Chief Architect",
+    "bio": "Rajesh Iyer helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "architecture",
+      "cloud",
+      "platform_engineering"
+    ],
+    "photoAsset": "assets/images/speakers/spk-009.png"
+  },
+  {
+    "id": "spk-010",
+    "name": "James Whitfield",
+    "title": "VP, Cloud Engineering",
+    "bio": "James Whitfield helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "cloud",
+      "kubernetes",
+      "platform_engineering"
+    ],
+    "photoAsset": "assets/images/speakers/spk-010.png"
+  },
+  {
+    "id": "spk-011",
+    "name": "Ananya Desai",
+    "title": "Unit Head — Financial Services",
+    "bio": "Ananya Desai helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "financial_services",
+      "client_delivery"
+    ],
+    "photoAsset": "assets/images/speakers/spk-011.png"
+  },
+  {
+    "id": "spk-012",
+    "name": "Michael Torres",
+    "title": "Unit Head — Healthcare & Life Sciences",
+    "bio": "Michael Torres helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "healthcare",
+      "client_delivery"
+    ],
+    "photoAsset": "assets/images/speakers/spk-012.png"
+  },
+  {
+    "id": "spk-013",
+    "name": "Lisa Bergmann",
+    "title": "Practice Head — Data & Analytics",
+    "bio": "Lisa Bergmann helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "mlops",
+      "data_mesh"
+    ],
+    "photoAsset": "assets/images/speakers/spk-013.png"
+  },
+  {
+    "id": "spk-014",
+    "name": "Kenji Yamamoto",
+    "title": "Distinguished Engineer",
+    "bio": "Kenji Yamamoto helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "architecture",
+      "devex",
+      "emerging_tech"
+    ],
+    "photoAsset": "assets/images/speakers/spk-014.png"
+  },
+  {
+    "id": "spk-015",
+    "name": "Sofia Petrov",
+    "title": "Principal Architect — Integration",
+    "bio": "Sofia Petrov helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "architecture",
+      "apis",
+      "cloud"
+    ],
+    "photoAsset": "assets/images/speakers/spk-015.png"
+  },
+  {
+    "id": "spk-016",
+    "name": "David Okonkwo",
+    "title": "Head of Cybersecurity",
+    "bio": "David Okonkwo helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "cybersecurity",
+      "responsible_ai"
+    ],
+    "photoAsset": "assets/images/speakers/spk-016.png"
+  },
+  {
+    "id": "spk-017",
+    "name": "Mei Lin",
+    "title": "Head of Sustainability Practice",
+    "bio": "Mei Lin helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "sustainability",
+      "innovation"
+    ],
+    "photoAsset": "assets/images/speakers/spk-017.png"
+  },
+  {
+    "id": "spk-018",
+    "name": "Thomas Berger",
+    "title": "VP, Client Partner — Automotive",
+    "bio": "Thomas Berger helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "automotive",
+      "client_delivery"
+    ],
+    "photoAsset": "assets/images/speakers/spk-018.png"
+  },
+  {
+    "id": "spk-019",
+    "name": "Rachel Kim",
+    "title": "Senior Director, DevEx",
+    "bio": "Rachel Kim helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "devex",
+      "cursor",
+      "apis"
+    ],
+    "photoAsset": "assets/images/speakers/spk-019.png"
+  },
+  {
+    "id": "spk-020",
+    "name": "Omar Hassan",
+    "title": "Lead Consultant, GenAI",
+    "bio": "Omar Hassan helps teams move from idea to delivery with practical playbooks, coaching, and measurable outcomes across enterprise programs.",
+    "expertiseTags": [
+      "genai",
+      "llm_agents",
+      "client_delivery"
+    ],
+    "photoAsset": "assets/images/speakers/spk-020.png"
+  },
+  {
+    "id": "spk-021",
+    "name": "Aarav Sharma",
+    "title": "Solution Architect",
+    "bio": "Aarav Sharma runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "innovation",
+      "hackathon"
+    ]
+  },
+  {
+    "id": "spk-022",
+    "name": "Ira Bose",
+    "title": "Practice Lead",
+    "bio": "Ira Bose runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-023",
+    "name": "Nisha Mehta",
+    "title": "Senior Consultant",
+    "bio": "Nisha Mehta runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "innovation",
+      "hackathon"
+    ]
+  },
+  {
+    "id": "spk-024",
+    "name": "Rohan Rao",
+    "title": "Principal Engineer",
+    "bio": "Rohan Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-025",
+    "name": "Kavya Mehta",
+    "title": "Lead Data Scientist",
+    "bio": "Kavya Mehta runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-026",
+    "name": "Meera Singh",
+    "title": "Engineering Manager",
+    "bio": "Meera Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-027",
+    "name": "Aniket Desai",
+    "title": "Solution Architect",
+    "bio": "Aniket Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "sustainability",
+      "leadership"
+    ]
+  },
+  {
+    "id": "spk-028",
+    "name": "Tara Rao",
+    "title": "Practice Lead",
+    "bio": "Tara Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-029",
+    "name": "Dev Patel",
+    "title": "Senior Consultant",
+    "bio": "Dev Patel runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "ceo_vision",
+      "leadership"
+    ]
+  },
+  {
+    "id": "spk-030",
+    "name": "Leena Rao",
+    "title": "Principal Engineer",
+    "bio": "Leena Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "leadership",
+      "strategy"
+    ]
+  },
+  {
+    "id": "spk-031",
+    "name": "Aarav Sharma",
+    "title": "Lead Data Scientist",
+    "bio": "Aarav Sharma runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "innovation",
+      "hackathon"
+    ]
+  },
+  {
+    "id": "spk-032",
+    "name": "Ira Iyer",
+    "title": "Engineering Manager",
+    "bio": "Ira Iyer runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cloud",
+      "architecture"
+    ]
+  },
+  {
+    "id": "spk-033",
+    "name": "Nisha Mehta",
+    "title": "Lead Data Scientist",
+    "bio": "Nisha Mehta runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-034",
+    "name": "Rohan Singh",
+    "title": "Principal Engineer",
+    "bio": "Rohan Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-035",
+    "name": "Kavya Desai",
+    "title": "Lead Data Scientist",
+    "bio": "Kavya Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-036",
+    "name": "Meera Singh",
+    "title": "Practice Lead",
+    "bio": "Meera Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "leadership",
+      "strategy"
+    ]
+  },
+  {
+    "id": "spk-037",
+    "name": "Aniket Patel",
+    "title": "Lead Data Scientist",
+    "bio": "Aniket Patel runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "innovation",
+      "hackathon"
+    ]
+  },
+  {
+    "id": "spk-038",
+    "name": "Tara Kumar",
+    "title": "Engineering Manager",
+    "bio": "Tara Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "leadership",
+      "strategy"
+    ]
+  },
+  {
+    "id": "spk-039",
+    "name": "Dev Nair",
+    "title": "Lead Data Scientist",
+    "bio": "Dev Nair runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "ceo_vision",
+      "leadership"
+    ]
+  },
+  {
+    "id": "spk-040",
+    "name": "Leena Bose",
+    "title": "Practice Lead",
+    "bio": "Leena Bose runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-041",
+    "name": "Aarav Patel",
+    "title": "Senior Consultant",
+    "bio": "Aarav Patel runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-042",
+    "name": "Ira Kumar",
+    "title": "Engineering Manager",
+    "bio": "Ira Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-043",
+    "name": "Nisha Sharma",
+    "title": "Senior Consultant",
+    "bio": "Nisha Sharma runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "ceo_vision",
+      "leadership"
+    ]
+  },
+  {
+    "id": "spk-044",
+    "name": "Rohan Kumar",
+    "title": "Engineering Manager",
+    "bio": "Rohan Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "client_delivery",
+      "transformation"
+    ]
+  },
+  {
+    "id": "spk-045",
+    "name": "Kavya Desai",
+    "title": "Lead Data Scientist",
+    "bio": "Kavya Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-046",
+    "name": "Meera Singh",
+    "title": "Engineering Manager",
+    "bio": "Meera Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "leadership",
+      "strategy"
+    ]
+  },
+  {
+    "id": "spk-047",
+    "name": "Aniket Sharma",
+    "title": "Solution Architect",
+    "bio": "Aniket Sharma runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-048",
+    "name": "Tara Kumar",
+    "title": "Principal Engineer",
+    "bio": "Tara Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-049",
+    "name": "Dev Patel",
+    "title": "Lead Data Scientist",
+    "bio": "Dev Patel runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "innovation",
+      "hackathon"
+    ]
+  },
+  {
+    "id": "spk-050",
+    "name": "Leena Singh",
+    "title": "Engineering Manager",
+    "bio": "Leena Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cloud",
+      "architecture"
+    ]
+  },
+  {
+    "id": "spk-051",
+    "name": "Aarav Nair",
+    "title": "Senior Consultant",
+    "bio": "Aarav Nair runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-052",
+    "name": "Ira Kumar",
+    "title": "Engineering Manager",
+    "bio": "Ira Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-053",
+    "name": "Nisha Sharma",
+    "title": "Solution Architect",
+    "bio": "Nisha Sharma runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-054",
+    "name": "Rohan Singh",
+    "title": "Principal Engineer",
+    "bio": "Rohan Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cloud",
+      "architecture"
+    ]
+  },
+  {
+    "id": "spk-055",
+    "name": "Kavya Mehta",
+    "title": "Lead Data Scientist",
+    "bio": "Kavya Mehta runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "sustainability",
+      "leadership"
+    ]
+  },
+  {
+    "id": "spk-056",
+    "name": "Meera Bose",
+    "title": "Engineering Manager",
+    "bio": "Meera Bose runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-057",
+    "name": "Aniket Nair",
+    "title": "Solution Architect",
+    "bio": "Aniket Nair runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "innovation",
+      "hackathon"
+    ]
+  },
+  {
+    "id": "spk-058",
+    "name": "Tara Singh",
+    "title": "Engineering Manager",
+    "bio": "Tara Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-059",
+    "name": "Dev Desai",
+    "title": "Lead Data Scientist",
+    "bio": "Dev Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-060",
+    "name": "Leena Rao",
+    "title": "Principal Engineer",
+    "bio": "Leena Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "leadership",
+      "strategy"
+    ]
+  },
+  {
+    "id": "spk-061",
+    "name": "Aarav Desai",
+    "title": "Solution Architect",
+    "bio": "Aarav Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-062",
+    "name": "Ira Singh",
+    "title": "Practice Lead",
+    "bio": "Ira Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "client_delivery",
+      "transformation"
+    ]
+  },
+  {
+    "id": "spk-063",
+    "name": "Nisha Nair",
+    "title": "Solution Architect",
+    "bio": "Nisha Nair runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-064",
+    "name": "Rohan Kumar",
+    "title": "Engineering Manager",
+    "bio": "Rohan Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "client_delivery",
+      "transformation"
+    ]
+  },
+  {
+    "id": "spk-065",
+    "name": "Kavya Desai",
+    "title": "Solution Architect",
+    "bio": "Kavya Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-066",
+    "name": "Meera Iyer",
+    "title": "Principal Engineer",
+    "bio": "Meera Iyer runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "client_delivery",
+      "transformation"
+    ]
+  },
+  {
+    "id": "spk-067",
+    "name": "Aniket Nair",
+    "title": "Senior Consultant",
+    "bio": "Aniket Nair runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-068",
+    "name": "Tara Iyer",
+    "title": "Practice Lead",
+    "bio": "Tara Iyer runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-069",
+    "name": "Dev Sharma",
+    "title": "Solution Architect",
+    "bio": "Dev Sharma runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-070",
+    "name": "Leena Rao",
+    "title": "Principal Engineer",
+    "bio": "Leena Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-071",
+    "name": "Aarav Desai",
+    "title": "Solution Architect",
+    "bio": "Aarav Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-072",
+    "name": "Ira Bose",
+    "title": "Engineering Manager",
+    "bio": "Ira Bose runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cloud",
+      "architecture"
+    ]
+  },
+  {
+    "id": "spk-073",
+    "name": "Nisha Mehta",
+    "title": "Lead Data Scientist",
+    "bio": "Nisha Mehta runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-074",
+    "name": "Rohan Bose",
+    "title": "Principal Engineer",
+    "bio": "Rohan Bose runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cloud",
+      "architecture"
+    ]
+  },
+  {
+    "id": "spk-075",
+    "name": "Kavya Patel",
+    "title": "Lead Data Scientist",
+    "bio": "Kavya Patel runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "ceo_vision",
+      "leadership"
+    ]
+  },
+  {
+    "id": "spk-076",
+    "name": "Meera Bose",
+    "title": "Principal Engineer",
+    "bio": "Meera Bose runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "genai",
+      "innovation"
+    ]
+  },
+  {
+    "id": "spk-077",
+    "name": "Aniket Nair",
+    "title": "Solution Architect",
+    "bio": "Aniket Nair runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-078",
+    "name": "Tara Iyer",
+    "title": "Principal Engineer",
+    "bio": "Tara Iyer runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "leadership",
+      "strategy"
+    ]
+  },
+  {
+    "id": "spk-079",
+    "name": "Dev Desai",
+    "title": "Lead Data Scientist",
+    "bio": "Dev Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-080",
+    "name": "Leena Rao",
+    "title": "Principal Engineer",
+    "bio": "Leena Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cloud",
+      "architecture"
+    ]
+  },
+  {
+    "id": "spk-081",
+    "name": "Aarav Desai",
+    "title": "Solution Architect",
+    "bio": "Aarav Desai runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-082",
+    "name": "Ira Kumar",
+    "title": "Principal Engineer",
+    "bio": "Ira Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-083",
+    "name": "Nisha Nair",
+    "title": "Lead Data Scientist",
+    "bio": "Nisha Nair runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "ceo_vision",
+      "leadership"
+    ]
+  },
+  {
+    "id": "spk-084",
+    "name": "Rohan Rao",
+    "title": "Practice Lead",
+    "bio": "Rohan Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-085",
+    "name": "Kavya Mehta",
+    "title": "Lead Data Scientist",
+    "bio": "Kavya Mehta runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-086",
+    "name": "Meera Singh",
+    "title": "Engineering Manager",
+    "bio": "Meera Singh runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "leadership",
+      "strategy"
+    ]
+  },
+  {
+    "id": "spk-087",
+    "name": "Aniket Patel",
+    "title": "Lead Data Scientist",
+    "bio": "Aniket Patel runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "devex",
+      "platform_engineering"
+    ]
+  },
+  {
+    "id": "spk-088",
+    "name": "Tara Kumar",
+    "title": "Principal Engineer",
+    "bio": "Tara Kumar runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  },
+  {
+    "id": "spk-089",
+    "name": "Dev Patel",
+    "title": "Lead Data Scientist",
+    "bio": "Dev Patel runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "mlops",
+      "responsible_ai"
+    ]
+  },
+  {
+    "id": "spk-090",
+    "name": "Leena Rao",
+    "title": "Engineering Manager",
+    "bio": "Leena Rao runs hands-on sessions focused on reusable playbooks, peer learning, and concrete delivery outcomes teams can apply the next Monday.",
+    "expertiseTags": [
+      "cybersecurity",
+      "compliance"
+    ]
+  }
+]

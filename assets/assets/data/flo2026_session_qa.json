@@ -1,0 +1,64 @@
+{
+  "prompts": {
+    "s-001": [
+      "Which decision framework helped you say no to scope?",
+      "How do you keep architecture reviews fast but rigorous?",
+      "What is the one trade-off you revisit every quarter?"
+    ],
+    "s-014": [
+      "What is a realistic first step for teams starting GenAI?",
+      "How do you measure real user impact beyond vanity metrics?",
+      "Where do most pilots stall, and how do you unblock them?"
+    ]
+  },
+  "questions": [
+    {
+      "id": "qa-001",
+      "sessionId": "s-001",
+      "authorName": "Aanya",
+      "question": "How do you stop architecture reviews from dragging on for weeks?",
+      "createdAt": "2026-07-12T03:42:00Z",
+      "upvotes": 12,
+      "answered": true,
+      "replies": [
+        {
+          "id": "qa-001-r1",
+          "questionId": "qa-001",
+          "authorName": "Flo",
+          "message": "Timebox to 45 minutes, require a single owner for the decision, and capture the trade-offs in a one-page memo.",
+          "createdAt": "2026-07-12T03:55:00Z",
+          "fromFlo": true
+        }
+      ]
+    },
+    {
+      "id": "qa-002",
+      "sessionId": "s-001",
+      "authorName": "Luca",
+      "question": "What are the top three signals that a roadmap is overcommitted?",
+      "createdAt": "2026-07-12T04:05:00Z",
+      "upvotes": 6,
+      "answered": false,
+      "replies": []
+    },
+    {
+      "id": "qa-003",
+      "sessionId": "s-014",
+      "authorName": "Meera",
+      "question": "How can a mid-sized team pilot GenAI without a dedicated ML staff?",
+      "createdAt": "2026-07-12T05:10:00Z",
+      "upvotes": 9,
+      "answered": true,
+      "replies": [
+        {
+          "id": "qa-003-r1",
+          "questionId": "qa-003",
+          "authorName": "Flo",
+          "message": "Start with a narrow internal workflow, map guardrails early, and measure time saved before scaling.",
+          "createdAt": "2026-07-12T05:22:00Z",
+          "fromFlo": true
+        }
+      ]
+    }
+  ]
+}

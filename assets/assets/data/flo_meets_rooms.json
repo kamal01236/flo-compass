@@ -1,0 +1,80 @@
+[
+  {
+    "id": "room-d1-morning-coffee",
+    "title": "Day 1 morning coffee",
+    "purposeTags": ["networking", "casual"],
+    "amenityId": "am-6-coffee",
+    "day": "Day 1",
+    "windowStart": "2026-11-04T08:00:00",
+    "windowEnd": "2026-11-04T09:00:00",
+    "capacity": 10,
+    "seedPartnerIds": ["mp-001", "mp-002", "mp-003", "mp-006", "mp-009"],
+    "status": "published",
+    "source": "seed"
+  },
+  {
+    "id": "room-d1-lunch-lounge",
+    "title": "Day 1 lunch lounge",
+    "purposeTags": ["collaborate", "networking"],
+    "amenityId": "am-5-garden",
+    "day": "Day 1",
+    "windowStart": "2026-11-04T12:00:00",
+    "windowEnd": "2026-11-04T13:00:00",
+    "capacity": 12,
+    "seedPartnerIds": ["mp-001", "mp-003", "mp-005", "mp-010"],
+    "status": "published",
+    "source": "seed"
+  },
+  {
+    "id": "room-d1-evening-mixer",
+    "title": "Day 1 evening mixer",
+    "purposeTags": ["friendship", "open_explore"],
+    "amenityId": "am-G-help",
+    "day": "Day 1",
+    "windowStart": "2026-11-04T17:00:00",
+    "windowEnd": "2026-11-04T18:30:00",
+    "capacity": 12,
+    "seedPartnerIds": ["mp-002", "mp-004", "mp-005", "mp-006", "mp-011"],
+    "status": "published",
+    "source": "seed"
+  },
+  {
+    "id": "room-d2-track-genai",
+    "title": "Day 2 GenAI hallway",
+    "purposeTags": ["collaborate", "networking"],
+    "amenityId": "am-7-coffee-n",
+    "day": "Day 2",
+    "windowStart": "2026-11-05T09:00:00",
+    "windowEnd": "2026-11-05T10:00:00",
+    "capacity": 10,
+    "seedPartnerIds": ["mp-001", "mp-007", "mp-003", "mp-011", "mp-012"],
+    "status": "published",
+    "source": "seed"
+  },
+  {
+    "id": "room-d2-sunset",
+    "title": "Day 2 sunset chats",
+    "purposeTags": ["hobby", "casual"],
+    "amenityId": "am-13-quiet",
+    "day": "Day 2",
+    "windowStart": "2026-11-05T17:00:00",
+    "windowEnd": "2026-11-05T18:00:00",
+    "capacity": 8,
+    "seedPartnerIds": ["mp-004", "mp-007", "mp-008", "mp-012"],
+    "status": "published",
+    "source": "seed"
+  },
+  {
+    "id": "room-d3-farewell",
+    "title": "Day 3 farewell coffee",
+    "purposeTags": ["networking", "friendship"],
+    "amenityId": "am-8-coffee-n",
+    "day": "Day 3",
+    "windowStart": "2026-11-06T12:00:00",
+    "windowEnd": "2026-11-06T13:00:00",
+    "capacity": 10,
+    "seedPartnerIds": ["mp-005", "mp-007", "mp-008", "mp-003", "mp-010"],
+    "status": "published",
+    "source": "seed"
+  }
+]

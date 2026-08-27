@@ -1,0 +1,116 @@
+{
+  "hints": [
+    {
+      "id": "hint-g-to-6",
+      "fromFloor": "G",
+      "fromWing": "central",
+      "toFloor": "6",
+      "toWing": "N",
+      "text": "From Reception, take the main elevator bank to Floor 6 North — Community Cafeteria is past the North elevator lobby."
+    },
+    {
+      "id": "hint-g-to-6-s",
+      "fromFloor": "G",
+      "fromWing": "central",
+      "toFloor": "6",
+      "toWing": "S",
+      "text": "From Reception, take elevators to Floor 6, then follow signs to the South wing training rooms."
+    },
+    {
+      "id": "hint-6n-to-8s",
+      "fromFloor": "6",
+      "fromWing": "N",
+      "toFloor": "8",
+      "toWing": "S",
+      "text": "Take the central elevator to Floor 8, cross the atrium bridge, then follow South wing pod signs."
+    },
+    {
+      "id": "hint-6-to-7",
+      "fromFloor": "6",
+      "fromWing": "N",
+      "toFloor": "7",
+      "toWing": "N",
+      "text": "Elevator one floor up to 7 North — sitting area pods start just past the elevator bank."
+    },
+    {
+      "id": "hint-7-to-9",
+      "fromFloor": "7",
+      "fromWing": "N",
+      "toFloor": "9",
+      "toWing": "N",
+      "text": "Use central elevators (+2 floors). Mid-tower collaboration floors have mixed pod sizes on both wings."
+    },
+    {
+      "id": "hint-8-to-10",
+      "fromFloor": "8",
+      "fromWing": "S",
+      "toFloor": "10",
+      "toWing": "S",
+      "text": "Central elevator to Floor 10 South — practice leadership sessions cluster near the south pods."
+    },
+    {
+      "id": "hint-10-to-13",
+      "fromFloor": "10",
+      "fromWing": "N",
+      "toFloor": "13",
+      "toWing": "N",
+      "text": "Elevator to top floor — AMAs and closing celebrations; quiet terrace is on the North terrace."
+    },
+    {
+      "id": "hint-wing-cross",
+      "fromFloor": "8",
+      "fromWing": "N",
+      "toFloor": "8",
+      "toWing": "S",
+      "text": "On the same floor, walk through the central atrium bridge to reach the opposite wing pods."
+    },
+    {
+      "id": "hint-step-free",
+      "fromFloor": "G",
+      "fromWing": "central",
+      "toFloor": "13",
+      "toWing": "central",
+      "text": "All floors are reachable via central elevators with step-free routes from Reception — ask at the help desk for wheelchair escort."
+    },
+    {
+      "id": "hint-park-b-to-6",
+      "fromFloor": "B",
+      "fromWing": "central",
+      "toFloor": "6",
+      "toWing": "central",
+      "text": "From Basement parking, take central lifts to Ground Reception, then continue to Floor 6 — allow ~5 min for lifts during event rush."
+    },
+    {
+      "id": "hint-park-2-to-event",
+      "fromFloor": "2",
+      "fromWing": "central",
+      "toFloor": "8",
+      "toWing": "N",
+      "text": "From 2nd floor parking, central lifts to Floor 8 North — pods start just past the elevator lobby."
+    },
+    {
+      "id": "hint-floor5-garden",
+      "fromFloor": "6",
+      "fromWing": "N",
+      "toFloor": "5",
+      "toWing": "central",
+      "text": "For a garden break, take stairs one floor down to Floor 5 — open air, fountain, and light snacks (~1 min)."
+    },
+    {
+      "id": "hint-stairs-short",
+      "fromFloor": "7",
+      "fromWing": "N",
+      "toFloor": "8",
+      "toWing": "N",
+      "text": "One floor up? Central stairs are often faster than lifts during rush (~1 min). Use lifts if you need step-free access."
+    },
+    {
+      "id": "hint-stairs-vs-lift",
+      "fromFloor": "6",
+      "fromWing": "central",
+      "toFloor": "10",
+      "toWing": "S",
+      "text": "Four floors up — lifts are recommended (~5 min during event day). Stairs are faster only for 1–2 floors."
+    }
+  ]
+}

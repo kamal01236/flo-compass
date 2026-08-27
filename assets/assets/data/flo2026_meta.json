@@ -1,0 +1,54 @@
+{
+  "eventName": "Flo 2026",
+  "venue": "Nagarro Gurgaon Office",
+  "building": "Nagarro Gurgaon Office",
+  "timezone": "IST (UTC+05:30) — venue local time",
+  "timezoneNote": "All session times are Nagarro Gurgaon Office local time (IST, UTC+05:30).",
+  "slots": [
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00"
+  ],
+  "days": [
+    {
+      "id": "Day 1",
+      "name": "Day 1",
+      "date": "2026-11-04",
+      "description": "Opening day at Nagarro Gurgaon Office with Chairman and CEO key sessions."
+    },
+    {
+      "id": "Day 2",
+      "name": "Day 2",
+      "date": "2026-11-05",
+      "description": "Hands-on labs, architecture deep dives, and delivery stories."
+    },
+    {
+      "id": "Day 3",
+      "name": "Day 3",
+      "date": "2026-11-06",
+      "description": "Community day with AMAs and innovation showcases."
+    }
+  ],
+  "floorStories": {
+    "B": "Basement parking — 40 car bays and 100 bike slots. Take central lifts to Reception on Ground.",
+    "G": "Welcome to Reception & Welcome Hall — parking entry, registration help desk, and keynote space.",
+    "1": "1st floor parking — car and bike bays with lift access to the event tower.",
+    "2": "2nd floor parking — often has good bike availability during peak arrival.",
+    "3": "3rd floor parking — mid-stack car bays; central lifts to session floors.",
+    "4": "4th floor parking — top parking deck before the wellness floor.",
+    "5": "Wellness floor — open-air garden, fountain, and light snacks. A quiet break from sessions.",
+    "6": "North wing: full Community Cafeteria. South wing: training rooms, library, gym, and refresh corner. Lunch lightning talks at 12:00.",
+    "7": "Sitting area pods begin — North and South wings, 6 zones each.",
+    "8": "Pod rooms continue on both wings — popular for architecture and delivery tracks.",
+    "9": "Mid-tower collaboration floors with mixed pod sizes and breakout zones.",
+    "10": "Practice leadership sessions and customer storytelling rooms cluster here.",
+    "11": "Innovation showcases and hands-on demo labs — busy in afternoon slots.",
+    "12": "Executive briefings and partner roundtables across North and South wings.",
+    "13": "Top-floor AMAs and closing celebrations — check Now/Next for live keynotes."
+  }
+}

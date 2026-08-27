@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-avengers.local/schema/session_qa.schema.json",
+  "title": "Flo Compass session Q&A overlay",
+  "$defs": {
+    "SessionReply": {
+      "type": "object",
+      "required": ["id", "questionId", "message", "createdAt"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "questionId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorId": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "fromFlo": { "type": "boolean" }
+      }
+    },
+    "SessionQuestion": {
+      "type": "object",
+      "required": ["id", "sessionId", "question", "createdAt"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorId": { "type": "string" },
+        "question": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "upvotes": { "type": "integer", "minimum": 0 },
+        "answered": { "type": "boolean" },
+        "pinned": { "type": "boolean" },
+        "hidden": { "type": "boolean" },
+        "replies": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SessionReply" }
+        }
+      }
+    },
+    "ModerationOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "answered": { "type": "boolean" },
+        "pinned": { "type": "boolean" },
+        "hidden": { "type": "boolean" },
+        "moderatedBy": {
+          "$ref": "_audit_actor.schema.json#/$defs/AuditActor"
+        },
+        "moderatedAt": { "type": "string", "format": "date-time" },
+        "moderationAction": { "type": "string" }
+      }
+    },
+    "PromptOverride": {
+      "type": "object",
+      "required": ["prompts"],
+      "additionalProperties": false,
+      "properties": {
+        "prompts": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "updatedBy": {
+          "$ref": "_audit_actor.schema.json#/$defs/AuditActor"
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

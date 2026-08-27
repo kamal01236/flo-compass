@@ -1,0 +1,40 @@
+{
+  "paths": [
+    {
+      "id": "path-genai",
+      "title": "GenAI Builder Path",
+      "description": "From prompts to production agents — curated sessions for builders shipping GenAI.",
+      "sessionIds": ["s-004", "s-006", "s-003", "s-002", "s-005"]
+    },
+    {
+      "id": "path-cloud",
+      "title": "Cloud Native Path",
+      "description": "Platform engineering, Kubernetes, and enterprise-scale cloud delivery.",
+      "sessionIds": ["s-005", "s-008", "s-003", "s-011"]
+    },
+    {
+      "id": "path-leadership",
+      "title": "Leadership & Strategy",
+      "description": "Executive vision, culture, and delivery playbooks for leaders.",
+      "sessionIds": ["s-001", "s-002", "s-007"]
+    },
+    {
+      "id": "path-security",
+      "title": "Cybersecurity & Trust",
+      "description": "Threat models, responsible AI guardrails, and compliance at scale.",
+      "sessionIds": ["s-009", "s-006", "s-011"]
+    },
+    {
+      "id": "path-devex",
+      "title": "Developer Experience",
+      "description": "Cursor workflows, live labs, and architecture masterclasses.",
+      "sessionIds": ["s-004", "s-003", "s-008"]
+    },
+    {
+      "id": "path-innovation",
+      "title": "Innovation Showcase",
+      "description": "Labs bets, emerging tech, and the closing innovation vote.",
+      "sessionIds": ["s-010", "s-001", "s-003"]
+    }
+  ]
+}

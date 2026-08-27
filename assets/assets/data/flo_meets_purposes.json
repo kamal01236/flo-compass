@@ -1,0 +1,12 @@
+[
+  {"id": "networking", "label": "Professional networking"},
+  {"id": "collaborate", "label": "Collaborate on ideas"},
+  {"id": "investor", "label": "Meet investors"},
+  {"id": "founder", "label": "Connect with founders"},
+  {"id": "freelancer", "label": "Freelancer collaborations"},
+  {"id": "friendship", "label": "Make friends"},
+  {"id": "travel_buddy", "label": "Travel buddy"},
+  {"id": "hobby", "label": "Shared hobbies"},
+  {"id": "casual", "label": "Casual chat"},
+  {"id": "open_explore", "label": "Open to explore"}
+]
